@@ -1,0 +1,49 @@
+Die:
+A: 6 faces (A0-5)
+B: 3 Faces (B0-2)
+
+
+Six Special Tiles: Used max 3 times per game, with each piece being used only once. (S0-S5)
+
+
+S0: 4
+S1: 4
+S2: 1
+S3: 1
+S4: 4
+S5: 2
+A0: 4
+A1: 2
+A2: 4
+A3: 4
+A4: 2
+A5: 4
+B0: 4
+B1: 8
+B2: 2
+
+
+Board String:
+(Die (A,B, S), (Tile (0-5)), (Row (A-G)), (Column (0-6)), (Orientation (0-7)))
+
+E.g. A2414
+
+Min Characters end Board: 140
+Max                     : 155 (With 3 Special Pieces)
+
+
+
+Bonuses:
+Centre Grid tiles: Bonus +1
+Longest Highway: +1 per tile
+Longest Railway: +1 per tile
+
+
+Unconnected edges: Deduct -1
+
+
+Class Player
+Class DieA
+Class DieB
+Class Board
+Class Tiles
