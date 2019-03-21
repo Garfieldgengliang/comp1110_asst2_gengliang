@@ -23,6 +23,13 @@ B1: Highway & Railway, corner, 8 OV
 B2: Highway & Railway surpass,2 OV
 
 
+
+Legal Placements:
+1.tile must be placed such that at least one edge connects to either an exit or a pre-existing route
+2.highway edge cannot connect to railway edge/exit directly
+3.cannot cross railway against highway without surpass or station
+4.tile can have one or more edges touching a blank edge of another tile; this is referred to as disconnected
+
 Board String:
 (Die (A,B, S), (Tile (0-5)), (Row (A-G)), (Column (0-6)), (Orientation (0-7)))
 
