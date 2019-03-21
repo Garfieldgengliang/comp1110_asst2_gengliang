@@ -1,52 +1,62 @@
 Die & Tiles:
-Die A: 6 faces (A0-5)
-Die B: 3 Faces (B0-2)
+    Die A: 6 faces (A0-5)
+    Die B: 3 Faces (B0-2)
+    
+    Six Special Tiles: Used max 3 times per game, with each piece being used only once. (S0-S5)
+    
+    Highways (A3-5), Railways (A0-2), and Stations (B0-1 & S0-1 & S4-5), and Overpass (B2) 
+    
+    S0: Highway & Railway cross, 3 highway + 1 railway, 4 OV(orientation varieties)
+    S1: Highway & Railway cross, 3 railway + 1 highway, 4 OV
+    S2: Highway cross, 1 OV
+    S3: Raiway cross, 1 OV
+    S4: Highway & Railway cross, 2 highway + 2 railway, corner, 4 OV
+    S5: Highway & Railway cross, 2 highway + 2 railway, straight, 2 OV
+    A0: Highway, corner, 4 OV
+    A1: Highway, straight, 2 OV
+    A2: Highway, T-road, 4 OV
+    A3: Railways, T-road, 4 OV
+    A4: Railways, straight, 2 OV
+    A5: Railways, corner, 4 OV
+    B0: Highway & Railway, straight, 4 OV
+    B1: Highway & Railway, corner, 8 OV
+    B2: Highway & Railway surpass,2 OV
 
-Six Special Tiles: Used max 3 times per game, with each piece being used only once. (S0-S5)
-
-Highways (A3-5), Railways (A0-2), and Stations (B0-1 & S0-1 & S4-5), and Overpass (B2) 
-
-S0: Highway & Railway cross, 3 highway + 1 railway, 4 OV(orientation varieties)
-S1: Highway & Railway cross, 3 railway + 1 highway, 4 OV
-S2: Highway cross, 1 OV
-S3: Raiway cross, 1 OV
-S4: Highway & Railway cross, 2 highway + 2 railway, corner, 4 OV
-S5: Highway & Railway cross, 2 highway + 2 railway, straight, 2 OV
-A0: Highway, corner, 4 OV
-A1: Highway, straight, 2 OV
-A2: Highway, T-road, 4 OV
-A3: Railways, T-road, 4 OV
-A4: Railways, straight, 2 OV
-A5: Railways, corner, 4 OV
-B0: Highway & Railway, straight, 4 OV
-B1: Highway & Railway, corner, 8 OV
-B2: Highway & Railway surpass,2 OV
 
 
+Legal Placements: (I think the code should not allow illegal placements--Gengliang)
+    1.tile must be placed such that at least one edge connects to either an exit or a pre-existing route
+    2.highway edge cannot connect to railway edge/exit directly
+    3.cannot cross railway against highway without surpass or station
+    4.tile can have one or more edges touching a blank edge of another tile; this is referred to as disconnected
+    
 
-Legal Placements:
-1.tile must be placed such that at least one edge connects to either an exit or a pre-existing route
-2.highway edge cannot connect to railway edge/exit directly
-3.cannot cross railway against highway without surpass or station
-4.tile can have one or more edges touching a blank edge of another tile; this is referred to as disconnected
 
 Board String:
-(Die (A,B, S), (Tile (0-5)), (Row (A-G)), (Column (0-6)), (Orientation (0-7)))
-
-E.g. A2414
-
-Min Characters end Board: 140
-Max                     : 155 (With 3 Special Pieces)
-
-
-
-Bonuses:
-Centre Grid tiles: Bonus +1
-Longest Highway: +1 per tile
-Longest Railway: +1 per tile
+    (Die (A,B,S), (Tile (0-5)), (Row (A-G)), (Column (0-6)), (Orientation (0-7)))
+    E.g. A2414
+    
+    Min Characters end Board: 140
+    Max                     : 155 (With 3 Special Pieces)
+    
 
 
-Unconnected edges: Deduct -1
+Scoring:
+    Basic Scores:
+    1.find score according to numbers of exits each route connects
+    2.sum the scores
+
+    Errors:
+    1.each edge of route that is not connected to an edge of the board is an error
+    2.Routes connects the edge of the board or unconnected exits DO NOT count as errors
+    
+    Bonuses:
+    1.Centre 3*3 Grid tiles: +1 per tile
+    2.Longest Highway: +1 per tile the Highway passes
+    3.Longest Railway: +1 per tile the railway passes
+    4.Multiple Railways (or Highways) of equal longest length, only score bonus points for one of them
+
+
 
 
 Class Player
