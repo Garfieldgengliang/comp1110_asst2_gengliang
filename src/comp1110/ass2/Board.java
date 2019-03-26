@@ -28,7 +28,7 @@ public class Board {
 
     public boolean isExit(Board piece){ // checks if piece is beside exit
 
-        if (row % 2 == 1 && col %2 == 1){
+        if (row % 2 == 1 && col %2 == 1 && (row ==0 || row == 7|| col == 0 || col == 7)){
             return true;
         }
         return false;

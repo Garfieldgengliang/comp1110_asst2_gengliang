@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import java.util.Arrays;
+
 public enum Tile {
     // we use "h" to denote highway, "r" as railway, "s" as station, "b" as blank and "p" as surpass
     S0("h","r","h","h","s"),
@@ -19,10 +21,10 @@ public enum Tile {
     B2("h","h","r","r","p");
 
     public String upside;
-    private String downside;
-    private String left;
-    private String right;
-    private String center;
+    public String downside;
+    public String left;
+    public String right;
+    public String center;
 
     Tile(String upside, String downside, String left, String right, String center){
         this.center = center;
@@ -31,64 +33,17 @@ public enum Tile {
         this.left = left;
         this.right = right;
     }
-/*
-    public void transTile( char direction){
-        String oriup = this.upside;
-        String oridown = this.downside;
-        String orileft =this.left;
-        String oriright = this.right;
 
-
-        if(direction == '0'){
-
-        }
-        if(direction == '1'){
-
-            this.upside = orileft;
-            this.downside = oriright;
-            this.left = oridown;
-            this.right = oriup;
-        }
-        if(direction == '2'){
-            this.upside = oridown;
-            this.downside = oriup;
-            this.left = oriright;
-            this.right = orileft;
-        }
-        if(direction == '3'){
-            this.upside = oridown;
-            this.downside = oriup;
-            this.left = oriright;
-            this.right = orileft;
-        }
-        if(direction == '4'){
-            this.left = oriright;
-            this.right = orileft;
-
-        }
-        if(direction == '5'){
-            this.upside = oriright;
-            this.downside = orileft;
-            this.left = oridown;
-            this.right = oriup;
-        }
-        if(direction == '6'){
-            this.upside = oridown;
-            this.downside = oriup;
-
-        }
-        if(direction == '7'){
-            this.upside = orileft;
-            this.downside = oriright;
-            this.left = oriup;
-            this.right = oridown;
-
-        }else{  // maybe later we can through some exceptions here later.
-        }
-
+    String [] toStringArray(){
+        String [] output = new String[5];
+        output[0] = this.upside;
+        output[1]= this.downside;
+        output[2]= this.left;
+        output[3]= this.right;
+        output[4] = this.center;
+        return output;
 
     }
-*/
 
 
 }
