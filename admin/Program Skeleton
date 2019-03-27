@@ -1,0 +1,48 @@
+-GUI of the game (Given)
+public class Viewer extends Application{ 
+}
+
+
+-Core logic and Rules of the game(Given)
+public class RailroadInk{
+
+}
+
+
+
+
+
+- Has properties of all the pieces in original orientation.
+public enum Piece{
+    
+    -Piece constructor (gives each piece its property)
+    -getProperties method (and returns properties of piece)
+
+}
+    
+
+
+
+
+- Represents a single Tile on the board with its properties ( Consists of Piece, Spot, and Orientation)
+public class Tile{
+    
+    -getSpot method (Gets the coordinates for the Tile)
+    -rotateTile method (changes property of Tile when rotated to orientation)
+    -isCentre method (is within centre of board)
+    -Tile constructor (gives Tile its coordinates and properties)
+    -toString method (To get placement string of the tile)
+}
+
+
+
+
+- Creates Coordinates on the Board and gives properites to Exits
+public class Spot{
+    -Spot constructor (gives spots its coordinate and property)
+    -isExit method(Checks if Spot is at exit)
+    -isOccupied (Checks if the spot is occupied by a Tile)
+    -toString method (gets the String of the spot coordinates)
+    
+
+}
