@@ -5,15 +5,11 @@ Use the entries below as an example.
 
 ## Week 4
 
-Everyone: create application skeleton - meeting 14:00 17 Aug
+Everyone: get familiar with each other and read about the program description -  meeting 17:00 Thursday March 21
 
 ## Week 5
 
-Zhang San: Task 3 isPiecePlacementWellFormed - 21 Aug
-
-Jane Bloggs: Task 4 getNeighbours - 23 Aug
-
-Erika Mustermann: Task 6 getViablePiecePlacements - 24 Aug (depends on Task 3)
+Everyone : think about and create the skeleton of the whole program together - meeting 15:00 to 20:00 Tuesday March 26
 
 ## Week 6
 
