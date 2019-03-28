@@ -2,6 +2,6 @@ package gittest;
 
 public class Main {
     public void main(){
-    A Joel = new A();
+    B b = new B();
     }
 }
