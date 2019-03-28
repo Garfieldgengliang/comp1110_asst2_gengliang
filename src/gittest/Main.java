@@ -2,7 +2,6 @@ package gittest;
 
 public class Main {
     public void main(){
-        B b = new B();
-
+    A Joel = new A();
     }
 }
