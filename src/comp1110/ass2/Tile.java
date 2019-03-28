@@ -1,48 +1,46 @@
 package comp1110.ass2;
 
-import java.util.Arrays;
+public class Tile {
 
-public enum Tile {
-    // we use "h" to denote highway, "r" as railway, "s" as station, "b" as blank and "p" as surpass
-    S0("h","r","h","h","s"),
-    S1("h","r","r","r","s"),
-    S2("h","h","h","h","h"),
-    S3("r","r","r","r","r"),
-    S4("h","r","h","r","s"),
-    S5("h","h","r","r","s"),
-    A0("r","b","r","b","r"),
-    A1("r","r","b","b","r"),
-    A2("r","r","b","r","r"),
-    A3("h","h","b","h","h"),
-    A4("h","h","b","b","h"),
-    A5("h","b","h","b","h"),
-    B0("h","r","b","b","s"),
-    B1("h","b","b","r","s"),
-    B2("h","h","r","r","p");
+    Piece piece;
+    Spot spot;
+    char Orientation;
+    char left;
+    char right;
+    char up;
+    char down;
+    char centre;
 
-    public String upside;
-    public String downside;
-    public String left;
-    public String right;
-    public String center;
 
-    Tile(String upside, String downside, String left, String right, String center){
-        this.center = center;
-        this.upside = upside;
-        this.downside = downside;
-        this.left = left;
-        this.right = right;
+    Tile (String placementString){
+        this.piece = Piece.valueOf(placementString.substring(0,2));
+        this.spot = new Spot(placementString.substring(2,4));
+        this.Orientation = placementString.charAt(4);
+        // this construction takes a tilePlacementString and split this string into three parts,
+        // piece number, spot number and orientation number to instanciate tile instance
+
     }
 
-    String [] toStringArray(){
-        String [] output = new String[5];
-        output[0] = this.upside;
-        output[1]= this.downside;
-        output[2]= this.left;
-        output[3]= this.right;
-        output[4] = this.center;
-        return output;
+    public void tileProperties(char Orientation){
+        this.Orientation = Orientation;
+        // in the following code, write if conditions to seperate different situations, look up to Rotated
+        // as reference
 
+        // finally we will have this.left, this.right, this.down, this.up and this.center
+    }
+
+    public boolean isValidExit(){
+        //first we need to check if the spot is neighboring the exit by using spot.isExit()
+        // if the answer is true, then we need to check if the connection between tile and exit is valid
+        //for different exits, we check different side of tile, for example
+        // if the exit is B0 then we check if testtile.left == 'r'
+        return false;
+    }
+
+    public boolean isCernter(){
+        boolean result = spot.isCenter();
+        return result;
+        // when we use this method, just write testTile.isCenter()
     }
 
 
