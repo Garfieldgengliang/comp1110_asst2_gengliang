@@ -15,8 +15,56 @@ public class RailroadInk {
      */
     public static boolean isTilePlacementWellFormed(String tilePlacementString) {
         // FIXME Task 2: determine whether a tile placement is well-formed
+        String secondStringA = "012345";
+        String secondStringB = "012";
+        String secondStringS = "012345";
+        String thirdString = "ABCDEFG";
+        String fourthString = "0123456";
+        String fifthString = "01234567";
+
+        char[] ct = tilePlacementString.toCharArray();
+        if (tilePlacementString.length() == 5) {
+            if (ct[0] == 'A') {
+                if (secondStringA.indexOf(ct[1]) != -1) {
+                    if (thirdString.indexOf(ct[2]) != -1) {
+                        if (fourthString.indexOf(ct[3]) != -1) {
+                            if (fifthString.indexOf(ct[4]) != -1) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (ct[0] == 'B') {
+                if (secondStringB.indexOf(ct[1]) != -1) {
+                    if (thirdString.indexOf(ct[2]) != -1) {
+                        if (fourthString.indexOf(ct[3]) != -1) {
+                            if (fifthString.indexOf(ct[4]) != -1) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (ct[0] == 'S') {
+                if (secondStringS.indexOf(ct[1]) != -1) {
+                    if (thirdString.indexOf(ct[2]) != -1) {
+                        if (fourthString.indexOf(ct[3]) != -1) {
+                            if (fifthString.indexOf(ct[4]) != -1) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         return false;
     }
+
+
 
     /**
      * Determine whether a board string is well-formed:
@@ -29,6 +77,25 @@ public class RailroadInk {
      */
     public static boolean isBoardStringWellFormed(String boardString) {
         // FIXME Task 3: determine whether a board string is well-formed
+        if (boardString == null) {
+            return false;
+        }
+        else if (boardString.equals("")) {
+            return false;
+        }
+        else if (boardString.length() - boardString.replaceAll("S", "").length() > 3) {
+            return false;
+        }
+        else if (boardString.length() / 5 > 0 && boardString.length() / 5 < 32) {
+            if (boardString.length() % 5 == 0) {
+                for (int i = 0; i < boardString.length(); i += 5) {
+                    if (isTilePlacementWellFormed(boardString.substring(i, i + 5))) {
+
+                    } else return false;
+                }
+                return true;
+            } else return false;
+        }
         return false;
     }
 
