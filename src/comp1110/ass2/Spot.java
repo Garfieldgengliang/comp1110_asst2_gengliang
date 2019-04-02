@@ -4,7 +4,7 @@ public class Spot {
 
         char col; // or char col;
         char row;
-        boolean exitproperty;
+
 
         public Spot(String SpotString){
             // in this constructor, get the information of col and row by
@@ -16,10 +16,50 @@ public class Spot {
 
 
 
-        public void isExit(){
+        public boolean isExit(){
             // this method checks whether a spot is a neighboring an exit
             // by writing some if condition
-            // and if this spot is neighboring exit, then this.exitproperty = true
+            // and if this spot is neighboring exit, then return true
+            if(row == 'B' && col == '0'){
+                return true;
+            }
+            if(row == 'D' && col == '0'){
+                    return true;
+                }
+            if(row == 'F' && col == '0'){
+                    return true;
+                }
+            if(row == 'A' && col == '1'){
+                    return true;
+                }
+            if(row == 'A' && col == '3'){
+                    return true;
+                }
+            if(row == 'A' && col == '5'){
+                return true;
+            }
+            if(row == 'B' && col == '6'){
+                return true;
+            }
+            if(row == 'D' && col == '6'){
+                return true;
+            }
+            if(row == 'F' && col == '6'){
+                return true;
+            }
+            if(row == 'G' && col == '1'){
+                return true;
+            }
+            if(row == 'G' && col == '3'){
+                return true;
+            }
+            if(row == 'G' && col == '5'){
+                return true;
+            }
+            else{
+                return false;
+            }
+
 
         }
 
@@ -40,6 +80,7 @@ public class Spot {
         }
 
         public String connectionside(Spot testspot){
+            // for this method, we need to figure out if to spot is connected, what is their connection side
             char testcol = testspot.col;
             char testrow = testspot.row;
             if(col - testcol == 1){

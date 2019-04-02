@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RailroadInk {
     /**
      * Determine whether a tile placement string is well-formed:
@@ -100,6 +103,7 @@ public class RailroadInk {
     }
 
 
+
     /**
      * Determine whether the provided placements are neighbours connected by at least one validly connecting edge.
      * For example,
@@ -153,7 +157,98 @@ public class RailroadInk {
         }
 
     }
+     public static  boolean isvalidExit(String tilePlacementString){
+        // this method is to check whether a tileplacement string is legally connected to an exit
+        Tile teststring = new Tile(tilePlacementString);
 
+        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
+            if(teststring.left == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+         if(teststring.spot.col == '0' && teststring.spot.row=='D'){
+             if(teststring.left == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '0' && teststring.spot.row=='F'){
+             if(teststring.left == 'r'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '1' && teststring.spot.row=='A'){
+             if(teststring.up == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '3' && teststring.spot.row=='A'){
+             if(teststring.up == 'r'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '5' && teststring.spot.row=='A'){
+             if(teststring.up == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '6' && teststring.spot.row=='B'){
+             if(teststring.right == 'r'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '6' && teststring.spot.row=='D'){
+             if(teststring.right == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '6' && teststring.spot.row=='F'){
+             if(teststring.right == 'r'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '1' && teststring.spot.row=='G'){
+             if(teststring.down == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '3' && teststring.spot.row=='G'){
+             if(teststring.down == 'r'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         if(teststring.spot.col == '5' && teststring.spot.row=='G'){
+             if(teststring.down == 'h'){
+                 return true;
+             }else{
+                 return false;
+             }
+         }
+         else{
+             return false;
+         }
+     }
     /**
      * Given a well-formed board string representing an ordered list of placements,
      * determine whether the board string is valid.
@@ -172,7 +267,130 @@ public class RailroadInk {
      */
     public static boolean isValidPlacementSequence(String boardString) {
         // FIXME Task 6: determine whether the given placement sequence is valid
-        return false;
+        List<String> placementList = new ArrayList<String>();
+
+        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
+            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+            placementList.add(currentPlacement);
+        }
+
+        int legalPlaceCount = 0;
+        int exitTileNumber = 0;
+
+        for(int listindex = 0; listindex < placementList.size(); listindex++){
+            String currentCheck = placementList.get(listindex);
+            Tile currentTile = new Tile(currentCheck);
+            if(currentTile.spot.isExit()){
+                exitTileNumber ++;
+                if(!isvalidExit(currentCheck)){
+                    return false;
+                }
+                else{
+
+                    List<String> neighborString = new ArrayList<String>();
+                    // find all the neiboring tile placement in the whole board string and check if these is illegal connection
+                    for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
+                        Tile checkTile = new Tile(placementList.get(listcheck));
+                        if(currentTile.spot.isNeighboring(checkTile.spot)){
+                            neighborString.add(placementList.get(listcheck));
+                        }
+                    }
+
+
+                    for(int checkindex = 0; checkindex < neighborString.size(); checkindex++ ){
+                        Tile currentNeighbor = new Tile(neighborString.get(checkindex));
+                        if(currentTile.spot.row - currentNeighbor.spot.row == 1){
+                            if((currentTile.up == 'h'&&currentNeighbor.down == 'r')||(currentTile.up == 'r'&&currentNeighbor.down == 'h')){
+                                return false;
+                            }
+                        }
+                        if(currentTile.spot.row - currentNeighbor.spot.row == -1){
+                            if((currentTile.down == 'h'&&currentNeighbor.up == 'r')||(currentTile.down == 'r'&&currentNeighbor.up == 'h')){
+                                return false;
+                            }
+
+                        }
+                        if(currentTile.spot.col - currentNeighbor.spot.col == 1){
+                            if((currentTile.left == 'h'&&currentNeighbor.right == 'r')||(currentTile.left == 'r'&&currentNeighbor.right == 'h')){
+                                return false;
+                            }
+                        }
+                        if(currentTile.spot.col - currentNeighbor.spot.col == -1){
+                            if((currentTile.right == 'h'&&currentNeighbor.left == 'r')||(currentTile.right == 'r'&&currentNeighbor.left == 'h')){
+                                return false;
+                            }
+                        }
+                    }
+                  legalPlaceCount = legalPlaceCount + 1;
+                }
+            }
+            else{
+
+                List<String> neighborString = new ArrayList<String>();
+                // find all the neiboring tile placement in the whole board string and check if
+                // these is any legal ceoonection and also check the illegal connection
+
+                for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
+                    Tile checkTile = new Tile(placementList.get(listcheck));
+                    if(currentTile.spot.isNeighboring(checkTile.spot)){
+                        neighborString.add(placementList.get(listcheck));
+                    }
+                }
+
+                int legalConnectionCount = 0;
+
+                for(int checkindex = 0; checkindex < neighborString.size(); checkindex++ ) {
+                    Tile currentNeighbor = new Tile(neighborString.get(checkindex));
+                    if (currentTile.spot.row - currentNeighbor.spot.row == 1) {
+                        if ((currentTile.up == 'h' && currentNeighbor.down == 'r') || (currentTile.up == 'r' && currentNeighbor.down == 'h')) {
+                            return false;
+                        }
+                        if ((currentTile.up == 'h' && currentNeighbor.down == 'h') || (currentTile.up == 'r' && currentNeighbor.down == 'r')) {
+                            legalConnectionCount ++;
+                        }
+                    }
+                    if (currentTile.spot.row - currentNeighbor.spot.row == -1) {
+                        if ((currentTile.down == 'h' && currentNeighbor.up == 'r') || (currentTile.down == 'r' && currentNeighbor.up == 'h')) {
+                            return false;
+                        }
+                        if ((currentTile.down == 'h' && currentNeighbor.up == 'h') || (currentTile.down == 'r' && currentNeighbor.up == 'r')) {
+                            legalConnectionCount ++;
+                        }
+
+                    }
+                    if (currentTile.spot.col - currentNeighbor.spot.col == 1) {
+                        if ((currentTile.left == 'h' && currentNeighbor.right == 'r') || (currentTile.left == 'r' && currentNeighbor.right == 'h')) {
+                            return false;
+                        }
+                        if ((currentTile.left == 'h' && currentNeighbor.right == 'h') || (currentTile.left == 'r' && currentNeighbor.right == 'r')) {
+                            legalConnectionCount ++;
+                        }
+                    }
+                    if (currentTile.spot.col - currentNeighbor.spot.col == -1) {
+                        if ((currentTile.right == 'h' && currentNeighbor.left == 'r') || (currentTile.right == 'r' && currentNeighbor.left == 'h')) {
+                            return false;
+                        }
+                        if ((currentTile.right == 'h' && currentNeighbor.left == 'h') || (currentTile.right == 'r' && currentNeighbor.left == 'r')) {
+                            legalConnectionCount ++;
+                        }
+                    }
+                }
+                if(legalConnectionCount == 0){
+                    return false;
+                }
+                legalPlaceCount = legalPlaceCount + 1;
+            }
+
+        }
+
+        if(legalPlaceCount == placementList.size()&&exitTileNumber!= 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+
     }
 
     /**
