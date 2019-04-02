@@ -1,9 +1,11 @@
-We declare that the work we have submitted for Stage C of this assignment and all stages before it is entirely our own work, with the following documented exceptions:
+We declare that the work we have submitted for Stage B of this assignment and all stages before it is entirely our own work, with the following documented exceptions:
 
-* The idea of using <...> to make the game run faster came from a discussion with <...> (noted in source code comments)
+The idea of substring in our submission <https://howtodoinjava.com/java/string/java-string-substring-example/> 
+The idea of rotation in our submission<https://stackoverflow.com/questions/34166627/javafx-rotate-imageview>
+The idea of image loading in our submission<https://www.tutorialspoint.com/javafx/javafx_images.htm>
+The concept of how javafx works from <Assignment 1>
 
-* The code in class <...> is based on a solution we found when researching the problem (URL provided in source code comments)
 
-*  ....
 
-Signed: Mary Jones (u2345678), Bob Smith (u3456789), and Sue Black (u0123456)
+Signed: Joel Chua (u6708832), Peng Chen (u6460012), and Gengliang Li (u6799959)
+
