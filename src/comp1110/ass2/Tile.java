@@ -12,7 +12,7 @@ public class Tile {
     char centre;
 
 
-    Tile (String placementString){
+    public  Tile (String placementString){
         this.piece = Piece.valueOf(placementString.substring(0,2));
         this.spot = new Spot(placementString.substring(2,4));
         this.orientation = placementString.charAt(4);
@@ -108,11 +108,9 @@ public class Tile {
         return false;
     }
 
-    public boolean isCernter(){
+    public boolean isCenter(){
         boolean result = spot.isCenter();
         return result;
         // when we use this method, just write testTile.isCenter()
     }
-
-
 }

@@ -4,6 +4,7 @@ public class Spot {
 
         char col; // or char col;
         char row;
+
         boolean exitproperty;
 
         public Spot(String SpotString){
