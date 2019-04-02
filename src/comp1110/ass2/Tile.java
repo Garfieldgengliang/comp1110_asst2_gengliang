@@ -16,20 +16,22 @@ public class Tile {
         this.piece = Piece.valueOf(placementString.substring(0,2));
         this.spot = new Spot(placementString.substring(2,4));
         this.orientation = placementString.charAt(4);
-        // this construction takes a tilePlacementString and split this string into three parts,
-        // piece number, spot number and orientation number to instanciate tile instance
 
-    }
+        char oricenter = this.piece.center;
+        char oriup = this.piece.upside;
+        char oridown = this.piece.downside;
+        char orileft = this.piece.left;
+        char oriright = this.piece.right;
 
-    public void tileProperties(){
-        char oricenter = piece.center;
-        char oriup = piece.upside;
-        char oridown = piece.downside;
-        char orileft = piece.left;
-        char oriright = piece.right;
+        if(this.orientation == '0'){
+            this.up = oriup;
+            this.down = oridown;
+            this.left = orileft;
+            this.right = oriright;
+            this.centre = oricenter;
+        }
 
-
-        if (orientation == '1') {
+        if (this.orientation == '1') {
 
             this.up = orileft;
             this.down = oriright;
@@ -37,21 +39,21 @@ public class Tile {
             this.right = oriup;
             this.centre = oricenter;
         }
-        if (orientation == '2') {
+        if (this.orientation == '2') {
             this.up = oridown;
             this.down = oriup;
             this.left = oriright;
             this.right = orileft;
             this.centre = oricenter;
         }
-        if (orientation == '3') {
+        if (this.orientation == '3') {
             this.up = oriright;
             this.down = orileft;
             this.left = oriup;
             this.right = oridown;
             this.centre = oricenter;
         }
-        if (orientation == '4') {
+        if (this.orientation == '4') {
             this.up = oriup;
             this.down = oridown;
             this.left = oriright;
@@ -59,14 +61,14 @@ public class Tile {
             this.centre = oricenter;
 
         }
-        if (orientation == '5') {
+        if (this.orientation == '5') {
             this.up = oriright;
             this.down = orileft;
             this.left = oridown;
             this.right = oriup;
             this.centre = oricenter;
         }
-        if (orientation == '6') {
+        if (this.orientation == '6') {
             this.left = orileft;
             this.right = oriright;
             this.up = oridown;
@@ -74,7 +76,7 @@ public class Tile {
             this.centre = oricenter;
 
         }
-        if (orientation == '7') {
+        if (this.orientation == '7') {
             this.up = orileft;
             this.down = oriright;
             this.left = oriup;
@@ -82,22 +84,21 @@ public class Tile {
             this.centre = oricenter;
         }
         else{
-                this.left = orileft;
-                this.right = oriright;
-                this.up = oriup;
-                this.down = oridown;
-                this.centre = oricenter;
 
         }
+        // this construction takes a tilePlacementString and split this string into three parts,
+        // piece number, spot number and orientation number to instanciate tile instance
 
+    }
 
-
+/*
+    public void tileProperties(){
 
         // in the following code, write if conditions to seperate different situations, look up to Rotated
         // as reference
 
         // finally we will have this.left, this.right, this.down, this.up and this.center
-    }
+    } */
 
     public boolean isValidExit(){
         //first we need to check if the spot is neighboring the exit by using spot.isExit()

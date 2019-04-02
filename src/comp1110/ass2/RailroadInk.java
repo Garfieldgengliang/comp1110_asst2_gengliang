@@ -113,7 +113,45 @@ public class RailroadInk {
      */
     public static boolean areConnectedNeighbours(String tilePlacementStringA, String tilePlacementStringB) {
         // FIXME Task 5: determine whether neighbouring placements are connected
-        return false;
+        Tile firstTile = new Tile(tilePlacementStringA);
+        Tile secondTile = new Tile(tilePlacementStringB);
+
+        Spot firstspot = firstTile.spot;
+        Spot secondspot = secondTile.spot;
+
+        if(firstspot.isNeighboring(secondspot)){
+            String connectionside = firstspot.connectionside(secondspot);
+            if(connectionside == "right"){
+                if(firstTile.right == secondTile.left && firstTile.right!= 'b' && secondTile.left!='b'){
+                    return true;
+                }else{return false;}
+            }
+            if(connectionside == "left"){
+                if(firstTile.left == secondTile.right && firstTile.left!= 'b' && secondTile.right!='b'){
+                    return true;
+                }else{return false;}
+
+            }
+            if(connectionside == "upside"){
+                if(firstTile.up == secondTile.down && firstTile.up!= 'b' && secondTile.down!='b'){
+                    return true;
+                }else{return false;}
+
+            }
+            if(connectionside == "downside"){
+                if(firstTile.down == secondTile.up && firstTile.down!= 'b' && secondTile.up!='b'){
+                    return true;
+                }else{return  false;}
+            }
+            else{
+                return false;
+            }
+
+        }
+        else{
+            return false;
+        }
+
     }
 
     /**
