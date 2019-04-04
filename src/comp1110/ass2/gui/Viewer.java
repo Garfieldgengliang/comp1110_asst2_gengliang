@@ -49,39 +49,39 @@ public class Viewer extends Application {
     private final Group tiles = new Group();
 
 
-    private int TILE_LENGTH = 70;
-    private int BOARD_WIDTH = TILE_LENGTH*9;
-    private int BOARD_HEIGHT = TILE_LENGTH*9;
-    private int BOARD_X_OFFSET = (VIEWER_WIDTH - BOARD_WIDTH)/2;
+    private int TILE_LENGTH = 70; //Defining each Tile length
+    private int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
+    private int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
+    private int BOARD_X_OFFSET = (VIEWER_WIDTH - BOARD_WIDTH)/2; //Setting offset for the board
     private int BOARD_Y_OFFSET = 20;
     private static final Paint SUBBOARD_FILL = Color.DARKGREY;
-    private static final Paint SUBBOARD_STROKE = Color.GREY;
+    private static final Paint SUBBOARD_TILE = Color.GREY;
     public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
+
 
     private void makeBoard(){
         Rectangle background = new Rectangle(BOARD_WIDTH,BOARD_HEIGHT);
         background.setFill(SUBBOARD_FILL);
         background.setLayoutX(BOARD_X_OFFSET);
         background.setLayoutY(BOARD_Y_OFFSET);
-        background.setStrokeType(StrokeType.CENTERED);
-        board.getChildren().add(background);
+        board.getChildren().add(background); //Setting up board by calling Rectangle
 
         for (int row = 0; row < 7; row++) {
             for (int col = 0; col < 7; col++) {
                 Rectangle piece = new Rectangle(TILE_LENGTH, TILE_LENGTH);
                 piece.setFill(Color.WHITE);
-                piece.setStroke(SUBBOARD_STROKE);
+                piece.setStroke(SUBBOARD_TILE);
                 piece.setLayoutX(col*TILE_LENGTH + BOARD_X_OFFSET + TILE_LENGTH);
                 piece.setLayoutY(row*TILE_LENGTH +BOARD_Y_OFFSET +TILE_LENGTH);
-                board.getChildren().add(piece);
+                board.getChildren().add(piece); //Setting the Grid for Tile placements
             }
         }
 
         Image HE = new Image(HighExit);
         Image RE = new Image(RailExit);
 
-        for (int row = 0; row < 7; row++){
+        for (int row = 0; row < 7; row++){   //Setting up the Board exits depending on row and column
             for (int col = 0 ; col < 7; col++){
                 if (row == 0) {
                     if (col == 1 || col == 5){
@@ -183,26 +183,25 @@ public class Viewer extends Application {
 
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
-        tiles.getChildren().clear();
+        tiles.getChildren().clear(); //clear board before placing
 
-
-        int counter = 0;
-        String [] sPlacement = new String[placement.length()/5];
+        int counter = 0; //For string slicing
+        String [] sPlacement = new String[placement.length()/5]; //Counting number of pieces to place it into String Array
         for (int sub=0; sub < (placement.length()/5); sub++){
             sPlacement [sub] = placement.substring(counter, counter+5);
             counter = counter+5;
         }
 
         for (int i= 0; i < sPlacement.length; i++){
-          Image p = new Image(Viewer.class.getResource(URI_BASE + sPlacement[i].substring(0,2) +".png").toString());
-          ImageView tile = new ImageView(p);
-          int col = Integer.parseInt(sPlacement[i].substring(3,4));
-          char row = sPlacement[i].charAt(2);
-          tile.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
-          tile.setY(BOARD_Y_OFFSET+TILE_LENGTH*(Character.getNumericValue(row)-9));
-          tile.setFitWidth(TILE_LENGTH);
+          Image pType = new Image(Viewer.class.getResource(URI_BASE + sPlacement[i].substring(0,2) +".png").toString()); // loading the image of the piece called
+          ImageView tile = new ImageView(pType);
+          int col = Integer.parseInt(sPlacement[i].substring(3,4)); //Determining column of string by slicing
+          char row = sPlacement[i].charAt(2);   //Determining row of string by slicing
+          tile.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1)); //Setting offset of Col
+          tile.setY(BOARD_Y_OFFSET+TILE_LENGTH*(Character.getNumericValue(row)-9)); //Setting offset of row
+          tile.setFitWidth(TILE_LENGTH); //Setting width and height of tile
           tile.setFitHeight(TILE_LENGTH);
-          switch (sPlacement[i].substring(4,5)){
+          switch (sPlacement[i].substring(4,5)){ //Set tile into various orientation
               default:
                   break;
               case "1":
@@ -267,7 +266,6 @@ public class Viewer extends Application {
         root.getChildren().add(controls);
         root.getChildren().add(board);
         root.getChildren().add(tiles);
-
 
         makeControls();
         makeBoard();
