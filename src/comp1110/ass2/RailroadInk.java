@@ -123,8 +123,9 @@ public class RailroadInk {
         Spot firstspot = firstTile.spot;
         Spot secondspot = secondTile.spot;
 
-        if(firstspot.isNeighboring(secondspot)){
+        if(firstspot.isNeighboring(secondspot)){ // first we check whether the spot is neighboring or not
             String connectionside = firstspot.connectionside(secondspot);
+            // then we check of the connection is valid
             if(connectionside == "right"){
                 if(firstTile.right == secondTile.left && firstTile.right!= 'b' && secondTile.left!='b'){
                     return true;
@@ -159,6 +160,7 @@ public class RailroadInk {
     }
      public static  boolean isvalidExit(String tilePlacementString){
         // this method is to check whether a tileplacement string is legally connected to an exit
+         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
         Tile teststring = new Tile(tilePlacementString);
 
         if(teststring.spot.col == '0' && teststring.spot.row=='B'){
@@ -268,7 +270,7 @@ public class RailroadInk {
     public static boolean isValidPlacementSequence(String boardString) {
         // FIXME Task 6: determine whether the given placement sequence is valid
         List<String> placementList = new ArrayList<String>();
-
+        // slice the board string into tile placement string
         for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
             String currentPlacement = boardString.substring(stringindex,stringindex+5);
             placementList.add(currentPlacement);
@@ -286,7 +288,7 @@ public class RailroadInk {
                     return false;
                 }
                 else{
-
+                    
                     List<String> neighborString = new ArrayList<String>();
                     // find all the neiboring tile placement in the whole board string and check if these is illegal connection
                     for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
