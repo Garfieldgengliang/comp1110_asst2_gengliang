@@ -67,7 +67,7 @@ public class Spot {
 
         public boolean isNeighboring(Spot testspot){
             // this method checks whether the testspot is neighboring current spot
-            // you may want to split the two charactor of a spot, like split"B6" into "B" and "6"
+            // you may want to split the two character of a spot, like split"B6" into "B" and "6"
             // and "A6" into "A" and "6" to check if they are neighboring
             char testcol = testspot.col;
             char testrow = testspot.row;
