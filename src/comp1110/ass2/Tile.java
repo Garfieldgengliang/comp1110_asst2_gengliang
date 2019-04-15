@@ -136,11 +136,6 @@ public class Tile {
         return result;
         // when we use this method, just write testTile.isCenter()
     }
-
-    public static void main(String[] args) {
-        Tile x = new Tile("A3C21");
-        Tile y = new Tile("A4C10");
-        System.out.println(x.tileConnect(y));
-    }
+    
 
 }
