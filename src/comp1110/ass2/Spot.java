@@ -105,7 +105,36 @@ public class Spot {
 
         public boolean isCenter(){
             // this method check is a given spot in the center of the board
-            return false;
+            if(row == 'C' && col == '2'){
+                return true;
+            }
+            if(row == 'C' && col == '3'){
+                return true;
+            }
+            if(row == 'C' && col == '4'){
+                return true;
+            }
+            if(row == 'D' && col == '2'){
+                return true;
+            }
+            if(row == 'D' && col == '3'){
+                return true;
+            }
+            if(row == 'D' && col == '4'){
+                return true;
+            }
+            if(row == 'E' && col == '2'){
+                return true;
+            }
+            if(row == 'E' && col == '3'){
+                return true;
+            }
+            if(row == 'E' && col == '4'){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
 
         public boolean isOccupied(){

@@ -288,7 +288,7 @@ public class RailroadInk {
                     return false;
                 }
                 else{
-                    
+
                     List<String> neighborString = new ArrayList<String>();
                     // find all the neiboring tile placement in the whole board string and check if these is illegal connection
                     for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
@@ -410,6 +410,385 @@ public class RailroadInk {
         return "";
     }
 
+
+    /**
+     * this method is to find the number of deadEnds of a given boardString
+     * first for a given tile, find the number of tiles that connect to this current tile
+     * second find the number of road ends that connect to the edge of board, the edge also includes exits
+     * Then the number of deadEnds equals to number of roads in a tile minus the road ends that connect to the edge
+     *   minus the road ends legally connect to another tile
+     * Finally, check through all the tiles in the boardString
+     * @param boardString
+     * @return number of deadEnds in this boardString
+     */
+
+
+    public static int findDeadEnd(String boardString){
+
+        List<String> placementList = new ArrayList<String>();
+        // slice the board string into tile placement string
+        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
+            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+            placementList.add(currentPlacement);
+        }
+
+        int DeadEndNumber = 0; // the number of dead ends
+
+        for(int listindex = 0; listindex < placementList.size(); listindex++) {
+            String currentCheck = placementList.get(listindex);
+            Tile currentTile = new Tile(currentCheck);
+
+            int countNeighbor = 0;
+            int currentNonBlankNumber = currentTile.piece.NonBlankNumber();
+
+            for(int checkIndex = 0; checkIndex < placementList.size(); checkIndex++){
+                String checkNeighbor = placementList.get(checkIndex);
+                if(areConnectedNeighbours(currentCheck,checkNeighbor)){
+                    countNeighbor++;
+                }
+            }  // find the number of tiles that connect to this current tile
+
+            int connectEdge = 0;
+            // find the number of road ends that connect to the edge of board, the edge also includes exits
+            if(currentTile.spot.row == 'A'&&currentTile.spot.col!='6'){
+                // if the tile lies on the upper edge of the board
+                if(currentTile.spot.col == '0'){
+
+                    if(currentTile.left != 'b'){
+                        connectEdge++;
+                    }
+                    if(currentTile.up != 'b'){
+                        connectEdge++;
+                    }
+                    // the number of deadEnds equals to number of roads in a tile minus the road ends that connect to the edge
+                    // minus the road ends legally connect to another tile
+                }
+                else{
+                    if(currentTile.up != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+            }
+            if(currentTile.spot.col == '6'&&currentTile.spot.row!='G'){
+                // if the tile lies on right edge of the board
+                if(currentTile.spot.row == 'A'){
+
+                    if(currentTile.right != 'b'){
+                        connectEdge++;
+                    }
+                    if(currentTile.up != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+                else{
+                    if(currentTile.right != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+            }
+            if(currentTile.spot.row == 'G'&&currentTile.spot.col!='0'){
+                // if the tile lies on downer edge of the board
+                if(currentTile.spot.col == '6'){
+
+                    if(currentTile.down != 'b'){
+                        connectEdge++;
+                    }
+                    if(currentTile.right != 'b'){
+                        connectEdge++;
+                    }
+
+                 }
+                else{
+                    if(currentTile.down != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+            }
+            if(currentTile.spot.col == '0'&&currentTile.spot.row!='A'){
+                // if the tile lies on left edge of the board
+                if(currentTile.spot.row == 'G'){
+
+                    if(currentTile.left != 'b'){
+                        connectEdge++;
+                    }
+                    if(currentTile.down != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+                else{
+                    if(currentTile.left != 'b'){
+                        connectEdge++;
+                    }
+
+                }
+            }
+
+            // the number of deadEnds equals to number of roads in a tile minus the road ends that connect to the edge
+            // minus the road ends legally connect to another tile
+
+            DeadEndNumber = DeadEndNumber + currentNonBlankNumber - connectEdge - countNeighbor;
+           // System.out.println(currentNonBlankNumber - connectEdge - countNeighbor);
+          //  System.out.println(DeadEndNumber);
+        }
+        return DeadEndNumber;
+    }
+
+    /**
+     * this method is to deal with surpass tiles, substitute surpass tile with corresponding
+     * A1 or A4 tile  with certain orientation so that when checking tile connection,
+     * surpass tile won't connect two routes that are not connected
+     * @param connected
+     * @param surpass
+     * @return the new tile placement string that substitute the original surpass tile placement String
+     */
+
+    public static String dealWithSurpass(String connected, String surpass){
+
+        String target = "";
+        Tile connectedTile = new Tile(connected);
+        Tile surpassTile = new Tile(surpass);
+        List<String> orienStirng = new ArrayList<String>(List.of("upside","downside","left","right"));
+
+        String connectionSide = surpassTile.spot.connectionside(connectedTile.spot);
+        if(connectionSide == "left" || connectionSide == "right"){
+            // if the connected tile and surpass tile are connected in a horizontal way
+            if(surpassTile.left == 'r'){
+                target = target + "A1";
+                target = target + surpass.substring(2,4); // add the spot place
+                target = target + '1';
+            }
+            if(surpassTile.left == 'h'){
+                target = target + "A4";
+                target = target + surpass.substring(2,4); // add the spot place
+                target = target + '1';
+            }
+        }
+        if(connectionSide == "upside" || connectionSide == "downside"){
+            // if the connected tile and surpass tile are connected in a vertical way
+            if(surpassTile.up == 'r'){
+                target = target + "A1";
+                target = target + surpass.substring(2,4); // add the spot place
+                target = target + '2';
+            }
+            if(surpassTile.up == 'h'){
+                target = target + "A4";
+                target = target + surpass.substring(2,4); // add the spot place
+                target = target + '2';
+            }
+        }
+        else if(!orienStirng.contains(connectionSide)){
+            System.out.println("something wrong with connection side");
+        }
+
+        return target;
+    }
+
+    /**
+     * this method is to deal with the situation where surpass is connected to an exit
+     * the logic of this method is similar to the previous one
+     * @param surpassExit
+     * @return the new tile placement string that substitute the original surpass tile placement String
+     */
+    public static String dealSuppassExit(String surpassExit){
+
+        String target = "";
+
+        Tile surpassExitTile = new Tile(surpassExit);
+        if(surpassExitTile.spot.col == '0' || surpassExitTile.spot.col == '6'){
+            // if the connected tile and surpass tile are connected in a horizontal way
+                if(surpassExitTile.left == 'h'){
+                    target = target + "A4";
+                    target = target + surpassExit.substring(2,4); // add the spot place
+                    target = target + '1';
+                }
+                if(surpassExitTile.left == 'r'){
+                    target = target + "A1";
+                    target = target + surpassExit.substring(2,4); // add the spot place
+                    target = target + '1';
+                }
+        }
+        if(surpassExitTile.spot.row == 'A' || surpassExitTile.spot.row == 'G'){
+            // if the connected tile and surpass tile are connected in a vertical way
+               if(surpassExitTile.up == 'h'){
+                   target = target + "A4";
+                   target = target + surpassExit.substring(2,4); // add the spot place
+                   target = target + '2';
+
+               }
+               if(surpassExitTile.up == 'r' ){
+                   target = target + "A1";
+                   target = target + surpassExit.substring(2,4); // add the spot place
+                   target = target + '2';
+               }
+        }
+
+        if(target == ""){
+            System.out.println("something wrong with dealSurpassExit");
+        }
+        return target;
+    }
+
+    /**
+     * this method is to find all the new connection based on the old connection given total placement list
+     * which means, given the old partially checked route, checking all the tiles in the placement list
+     * and extend the route by one tile layer, and at the same time, if the connection tile is a surpass, we
+     * should also do the substitute by apply the dealWithSurpass of dealSurpassExit method
+     * @param oldConnectionList
+     * @param placementList
+     * @return new list of tile placement string
+     */
+
+    public static List<String> findNewConnection(List<String> oldConnectionList, List<String> placementList){
+
+        List<String> newConnectionList = oldConnectionList;// first, we add all the elements in oldlist to the new list
+        for(int CheckIndex = 0; CheckIndex<oldConnectionList.size(); CheckIndex++){
+            //Then for each element in the oldConnectionList, we check through the total placement list
+            // if there is any new tile placement string that is neighboring the current placement string
+            String currentCheck = oldConnectionList.get(CheckIndex);
+            //  Tile currentTile = new Tile(currentCheck);
+            for(int placementIndex = 0; placementIndex<placementList.size();placementIndex++){
+                String checkTotal = placementList.get(placementIndex);
+                Tile checkTile = new Tile(checkTotal);
+                if(areConnectedNeighbours(currentCheck,checkTotal)){
+                    if(checkTile.piece.center == 'p'){// if the checkTile is a surpass
+                        String replace = dealWithSurpass(currentCheck,checkTotal);// do the substitute
+                        if(!newConnectionList.contains(replace)) {
+                            newConnectionList.add(replace);
+                        }
+                    }
+                    else{
+                        if(!newConnectionList.contains(checkTotal)){
+                            newConnectionList.add(checkTotal);
+                        }
+                    }
+                }
+
+            }
+        }
+        return newConnectionList;
+    }
+
+    /**
+     * this method is to find all the tiles that connect to a given exit tile in tile placement list
+     * given a placementList and an exitSpot
+     * The logic behind this method is that each route starts with a connection to the exit, so the check begins with an exit tile
+     * and extends the every tile that directly or indirectly connected to this tile
+     * @param placementList
+     * @param exitSpot
+     * @return a list of tile placement string
+     */
+
+    public static  List<String> findConnectedRoute(List<String> placementList, String exitSpot){
+
+        String targetTileplacement = "";
+
+        for(int placementIndex = 0; placementIndex < placementList.size();placementIndex++){
+            String checkTotal = placementList.get(placementIndex);
+            if(checkTotal.substring(2,4).equals(exitSpot)){
+                Tile checkTile = new Tile(checkTotal);
+                if(checkTile.piece.center == 'p'){
+                    String modifySurpass = dealSuppassExit(checkTotal);
+                    // if the exit is connected directly to a surpass, then apply the deaSurpassExit method
+                    targetTileplacement = targetTileplacement + modifySurpass;
+                }
+                else {
+                    targetTileplacement = targetTileplacement + checkTotal;
+                }
+            } // find the tileplacement string that lies on the given exit spot
+        }
+
+        if(targetTileplacement == ""||targetTileplacement.length()>5){
+            System.out.println("something wrong with findConnectedRoute");
+        }
+
+        List<String> oldConnection = new ArrayList<String>();
+        oldConnection.add(targetTileplacement);
+
+        List<String> newConnection = findNewConnection(oldConnection, placementList);
+        while(oldConnection!=newConnection){
+            // while there is new element adding in the newConnection
+            oldConnection = newConnection;
+            newConnection = findNewConnection(oldConnection, placementList);
+        }
+        return newConnection;
+    }
+
+    /**
+     * this method is to find all the exits location that have been validly connected by a list of tile placement string
+     * @param placementList
+     * @return a list of spot string
+     */
+
+    public static List<String> findExitSpot(List<String> placementList){
+
+        List<String> exitSpotList = new ArrayList<String>();
+
+        for(int listindex = 0; listindex < placementList.size(); listindex++) {
+            String currentCheck = placementList.get(listindex);
+            //Tile currentTile = new Tile(currentCheck);
+            if (isvalidExit(currentCheck)) {
+                String currentSpot = currentCheck.substring(2,4);
+                exitSpotList.add(currentSpot);
+
+            }
+        }
+        // System.out.println(exitSpotList);
+        return exitSpotList;
+    }
+
+    /**
+     * this methods is to return the number of exits one route connects
+     * @param oneConnectedRoute
+     * @return the number of exits connected by th given route
+     */
+    public static int findNumberExit(List<String> oneConnectedRoute){
+
+        int exitNumberCount = 0;
+
+        for(int listindex = 0; listindex < oneConnectedRoute.size(); listindex++) {
+            String currentCheck = oneConnectedRoute.get(listindex);
+            //Tile currentTile = new Tile(currentCheck);
+            if (isvalidExit(currentCheck)) {
+                exitNumberCount++;
+
+            }
+        }
+        //System.out.println("exit Number connected " + exitNumberCount);
+        return exitNumberCount;
+    }
+
+    /**
+     *
+     * @param exitNumberCount
+     * @return the score that corresponding to the exit number
+     */
+
+    public static int findRoutePoints(int exitNumberCount){
+        int routePoints = 0;
+        if(exitNumberCount == 1){ routePoints = 0;
+            // System.out.println("Notice! this route only connects one exit")
+            ;}
+        if(exitNumberCount == 2){ routePoints = 4; }
+        if(exitNumberCount == 3){ routePoints = 8; }
+        if(exitNumberCount == 4){ routePoints = 12; }
+        if(exitNumberCount == 5){ routePoints = 16; }
+        if(exitNumberCount == 6){ routePoints = 20; }
+        if(exitNumberCount == 7){ routePoints = 24; }
+        if(exitNumberCount == 8){ routePoints = 28; }
+        if(exitNumberCount == 9){ routePoints = 32; }
+        if(exitNumberCount == 10){ routePoints = 36; }
+        if(exitNumberCount == 11){ routePoints = 40; }
+        if(exitNumberCount == 12){ routePoints = 45; }
+        else if(exitNumberCount > 12){
+            System.out.println("something wrong with extiNumber");
+        }
+        return routePoints;
+    }
     /**
      * Given the current state of a game board, output an integer representing the sum of all the following factors
      * that contribute to the player's final score.
@@ -423,7 +802,62 @@ public class RailroadInk {
      */
     public static int getBasicScore(String boardString) {
         // FIXME Task 8: compute the basic score
-        return -1;
+        List<String> placementList = new ArrayList<String>();
+        // slice the board string into tile placement string
+        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
+            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+            placementList.add(currentPlacement);
+        }
+       // System.out.println(placementList);
+
+        int deadEnd = findDeadEnd(boardString); //find the number of dead ends
+
+        int centerScore = 0;
+
+        for(int listindex = 0; listindex < placementList.size(); listindex++){
+            String currentCheck = placementList.get(listindex);
+            Tile currentTile = new Tile(currentCheck);
+
+            if(currentTile.spot.isCenter()){
+                centerScore++;
+            }
+        }  // find the number of centeral tiles
+
+        int routeScore = 0;
+        //List<String>  nextPlacementList = new ArrayList<String>();
+
+        List<String> totalExitSpot = findExitSpot(placementList);
+        // first we put all the exit that has tile connection in a list
+
+        while(totalExitSpot.size() > 0) {
+            List<String> currentRoute = findConnectedRoute(placementList, totalExitSpot.get(0));
+           // System.out.println("current route is " + currentRoute);
+
+            int exitNum = findNumberExit(currentRoute);
+            int currentScore = findRoutePoints(exitNum);
+            routeScore += currentScore;
+
+            List<String> currentExitSpot = findExitSpot(currentRoute);
+           // System.out.println("current Exit Spot is " + currentExitSpot);
+
+
+            for (int spotIndex = 0; spotIndex < currentExitSpot.size(); spotIndex++) {
+                String checkSpot = currentExitSpot.get(spotIndex);
+                if (totalExitSpot.contains(checkSpot)) {
+                    totalExitSpot.remove(checkSpot);
+                }
+            } // then every time we find a route, we eliminate all the exits that have been connected by this route
+            // from the total exits list
+            //System.out.println("after remove total is " + totalExitSpot);
+        }
+
+       // System.out.println("dead end number is " + deadEnd);
+       // System.out.println("center score is " + centerScore);
+       // System.out.println("route score is " + routeScore);
+
+
+        int totalScore = routeScore + centerScore - deadEnd;
+        return totalScore;
     }
 
     /**
