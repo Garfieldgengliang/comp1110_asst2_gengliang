@@ -1,4 +1,6 @@
 package comp1110.ass2;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tile {
 
@@ -10,6 +12,8 @@ public class Tile {
     char up;
     char down;
     char centre;
+    int cost;
+    List<Tile> closedTiles = new ArrayList<>();
 
 
     public  Tile (String placementString){
@@ -93,6 +97,25 @@ public class Tile {
 
 
    /*
+    public char tileConnect(Tile other){
+        if(this.up == 'h' && other.down == 'h' && (int) other.spot.row - (int) this.spot.row == -1 ||
+                this.down == 'h' && other.up == 'h' && (int) other.spot.row - (int) this.spot.row == 1||
+                this.left == 'h' && other.right == 'h'&& (int) other.spot.col - (int) this.spot.col == -1||
+                this.right == 'h' && other.left == 'h' && (int) other.spot.col - (int) this.spot.col == 1 ){
+            return 'h';
+        }
+        else if(this.up == 'r' && other.down == 'r' && (int) other.spot.row - (int) this.spot.row == -1 ||
+                this.down == 'r' && other.up == 'r' && (int) other.spot.row - (int) this.spot.row == 1||
+                this.left == 'r' && other.right == 'r'&& (int) other.spot.col - (int) this.spot.col == -1||
+                this.right == 'r' && other.left == 'r' && (int) other.spot.col - (int) this.spot.col == 1 ){
+            return 'r';
+        }
+        else return 'b';
+    }
+
+
+
+
     public boolean isValidExit(){
         //first we need to check if the spot is neighboring the exit by using spot.isExit()
         // if the answer is true, then we need to check if the connection between tile and exit is valid
@@ -106,4 +129,6 @@ public class Tile {
         return result;
         // when we use this method, just write testTile.isCenter()
     }
+
+
 }

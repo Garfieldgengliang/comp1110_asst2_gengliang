@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RailroadInk {
@@ -290,7 +291,7 @@ public class RailroadInk {
                 else{
 
                     List<String> neighborString = new ArrayList<String>();
-                    // find all the neiboring tile placement in the whole board string and check if these is illegal connection
+                    // find all the neighbouring tile placement in the whole board string and check if these is illegal connection
                     for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
                         Tile checkTile = new Tile(placementList.get(listcheck));
                         if(currentTile.spot.isNeighboring(checkTile.spot)){
@@ -329,8 +330,8 @@ public class RailroadInk {
             else{
 
                 List<String> neighborString = new ArrayList<String>();
-                // find all the neiboring tile placement in the whole board string and check if
-                // these is any legal ceoonection and also check the illegal connection
+                // find all the neighbouring tile placement in the whole board string and check if
+                // these is any legal connection and also check the illegal connection
 
                 for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
                     Tile checkTile = new Tile(placementList.get(listcheck));
@@ -883,9 +884,99 @@ public class RailroadInk {
      * @param boardString a board string representing a completed game
      * @return integer (positive or negative) for final score (not counting expansion packs)
      */
+
+
     public static int getAdvancedScore(String boardString) {
         // FIXME Task 12: compute the total score including bonus points
-        return -1;
+        List<Tile> tiles = new ArrayList<>();
+        // slice the board string into Tile list
+        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
+            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+            tiles.add(new Tile(currentPlacement));
+        }
+
+        int hCountMax = 0; // Store maximum length checked for highway
+        int rCountMax = 0; // store maximum length checked for railway
+
+        for(Tile tempTile: tiles){
+            for (Tile t2:tiles){
+                t2.closedTiles.clear();
+                t2.cost = 0;
+            }
+            if(tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h'){
+                List<Tile> openTiles = new ArrayList<>();
+                tempTile.cost = 1;
+
+                if(hCountMax < tempTile.cost) {
+                    hCountMax = tempTile.cost;
+                }
+
+                openTiles.add(tempTile);
+                while (openTiles.size() > 0) {
+                    Tile currentTile = openTiles.get(0);
+                    for (int i = 0; i < tiles.size(); i++) {
+                        if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentTile.closedTiles.contains(tiles.get(i))) {
+
+                            if (tiles.get(i).cost <= (currentTile.cost + 1) ){
+                                tiles.get(i).cost = currentTile.cost + 1;
+                                (tiles.get(i)).closedTiles.clear();
+                                (tiles.get(i)).closedTiles.addAll(currentTile.closedTiles);
+                                (tiles.get(i)).closedTiles.add(currentTile);
+                                openTiles.add(tiles.get(i));
+                            }
+
+                            if(hCountMax < tiles.get(i).cost ) {
+                                hCountMax = tiles.get(i).cost;
+                            }
+
+                        }
+                    }
+                    openTiles.remove(currentTile);
+                }
+            }
+        }
+
+        for(Tile tempTile: tiles){
+            for (Tile t2:tiles){
+                t2.closedTiles.clear();
+                t2.cost = 0;
+            }
+            if(tempTile.up == 'r' || tempTile.down == 'r' || tempTile.left == 'r' || tempTile.right == 'r'){
+                List<Tile> openTiles = new ArrayList<>();
+                tempTile.cost = 1;
+
+                if (rCountMax < tempTile.cost) {
+                    rCountMax = tempTile.cost;
+                }
+
+                openTiles.add(tempTile);
+                while (openTiles.size() > 0) {
+                    Tile currentTile = openTiles.get(0);
+                    for (int i = 0; i < tiles.size(); i++) {
+                        if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentTile.closedTiles.contains(tiles.get(i))) {
+                            if (tiles.get(i).cost<=currentTile.cost +1 ){
+                                tiles.get(i).cost = currentTile.cost + 1;
+                                (tiles.get(i)).closedTiles.clear();
+                                (tiles.get(i)).closedTiles.addAll(currentTile.closedTiles);
+                                (tiles.get(i)).closedTiles.add(currentTile);
+                                openTiles.add(tiles.get(i));
+                            }
+
+                            if(rCountMax < tiles.get(i).cost ) {
+                                rCountMax = tiles.get(i).cost;
+                            }
+
+                        }
+                    }
+                    openTiles.remove(currentTile);
+                }
+            }
+        }
+
+
+        return getBasicScore(boardString) + rCountMax +hCountMax ;
     }
+
+
 }
 
