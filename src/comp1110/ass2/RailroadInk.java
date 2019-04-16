@@ -898,84 +898,135 @@ public class RailroadInk {
         int hCountMax = 0; // Store maximum length checked for highway
         int rCountMax = 0; // store maximum length checked for railway
 
+
+
+
         for(Tile tempTile: tiles){
-            for (Tile t2:tiles){
-                t2.closedTiles.clear();
-                t2.cost = 0;
-            }
             if(tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h'){
-                List<Tile> openTiles = new ArrayList<>();
-                tempTile.cost = 1;
+                List<Path> unfinishedPaths = new ArrayList<>();
+                Path currentPath = new Path();
+                unfinishedPaths.add(currentPath);
+                currentPath.open.add(tempTile);
 
-                if(hCountMax < tempTile.cost) {
-                    hCountMax = tempTile.cost;
-                }
+                boolean isSearching = true;
 
-                openTiles.add(tempTile);
-                while (openTiles.size() > 0) {
-                    Tile currentTile = openTiles.get(0);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentTile.closedTiles.contains(tiles.get(i))) {
+                while (isSearching) {
+                    //System.out.println(unfinishedPaths.size() + "," + currentPath.open.size());
 
-                            if (tiles.get(i).cost <= (currentTile.cost + 1) ){
-                                tiles.get(i).cost = currentTile.cost + 1;
-                                (tiles.get(i)).closedTiles.clear();
-                                (tiles.get(i)).closedTiles.addAll(currentTile.closedTiles);
-                                (tiles.get(i)).closedTiles.add(currentTile);
-                                openTiles.add(tiles.get(i));
+                    if (currentPath.open.size() == 1){
+                        Tile currentTile = currentPath.open.get(0);
+                        for (int i = 0; i < tiles.size(); i++) {
+                            if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentPath.closed.contains(tiles.get(i))) {
+
+                                currentPath.open.add(tiles.get(i));
                             }
-
-                            if(hCountMax < tiles.get(i).cost ) {
-                                hCountMax = tiles.get(i).cost;
-                            }
-
                         }
+                        currentPath.closed.add(currentTile);
+                        currentPath.open.remove(currentTile);
                     }
-                    openTiles.remove(currentTile);
+
+                    if (currentPath.open.size() > 1){
+                        for (int i = 1; i < currentPath.open.size(); i++){
+                            Path secondary = new Path();
+                            secondary.open.add(currentPath.open.get(i));
+                            secondary.closed.addAll(currentPath.closed);
+                            unfinishedPaths.add(secondary);
+                        }
+                        Tile x = currentPath.open.get(0);
+                        currentPath.open.clear();
+                        currentPath.open.add(x);
+                    }
+
+
+                    if (currentPath.open.size() == 0){
+                        if (hCountMax < currentPath.closed.size()){
+                            hCountMax = currentPath.closed.size();
+                           /* String x = "";
+                            for ( int i = 0; i < currentPath.closed.size(); i ++){
+                                x += currentPath.closed.get(i).spot.row +""+ currentPath.closed.get(i).spot.col+",";
+                            }
+                            System.out.println(x);*/
+                        }
+                        unfinishedPaths.remove(currentPath);
+                        if (unfinishedPaths.size() > 0 ){
+                            currentPath = unfinishedPaths.get(0);
+                        }
+                        else {isSearching = false;}
+                    }
                 }
             }
         }
 
         for(Tile tempTile: tiles){
-            for (Tile t2:tiles){
-                t2.closedTiles.clear();
-                t2.cost = 0;
-            }
             if(tempTile.up == 'r' || tempTile.down == 'r' || tempTile.left == 'r' || tempTile.right == 'r'){
-                List<Tile> openTiles = new ArrayList<>();
-                tempTile.cost = 1;
+                List<Path> unfinishedPaths = new ArrayList<>();
+                Path currentPath = new Path();
+                unfinishedPaths.add(currentPath);
+                currentPath.open.add(tempTile);
 
-                if (rCountMax < tempTile.cost) {
-                    rCountMax = tempTile.cost;
-                }
+                boolean isSearching = true;
 
-                openTiles.add(tempTile);
-                while (openTiles.size() > 0) {
-                    Tile currentTile = openTiles.get(0);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentTile.closedTiles.contains(tiles.get(i))) {
-                            if (tiles.get(i).cost<=currentTile.cost +1 ){
-                                tiles.get(i).cost = currentTile.cost + 1;
-                                (tiles.get(i)).closedTiles.clear();
-                                (tiles.get(i)).closedTiles.addAll(currentTile.closedTiles);
-                                (tiles.get(i)).closedTiles.add(currentTile);
-                                openTiles.add(tiles.get(i));
+                while (isSearching) {
+                   // System.out.println(unfinishedPaths.size() + "," + currentPath.open.size());
+
+                    if (currentPath.open.size() == 1){
+                        Tile currentTile = currentPath.open.get(0);
+                        for (int i = 0; i < tiles.size(); i++) {
+                            if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentPath.closed.contains(tiles.get(i))) {
+
+                                currentPath.open.add(tiles.get(i));
                             }
-
-                            if(rCountMax < tiles.get(i).cost ) {
-                                rCountMax = tiles.get(i).cost;
-                            }
-
                         }
+                        currentPath.closed.add(currentTile);
+                        currentPath.open.remove(currentTile);
                     }
-                    openTiles.remove(currentTile);
+
+                    if (currentPath.open.size() > 1){
+                        for (int i = 1; i < currentPath.open.size(); i++){
+                            Path secondary = new Path();
+                            secondary.open.add(currentPath.open.get(i));
+                            secondary.closed.addAll(currentPath.closed);
+                            unfinishedPaths.add(secondary);
+                        }
+                        Tile x = currentPath.open.get(0);
+                        currentPath.open.clear();
+                        currentPath.open.add(x);
+                    }
+
+
+                    if (currentPath.open.size() == 0){
+                        if (rCountMax < currentPath.closed.size()){
+                            rCountMax = currentPath.closed.size();
+                           /* String x = "";
+                            for ( int i = 0; i < currentPath.closed.size(); i ++){
+                                x += currentPath.closed.get(i).spot.row +""+ currentPath.closed.get(i).spot.col+",";
+                            }
+                            System.out.println(x);*/
+                        }
+                        unfinishedPaths.remove(currentPath);
+                        if (unfinishedPaths.size() > 0 ){
+                            currentPath = unfinishedPaths.get(0);
+                        }
+                        else {isSearching = false;}
+                    }
                 }
             }
         }
 
 
-        return getBasicScore(boardString) + rCountMax +hCountMax ;
+
+
+        System.out.println(rCountMax);
+        System.out.println(hCountMax);
+
+        return getBasicScore(boardString) + rCountMax + hCountMax ;
     }
+
+ /*   public static void main(String[] args) {
+        String x = "A2A30A0A43A3A50B2B50A4C50A3D50A2B43B0G12B0A14A2B33A0B11A4E50A3D61A2B21A3G52B1G45A3F52B2F41A3F33A1E40A1D40A3E32A3E27B0F10S0E12B1D17A4D01A1B61A0C43";
+        String y = "A3D61A3D53B0C52A0B52A2B63A4D41B0E60A0F61A3D31A3D23A2G30B0F34A3E32A1B01B2B10A1B21A0A63A4D01A1G41B0G12S2D10A4C10B2A10A2B33A1A30S4E11A4E21A3C21A3C31S5F11";
+        getAdvancedScore(y);
+    }*/
 
 
 }

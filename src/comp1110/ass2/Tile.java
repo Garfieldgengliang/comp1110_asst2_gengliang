@@ -12,8 +12,6 @@ public class Tile {
     char up;
     char down;
     char centre;
-    int cost;
-    List<Tile> closedTiles = new ArrayList<>();
 
 
     public  Tile (String placementString){
