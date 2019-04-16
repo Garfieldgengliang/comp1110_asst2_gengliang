@@ -96,7 +96,7 @@ public class Tile {
     }
 
 
-   /*
+
     public char tileConnect(Tile other){
         if(this.up == 'h' && other.down == 'h' && (int) other.spot.row - (int) this.spot.row == -1 ||
                 this.down == 'h' && other.up == 'h' && (int) other.spot.row - (int) this.spot.row == 1||
@@ -122,7 +122,7 @@ public class Tile {
         //for different exits, we check different side of tile, for example
         // if the exit is B0 then we check if testtile.left == 'r'
         return false;
-    } */
+    }
 
     public boolean isCenter(){
         boolean result = spot.isCenter();
