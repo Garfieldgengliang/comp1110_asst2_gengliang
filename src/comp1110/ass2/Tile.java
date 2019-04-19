@@ -1,4 +1,5 @@
 package comp1110.ass2;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,9 @@ public class Tile {
     char centre;
 
 
-    public  Tile (String placementString){
-        this.piece = Piece.valueOf(placementString.substring(0,2));
-        this.spot = new Spot(placementString.substring(2,4));
+    public Tile(String placementString) {
+        this.piece = Piece.valueOf(placementString.substring(0, 2));
+        this.spot = new Spot(placementString.substring(2, 4));
         this.orientation = placementString.charAt(4);
 
         char oricenter = this.piece.center;
@@ -25,7 +26,7 @@ public class Tile {
         char orileft = this.piece.left;
         char oriright = this.piece.right;
 
-        if(this.orientation == '0'){
+        if (this.orientation == '0') {
             this.up = oriup;
             this.down = oridown;
             this.left = orileft;
@@ -84,8 +85,7 @@ public class Tile {
             this.left = oriup;
             this.right = oridown;
             this.centre = oricenter;
-        }
-        else{
+        } else {
 
         }
         // this construction takes a tilePlacementString and split this string into three parts,
@@ -94,27 +94,22 @@ public class Tile {
     }
 
 
-
-    public char tileConnect(Tile other){
-        if(this.up == 'h' && other.down == 'h' && (int) other.spot.row - (int) this.spot.row == -1 ||
-                this.down == 'h' && other.up == 'h' && (int) other.spot.row - (int) this.spot.row == 1||
-                this.left == 'h' && other.right == 'h'&& (int) other.spot.col - (int) this.spot.col == -1||
-                this.right == 'h' && other.left == 'h' && (int) other.spot.col - (int) this.spot.col == 1 ){
+    public char tileConnect(Tile other) {
+        if (this.up == 'h' && other.down == 'h' && (int) other.spot.row - (int) this.spot.row == -1 ||
+                this.down == 'h' && other.up == 'h' && (int) other.spot.row - (int) this.spot.row == 1 ||
+                this.left == 'h' && other.right == 'h' && (int) other.spot.col - (int) this.spot.col == -1 ||
+                this.right == 'h' && other.left == 'h' && (int) other.spot.col - (int) this.spot.col == 1) {
             return 'h';
-        }
-        else if(this.up == 'r' && other.down == 'r' && (int) other.spot.row - (int) this.spot.row == -1 ||
-                this.down == 'r' && other.up == 'r' && (int) other.spot.row - (int) this.spot.row == 1||
-                this.left == 'r' && other.right == 'r'&& (int) other.spot.col - (int) this.spot.col == -1||
-                this.right == 'r' && other.left == 'r' && (int) other.spot.col - (int) this.spot.col == 1 ){
+        } else if (this.up == 'r' && other.down == 'r' && (int) other.spot.row - (int) this.spot.row == -1 ||
+                this.down == 'r' && other.up == 'r' && (int) other.spot.row - (int) this.spot.row == 1 ||
+                this.left == 'r' && other.right == 'r' && (int) other.spot.col - (int) this.spot.col == -1 ||
+                this.right == 'r' && other.left == 'r' && (int) other.spot.col - (int) this.spot.col == 1) {
             return 'r';
-        }
-        else return 'b';
+        } else return 'b';
     }
 
 
-
-
-    public boolean isValidExit(){
+    public boolean isValidExit() {
         //first we need to check if the spot is neighboring the exit by using spot.isExit()
         // if the answer is true, then we need to check if the connection between tile and exit is valid
         //for different exits, we check different side of tile, for example
@@ -122,11 +117,84 @@ public class Tile {
         return false;
     }
 
-    public boolean isCenter(){
+    public boolean isCenter() {
         boolean result = spot.isCenter();
         return result;
         // when we use this method, just write testTile.isCenter()
     }
 
+    //Generate neighbouring valid spot list which contains 4 elements (upSpot, rightSpot, downSpot, and leftSpot) at most.
+    public ArrayList<Spot> neighbouringValidSpot() {
+        ArrayList<Spot> neighbouringValidSpot = new ArrayList<>();
 
+        //check upside
+        if (this.piece.upside == 'h') {
+            if (this.spot.row != 'A') {
+                String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
+                Spot upSpot = new Spot(upSpotString, 'b', 'b', 'h', 'b');
+                neighbouringValidSpot.add(upSpot);
+            }
+        }
+        if (this.piece.upside == 'r') {
+            if (this.spot.row != 'A') {
+                String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
+                Spot upSpot = new Spot(upSpotString, 'b', 'b', 'r', 'b');
+                neighbouringValidSpot.add(upSpot);
+            }
+        }
+
+        //check right
+        if (this.piece.right == 'h') {
+            if (this.spot.col != '6') {
+                String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
+                Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'h');
+                neighbouringValidSpot.add(rightSpot);
+            }
+        }
+        if (this.piece.right == 'r') {
+            if (this.spot.col != '6') {
+                String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
+                Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'r');
+                neighbouringValidSpot.add(rightSpot);
+            }
+        }
+
+        //check downside
+        if (this.piece.downside == 'h') {
+            if (this.spot.row != 'G') {
+                String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
+                Spot downSpot = new Spot(downSpotString, 'h', 'b', 'b', 'b');
+                neighbouringValidSpot.add(downSpot);
+            }
+        }
+        if (this.piece.downside == 'r') {
+            if (this.spot.row != 'G') {
+                String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
+                Spot downSpot = new Spot(downSpotString, 'r', 'b', 'b', 'b');
+                neighbouringValidSpot.add(downSpot);
+            }
+        }
+
+        //check left
+        if (this.piece.left == 'h') {
+            if (this.spot.col != '0') {
+                String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
+                Spot leftSpot = new Spot(leftSpotString, 'b', 'h', 'b', 'b');
+                neighbouringValidSpot.add(leftSpot);
+            }
+        }
+        if (this.piece.left == 'r') {
+            if (this.spot.col != '0') {
+                String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
+                Spot leftSpot = new Spot(leftSpotString, 'b', 'r', 'b', 'b');
+                neighbouringValidSpot.add(leftSpot);
+            }
+        }
+        return neighbouringValidSpot;
+    }
+
+    @Override
+    public String toString(){
+        return this.piece.toString() + this.spot.toString() + this.orientation;
+    }
 }
