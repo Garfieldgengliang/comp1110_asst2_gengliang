@@ -73,85 +73,85 @@ public class Viewer extends Application {
             for (int col = 0 ; col < 7; col++){
                 if (row == 0) {
                     if (col == 1 || col == 5){
-                        ImageView Hexit = new ImageView(HE);
-                        Hexit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
-                        Hexit.setY(BOARD_Y_OFFSET);
-                        Hexit.setFitWidth(TILE_LENGTH);
-                        Hexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Hexit);
+                        ImageView hExit = new ImageView(HE);
+                        hExit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
+                        hExit.setY(BOARD_Y_OFFSET);
+                        hExit.setFitWidth(TILE_LENGTH);
+                        hExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(hExit);
                     }
                     if (col == 3){
-                        ImageView Rexit = new ImageView(RE);
-                        Rexit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
-                        Rexit.setY(BOARD_Y_OFFSET);
-                        Rexit.setFitWidth(TILE_LENGTH);
-                        Rexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Rexit);
+                        ImageView rExit = new ImageView(RE);
+                        rExit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
+                        rExit.setY(BOARD_Y_OFFSET);
+                        rExit.setFitWidth(TILE_LENGTH);
+                        rExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(rExit);
                     }
 
                 }
 
                 if (row == 6) {
                     if (col == 1 || col == 5){
-                        ImageView Hexit = new ImageView(HE);
-                        Hexit.setRotate(Hexit.getRotate() + 180);
-                        Hexit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
-                        Hexit.setY(BOARD_Y_OFFSET+ 8*TILE_LENGTH);
-                        Hexit.setFitWidth(TILE_LENGTH);
-                        Hexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Hexit);
+                        ImageView hExit = new ImageView(HE);
+                        hExit.setRotate(hExit.getRotate() + 180);
+                        hExit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
+                        hExit.setY(BOARD_Y_OFFSET+ 8*TILE_LENGTH);
+                        hExit.setFitWidth(TILE_LENGTH);
+                        hExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(hExit);
                     }
                     if (col == 3){
-                        ImageView Rexit = new ImageView(RE);
-                        Rexit.setRotate(Rexit.getRotate() + 180);
-                        Rexit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
-                        Rexit.setY(BOARD_Y_OFFSET + 8*TILE_LENGTH);
-                        Rexit.setFitWidth(TILE_LENGTH);
-                        Rexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Rexit);
+                        ImageView rExit = new ImageView(RE);
+                        rExit.setRotate(rExit.getRotate() + 180);
+                        rExit.setX(BOARD_X_OFFSET+TILE_LENGTH*(col+1));
+                        rExit.setY(BOARD_Y_OFFSET + 8*TILE_LENGTH);
+                        rExit.setFitWidth(TILE_LENGTH);
+                        rExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(rExit);
                     }
 
                 }
 
                 if (col == 0){
                     if (row == 1 ||row == 5){
-                        ImageView Rexit = new ImageView(RE);
-                        Rexit.setRotate(Rexit.getRotate() + 270);
-                        Rexit.setX(BOARD_X_OFFSET);
-                        Rexit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
-                        Rexit.setFitWidth(TILE_LENGTH);
-                        Rexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Rexit);
+                        ImageView rExit = new ImageView(RE);
+                        rExit.setRotate(rExit.getRotate() + 270);
+                        rExit.setX(BOARD_X_OFFSET);
+                        rExit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
+                        rExit.setFitWidth(TILE_LENGTH);
+                        rExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(rExit);
                     }
                     if (row == 3){
-                        ImageView Hexit = new ImageView(HE);
-                        Hexit.setRotate(Hexit.getRotate() + 270);
-                        Hexit.setX(BOARD_X_OFFSET);
-                        Hexit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
-                        Hexit.setFitWidth(TILE_LENGTH);
-                        Hexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Hexit);
+                        ImageView hExit = new ImageView(HE);
+                        hExit.setRotate(hExit.getRotate() + 270);
+                        hExit.setX(BOARD_X_OFFSET);
+                        hExit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
+                        hExit.setFitWidth(TILE_LENGTH);
+                        hExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(hExit);
                     }
                 }
 
                 if (col == 6){
                     if (row == 1 ||row == 5){
-                        ImageView Rexit = new ImageView(RE);
-                        Rexit.setRotate(Rexit.getRotate() + 90);
-                        Rexit.setX(BOARD_X_OFFSET+TILE_LENGTH*8);
-                        Rexit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
-                        Rexit.setFitWidth(TILE_LENGTH);
-                        Rexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Rexit);
+                        ImageView rExit = new ImageView(RE);
+                        rExit.setRotate(rExit.getRotate() + 90);
+                        rExit.setX(BOARD_X_OFFSET+TILE_LENGTH*8);
+                        rExit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
+                        rExit.setFitWidth(TILE_LENGTH);
+                        rExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(rExit);
                     }
                     if (row == 3){
-                        ImageView Hexit = new ImageView(HE);
-                        Hexit.setRotate(Hexit.getRotate() + 90);
-                        Hexit.setX(BOARD_X_OFFSET+TILE_LENGTH*8);
-                        Hexit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
-                        Hexit.setFitWidth(TILE_LENGTH);
-                        Hexit.setFitHeight(TILE_LENGTH);
-                        board.getChildren().add(Hexit);
+                        ImageView hExit = new ImageView(HE);
+                        hExit.setRotate(hExit.getRotate() + 90);
+                        hExit.setX(BOARD_X_OFFSET+TILE_LENGTH*8);
+                        hExit.setY(BOARD_Y_OFFSET+TILE_LENGTH*(row+1));
+                        hExit.setFitWidth(TILE_LENGTH);
+                        hExit.setFitHeight(TILE_LENGTH);
+                        board.getChildren().add(hExit);
                     }
                 }
             }
