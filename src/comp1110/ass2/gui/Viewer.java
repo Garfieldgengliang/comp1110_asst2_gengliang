@@ -51,7 +51,7 @@ public class Viewer extends Application {
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
 
 
-    private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH);
+    private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
 
     RailroadInk logic;
 
@@ -260,7 +260,7 @@ public class Viewer extends Application {
         HBox roll = new HBox();
         roll.getChildren().add(rollButton);
         roll.setSpacing(10);
-        roll.setLayoutX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/2);
+        roll.setLayoutX(ROLL_POS_OFFSET);
         roll.setLayoutY(20);
         controls.getChildren().add(roll);
 
@@ -277,23 +277,24 @@ public class Viewer extends Application {
         ImageView tempTile2 = new ImageView(piece2);
         ImageView tempTile3 = new ImageView(piece3);
         ImageView tempTile4 = new ImageView(piece4);
-        tempTile1.setX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3);
-        tempTile1.setY(50);
+
+        tempTile1.setX(ROLL_POS_OFFSET );
+        tempTile1.setY(BOARD_Y_OFFSET + 50);
         tempTile1.setFitWidth(TILE_LENGTH);
         tempTile1.setFitHeight(TILE_LENGTH);
 
-        tempTile2.setX((ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3)*2);
-        tempTile2.setY(50);
+        tempTile2.setX(ROLL_POS_OFFSET +TILE_LENGTH +40);
+        tempTile2.setY(BOARD_Y_OFFSET + 50);
         tempTile2.setFitWidth(TILE_LENGTH);
         tempTile2.setFitHeight(TILE_LENGTH);
 
-        tempTile3.setX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3);
-        tempTile3.setY(TILE_LENGTH + 70);
+        tempTile3.setX(ROLL_POS_OFFSET );
+        tempTile3.setY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
         tempTile3.setFitWidth(TILE_LENGTH);
         tempTile3.setFitHeight(TILE_LENGTH);
 
-        tempTile4.setX((ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3)*2);
-        tempTile4.setY(TILE_LENGTH + 70);
+        tempTile4.setX(ROLL_POS_OFFSET +TILE_LENGTH +40);
+        tempTile4.setY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
         tempTile4.setFitWidth(TILE_LENGTH);
         tempTile4.setFitHeight(TILE_LENGTH);
 
@@ -311,6 +312,7 @@ public class Viewer extends Application {
         root.getChildren().add(controls);
         root.getChildren().add(board);
         root.getChildren().add(tiles);
+        root.getChildren().add(tempTiles);
 
         makeControls();
         makeBoard();
