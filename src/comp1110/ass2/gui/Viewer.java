@@ -1,5 +1,7 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.RailroadInk;
+import gittest.B;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
@@ -35,17 +37,23 @@ public class Viewer extends Application {
 
     private final Group board = new Group();
     private final Group tiles = new Group();
+    private final Group tempTiles = new Group();
 
 
     private int TILE_LENGTH = 70; //Defining each Tile length
     private int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
     private int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
-    private int BOARD_X_OFFSET = (VIEWER_WIDTH - BOARD_WIDTH)/2; //Setting offset for the board
+    private int BOARD_X_OFFSET = 20; //Setting offset for the board
     private int BOARD_Y_OFFSET = 20;
     private static final Paint SUBBOARD_FILL = Color.DARKGREY;
     private static final Paint SUBBOARD_TILE = Color.GREY;
     public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
+
+
+    private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH);
+
+    RailroadInk logic;
 
 
     private void makeBoard(){
@@ -167,8 +175,6 @@ public class Viewer extends Application {
 
 
 
-
-
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
         tiles.getChildren().clear(); //clear board before placing
@@ -246,6 +252,57 @@ public class Viewer extends Application {
     }
 
 
+    private void generateRoll() {
+        Button rollButton = new Button("Roll Dices!");
+        rollButton.setOnAction(e -> {rollPlacementHolder();
+        });
+
+        HBox roll = new HBox();
+        roll.getChildren().add(rollButton);
+        roll.setSpacing(10);
+        roll.setLayoutX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/2);
+        roll.setLayoutY(20);
+        controls.getChildren().add(roll);
+
+    }
+
+    private void rollPlacementHolder() {
+        tempTiles.getChildren().clear();
+        String rolled = logic.generateDiceRoll();
+        Image piece1 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(0,2) +".png").toString());
+        Image piece2 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(2,4) +".png").toString());
+        Image piece3 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(4,6) +".png").toString());
+        Image piece4 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(6,8) +".png").toString());
+        ImageView tempTile1 = new ImageView(piece1);
+        ImageView tempTile2 = new ImageView(piece2);
+        ImageView tempTile3 = new ImageView(piece3);
+        ImageView tempTile4 = new ImageView(piece4);
+        tempTile1.setX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3);
+        tempTile1.setY(50);
+        tempTile1.setFitWidth(TILE_LENGTH);
+        tempTile1.setFitHeight(TILE_LENGTH);
+
+        tempTile2.setX((ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3)*2);
+        tempTile2.setY(50);
+        tempTile2.setFitWidth(TILE_LENGTH);
+        tempTile2.setFitHeight(TILE_LENGTH);
+
+        tempTile3.setX(ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3);
+        tempTile3.setY(TILE_LENGTH + 70);
+        tempTile3.setFitWidth(TILE_LENGTH);
+        tempTile3.setFitHeight(TILE_LENGTH);
+
+        tempTile4.setX((ROLL_POS_OFFSET + (VIEWER_WIDTH - ROLL_POS_OFFSET)/3)*2);
+        tempTile4.setY(TILE_LENGTH + 70);
+        tempTile4.setFitWidth(TILE_LENGTH);
+        tempTile4.setFitHeight(TILE_LENGTH);
+
+        tempTiles.getChildren().add(tempTile1);
+        tempTiles.getChildren().add(tempTile2);
+        tempTiles.getChildren().add(tempTile3);
+        tempTiles.getChildren().add(tempTile4);
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -257,6 +314,7 @@ public class Viewer extends Application {
 
         makeControls();
         makeBoard();
+        generateRoll();
 
 
         primaryStage.setScene(scene);
