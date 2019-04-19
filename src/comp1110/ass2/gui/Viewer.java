@@ -254,8 +254,7 @@ public class Viewer extends Application {
 
     private void generateRoll() {
         Button rollButton = new Button("Roll Dices!");
-        rollButton.setOnAction(e -> {rollPlacementHolder();
-        });
+        rollButton.setOnAction(e -> rollPlacementHolder());
 
         HBox roll = new HBox();
         roll.getChildren().add(rollButton);
