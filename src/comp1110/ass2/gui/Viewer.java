@@ -4,6 +4,7 @@ import comp1110.ass2.RailroadInk;
 import gittest.B;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
+//import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -252,16 +253,84 @@ public class Viewer extends Application {
     }
 
 
-    private void generateRoll() {
-        Button rollButton = new Button("Roll Dices!");
-        rollButton.setOnAction(e -> rollPlacementHolder());
 
-        HBox roll = new HBox();
-        roll.getChildren().add(rollButton);
-        roll.setSpacing(10);
-        roll.setLayoutX(ROLL_POS_OFFSET);
-        roll.setLayoutY(20);
-        controls.getChildren().add(roll);
+    class DraggableTiles extends ImageView{
+        int homeX, homeY;
+        double mouseX, mouseY;
+
+        DraggableTiles(ImageView currentTile, int tileNumber) {
+            if (tileNumber == 1) {
+                this.homeX = ROLL_POS_OFFSET;
+                this.homeY = BOARD_Y_OFFSET + 50;
+            } else if (tileNumber == 2) {
+                this.homeX = ROLL_POS_OFFSET + TILE_LENGTH + 40;
+                this.homeY = BOARD_Y_OFFSET + 50;
+            } else if (tileNumber == 3) {
+                this.homeX = ROLL_POS_OFFSET;
+                this.homeY = BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40;
+            } else if (tileNumber == 4) {
+                this.homeX = ROLL_POS_OFFSET + TILE_LENGTH + 40;
+                this.homeY = BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40;
+            }
+            currentTile.setFitHeight(TILE_LENGTH);
+            currentTile.setFitWidth(TILE_LENGTH);
+
+            currentTile.setX(homeX);
+            currentTile.setY(homeY);
+
+            tempTiles.getChildren().add(currentTile);
+        }
+
+        public void tileDragging(){
+
+            setOnMousePressed(event -> {
+                mouseX = event.getSceneX();
+                mouseY = event.getSceneY();
+            });
+
+            setOnMouseDragged(event -> {
+
+                double movementX = event.getSceneX() - mouseX;
+                double movementY = event.getSceneY() - mouseY;
+                setLayoutX(getLayoutX() + movementX);
+                setLayoutY(getLayoutY() + movementY);
+                mouseX = event.getSceneX();
+                mouseY = event.getSceneY();
+                event.consume();
+
+            });
+
+            setOnMouseReleased(event -> {
+                snapToGrid();
+            });
+        }
+
+
+
+        private void snapToGrid(){
+            if(onBoard()){
+                int xPosition = (int) Math.round((getLayoutX() - BOARD_X_OFFSET)/TILE_LENGTH );
+                int yPosition = (int) Math.round((getLayoutY() - BOARD_Y_OFFSET)/TILE_LENGTH );
+                setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
+                setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
+
+            }
+            else{
+                snapToHome();
+            }
+
+        }
+
+        private boolean onBoard() {
+            return getLayoutX() > (BOARD_X_OFFSET+TILE_LENGTH) && (getLayoutX() < (BOARD_X_OFFSET+BOARD_WIDTH-TILE_LENGTH))
+                    && getLayoutY() > (BOARD_Y_OFFSET+TILE_LENGTH) && (getLayoutY() < (BOARD_Y_OFFSET+BOARD_HEIGHT-TILE_LENGTH));
+        }
+
+        private void snapToHome() {
+            setLayoutX(homeX);
+            setLayoutY(homeY);
+
+        }
 
     }
 
@@ -277,31 +346,39 @@ public class Viewer extends Application {
         ImageView tempTile3 = new ImageView(piece3);
         ImageView tempTile4 = new ImageView(piece4);
 
-        tempTile1.setX(ROLL_POS_OFFSET );
-        tempTile1.setY(BOARD_Y_OFFSET + 50);
-        tempTile1.setFitWidth(TILE_LENGTH);
-        tempTile1.setFitHeight(TILE_LENGTH);
+        DraggableTiles firstTile = new DraggableTiles(tempTile1, 1);
+        DraggableTiles secondTile = new DraggableTiles(tempTile2, 2);
+        DraggableTiles thirdTile = new DraggableTiles(tempTile3, 3);
+        DraggableTiles forthTile = new DraggableTiles(tempTile4, 4);
 
-        tempTile2.setX(ROLL_POS_OFFSET +TILE_LENGTH +40);
-        tempTile2.setY(BOARD_Y_OFFSET + 50);
-        tempTile2.setFitWidth(TILE_LENGTH);
-        tempTile2.setFitHeight(TILE_LENGTH);
+        firstTile.tileDragging();
+        secondTile.tileDragging();
+        thirdTile.tileDragging();
+        forthTile.tileDragging();
 
-        tempTile3.setX(ROLL_POS_OFFSET );
-        tempTile3.setY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
-        tempTile3.setFitWidth(TILE_LENGTH);
-        tempTile3.setFitHeight(TILE_LENGTH);
+        /*
+        tempTiles.getChildren().add(firstTile);
+        tempTiles.getChildren().add(secondTile);
+        tempTiles.getChildren().add(thirdTile);
+        tempTiles.getChildren().add(forthTile);  */
 
-        tempTile4.setX(ROLL_POS_OFFSET +TILE_LENGTH +40);
-        tempTile4.setY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
-        tempTile4.setFitWidth(TILE_LENGTH);
-        tempTile4.setFitHeight(TILE_LENGTH);
 
-        tempTiles.getChildren().add(tempTile1);
-        tempTiles.getChildren().add(tempTile2);
-        tempTiles.getChildren().add(tempTile3);
-        tempTiles.getChildren().add(tempTile4);
     }
+
+    private void generateRoll() {
+        Button rollButton = new Button("Roll Dices!");
+        rollButton.setOnAction(e -> rollPlacementHolder());
+
+        HBox roll = new HBox();
+        roll.getChildren().add(rollButton);
+        //roll.setSpacing(10); // this is to set the space between two buttons/nodes
+        roll.setLayoutX(ROLL_POS_OFFSET);
+        roll.setLayoutY(20);
+        controls.getChildren().add(roll);
+
+    }
+
+
 
 
     @Override
