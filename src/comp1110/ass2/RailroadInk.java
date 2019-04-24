@@ -166,87 +166,87 @@ public class RailroadInk {
         Tile teststring = new Tile(tilePlacementString);
 
         if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'r'){
-                return true;
-            }else{
+            if(teststring.left == 'h'){
                 return false;
+            }else{
+                return true;
             }
         }
          if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-             if(teststring.left == 'h'){
-                 return true;
-             }else{
+             if(teststring.left == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-             if(teststring.left == 'r'){
-                 return true;
-             }else{
+             if(teststring.left == 'h'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-             if(teststring.up == 'h'){
-                 return true;
-             }else{
+             if(teststring.up == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-             if(teststring.up == 'r'){
-                 return true;
-             }else{
+             if(teststring.up == 'h'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-             if(teststring.up == 'h'){
-                 return true;
-             }else{
+             if(teststring.up == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-             if(teststring.right == 'r'){
-                 return true;
-             }else{
+             if(teststring.right == 'h'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-             if(teststring.right == 'h'){
-                 return true;
-             }else{
+             if(teststring.right == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-             if(teststring.right == 'r'){
-                 return true;
-             }else{
+             if(teststring.right == 'h'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-             if(teststring.down == 'h'){
-                 return true;
-             }else{
+             if(teststring.down == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-             if(teststring.down == 'r'){
-                 return true;
-             }else{
+             if(teststring.down == 'h'){
                  return false;
+             }else{
+                 return true;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-             if(teststring.down == 'h'){
-                 return true;
-             }else{
+             if(teststring.down == 'r'){
                  return false;
+             }else{
+                 return true;
              }
          }
          else{
