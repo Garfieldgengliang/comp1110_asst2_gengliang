@@ -23,7 +23,6 @@ public enum Piece {
     public char left;
     public char right;
     public char center;
-    String piece;
 
     Piece(char upside, char downside, char left, char right, char center) {
         this.center = center;
@@ -31,14 +30,6 @@ public enum Piece {
         this.downside = downside;
         this.left = left;
         this.right = right;
-    }
-
-    Piece(String piece){
-        this.piece = piece;
-    }
-
-    public boolean isPiece(String piece){
-        return piece==this.piece;
     }
 
 
