@@ -1,10 +1,10 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Piece;
 import comp1110.ass2.RailroadInk;
-import gittest.B;
+import comp1110.ass2.Tile;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
-//import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,17 +32,18 @@ public class Viewer extends Application {
     private static final int VIEWER_WIDTH = 1024;
     private static final int VIEWER_HEIGHT = 768;
 
+    /* Image locations */
     private static final String URI_BASE = "assets/";
 
+    /*Node Groups*/
+    TextField textField;
     private final Group root = new Group();
     private final Group controls = new Group();
-    TextField textField;
-
     private final Group board = new Group();
     private final Group tiles = new Group();
     private final Group tempTiles = new Group();
 
-
+    /*Definitions of Board/Tiles etc... */
     private int TILE_LENGTH = 70; //Defining each Tile length
     private int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
     private int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
@@ -50,13 +53,13 @@ public class Viewer extends Application {
     private static final Paint SUBBOARD_TILE = Color.GREY;
     public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
-
-
     private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
 
+    /* Logic of the Game */
     RailroadInk logic;
 
 
+    /* The Board */
     private void makeBoard(){
         Rectangle background = new Rectangle(BOARD_WIDTH,BOARD_HEIGHT);
         background.setFill(SUBBOARD_FILL);
@@ -174,8 +177,7 @@ public class Viewer extends Application {
      * @param placement A valid placement string
      */
 
-
-
+    /*Placed Tiles on the board*/
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
         tiles.getChildren().clear(); //clear board before placing
@@ -253,35 +255,36 @@ public class Viewer extends Application {
     }
 
 
+    class TempTiles extends ImageView{
+        TempTiles(String piece, int pos){
+            setImage(new Image(Viewer.class.getResource(URI_BASE + piece +".png").toString()));
+            if (pos == 1) {
+                setLayoutX(ROLL_POS_OFFSET);
+                setLayoutY(BOARD_Y_OFFSET + 50);
+            } else if (pos== 2) {
+                setLayoutX(ROLL_POS_OFFSET + TILE_LENGTH + 40);
+                setLayoutY(BOARD_Y_OFFSET + 50);
+            } else if (pos == 3) {
+                setLayoutX(ROLL_POS_OFFSET);
+                setLayoutY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
+            } else if (pos== 4) {
+                setLayoutX(ROLL_POS_OFFSET + TILE_LENGTH + 40);
+                setLayoutY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
+            }
+            setFitWidth(TILE_LENGTH);
+            setFitHeight(TILE_LENGTH);
+        }
+    }
 
-    class DraggableTiles extends ImageView{
-        int homeX, homeY;
+
+    class DraggableTiles extends TempTiles{
+        double homeX, homeY;
         double mouseX, mouseY;
 
-        DraggableTiles(ImageView currentTile, int tileNumber) {
-            if (tileNumber == 1) {
-                this.homeX = ROLL_POS_OFFSET;
-                this.homeY = BOARD_Y_OFFSET + 50;
-            } else if (tileNumber == 2) {
-                this.homeX = ROLL_POS_OFFSET + TILE_LENGTH + 40;
-                this.homeY = BOARD_Y_OFFSET + 50;
-            } else if (tileNumber == 3) {
-                this.homeX = ROLL_POS_OFFSET;
-                this.homeY = BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40;
-            } else if (tileNumber == 4) {
-                this.homeX = ROLL_POS_OFFSET + TILE_LENGTH + 40;
-                this.homeY = BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40;
-            }
-            currentTile.setFitHeight(TILE_LENGTH);
-            currentTile.setFitWidth(TILE_LENGTH);
-
-            currentTile.setX(homeX);
-            currentTile.setY(homeY);
-
-            tempTiles.getChildren().add(currentTile);
-        }
-
-        public void tileDragging(){
+        DraggableTiles(String piece, int pos) {
+            super(piece, pos);
+            homeX = getLayoutX();
+            homeY = getLayoutY();
 
             setOnMousePressed(event -> {
                 mouseX = event.getSceneX();
@@ -334,36 +337,15 @@ public class Viewer extends Application {
 
     }
 
-    private void rollPlacementHolder() {
-        tempTiles.getChildren().clear();
-        String rolled = logic.generateDiceRoll();
-        Image piece1 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(0,2) +".png").toString());
-        Image piece2 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(2,4) +".png").toString());
-        Image piece3 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(4,6) +".png").toString());
-        Image piece4 = new Image(Viewer.class.getResource(URI_BASE + rolled.substring(6,8) +".png").toString());
-        ImageView tempTile1 = new ImageView(piece1);
-        ImageView tempTile2 = new ImageView(piece2);
-        ImageView tempTile3 = new ImageView(piece3);
-        ImageView tempTile4 = new ImageView(piece4);
-
-        DraggableTiles firstTile = new DraggableTiles(tempTile1, 1);
-        DraggableTiles secondTile = new DraggableTiles(tempTile2, 2);
-        DraggableTiles thirdTile = new DraggableTiles(tempTile3, 3);
-        DraggableTiles forthTile = new DraggableTiles(tempTile4, 4);
-
-        firstTile.tileDragging();
-        secondTile.tileDragging();
-        thirdTile.tileDragging();
-        forthTile.tileDragging();
-
-        /*
-        tempTiles.getChildren().add(firstTile);
-        tempTiles.getChildren().add(secondTile);
-        tempTiles.getChildren().add(thirdTile);
-        tempTiles.getChildren().add(forthTile);  */
-
-
+    private void rollPlacementHolder(){
+        String pieces = logic.generateDiceRoll();
+        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(0,2), 1));
+        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(2,4), 2));
+        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
+        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
     }
+
+
 
     private void generateRoll() {
         Button rollButton = new Button("Roll Dices!");
