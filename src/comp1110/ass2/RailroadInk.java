@@ -157,6 +157,7 @@ public class RailroadInk {
         }
 
     }
+    
     public static  boolean isLegalExit(String tilePlacementString){
         // this method is to check whether a tileplacement string is legally connected to an exit
         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
