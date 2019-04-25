@@ -1,9 +1,6 @@
 package comp1110.ass2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class RailroadInk {
     /**
@@ -895,15 +892,589 @@ public class RailroadInk {
     /**
      * Given a valid boardString and a dice roll for the round,
      * return a String representing an ordered sequence of valid piece placements for the round.
+     *
      * @param boardString a board string representing the current state of the game as at the start of the round
-     * @param diceRoll a String representing a dice roll for the round
+     * @param diceRoll    a String representing a dice roll for the round
      * @return a String representing an ordered sequence of valid piece placements for the current round
      * @see RailroadInk#generateDiceRoll()
      */
     public static String generateMove(String boardString, String diceRoll) {
         // FIXME Task 10: generate a valid move
-        return null;
+
+        //get empty neighbouring valid spot for first attempt
+        ArrayList<Spot> firstValidSpot = getEmptyValidSpot(boardString);
+
+        //check whether there is empty valid position in boardString
+        if (firstValidSpot.size() > 0) {
+            //do nothing
+        } else {
+            return "";
+        }
+
+        //split diceRoll into 4 die and put them into diceList
+        ArrayList<String> diceList = new ArrayList<>();
+        for (int i = 0; i < diceRoll.length(); i = i + 2) {
+            diceList.add(diceRoll.substring(i, i + 2));
+        }
+
+        //calculate the numbers of special tile in boardString
+        int currentSpecial = boardString.length() - boardString.replaceAll("S", "").length();
+        int currentUseSpecial = 0;
+
+        //initialize special tile list
+        ArrayList<String> specialList = new ArrayList<>();
+        specialList.add("S0");
+        specialList.add("S1");
+        specialList.add("S2");
+        specialList.add("S3");
+        specialList.add("S4");
+        specialList.add("S5");
+
+        //test firstDie
+        String firstAttempt = "";
+        int firstStep = 0;
+
+        //find the possible position using diceRoll
+        loopFirst:
+        for (int i = 0; i < firstValidSpot.size(); i++) {
+            for (int j = 0; j < diceList.size(); j++) {
+                for (int k = 0; k < 8; k++) {
+                    firstAttempt = boardString + diceList.get(j) + firstValidSpot.get(i).toString() + k;
+                    if (isValidPlacementSequence(firstAttempt)) {
+                        diceList.remove(j);
+                        firstStep = 1;
+                        break loopFirst;
+                    }
+                }
+            }
+        }
+
+        //check whether the first step is successful.
+        // If it fails, test special tile.
+        if (firstStep == 1) {
+            //check whether there is empty valid position in firstAttempt
+            if (getEmptyValidSpot(firstAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return firstAttempt.substring(firstAttempt.length() - 5);
+            }
+        } else if (currentSpecial < 3) {
+            // if special tiles are used less than 3 times, try it
+            loopFirstSpecial:
+            for (int i = 0; i < firstValidSpot.size(); i++) {
+                for (int j = 0; j < specialList.size(); j++) {
+                    for (int k = 0; k < 8; k++) {
+                        firstAttempt = boardString + specialList.get(j) + firstValidSpot.get(i).toString() + k;
+                        if (isValidPlacementSequence(firstAttempt)) {
+                            specialList.remove(j);
+                            firstStep = 1;
+                            currentUseSpecial = 1;
+                            break loopFirstSpecial;
+                        }
+                    }
+                }
+            }
+        } else {
+            return "";
+        }
+
+        //double check whether the first step is successful
+        if (firstStep == 1) {
+            //check whether there is empty valid position in firstAttempt
+            if (getEmptyValidSpot(firstAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return firstAttempt.substring(firstAttempt.length() - 5);
+            }
+        } else {
+            return "";
+        }
+
+        //test the second die
+        String secondAttempt = "";
+        int secondStep = 0;
+        ArrayList<Spot> secondValidSpot = getEmptyValidSpot(firstAttempt);
+
+        //calculate the numbers of special tile in firstAttempt
+        int secondSpecial = firstAttempt.length() - firstAttempt.replaceAll("S", "").length();
+
+        //find the possible position using diceRoll
+        loop:
+        for (int i = 0; i < secondValidSpot.size(); i++) {
+            for (int j = 0; j < diceList.size(); j++) {
+                for (int k = 0; k < 8; k++) {
+                    secondAttempt = firstAttempt + diceList.get(j) + secondValidSpot.get(i).toString() + k;
+                    if (isValidPlacementSequence(secondAttempt)) {
+                        diceList.remove(j);
+                        secondStep = 1;
+                        break loop;
+                    }
+                }
+            }
+        }
+
+        //check whether the second step is successful.
+        // If it fails, test special tile.
+        if (secondStep == 1) {
+            //check whether there is empty valid position in secondAttempt
+            if (getEmptyValidSpot(secondAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return secondAttempt.substring(secondAttempt.length() - 10);
+            }
+        } else if (secondSpecial < 3 && currentUseSpecial == 0) {
+            // if special tiles are used less than 3 times, and never used special tiles this round, try it
+            loop:
+            for (int i = 0; i < secondValidSpot.size(); i++) {
+                for (int j = 0; j < specialList.size(); j++) {
+                    for (int k = 0; k < 8; k++) {
+                        secondAttempt = firstAttempt + specialList.get(j) + secondValidSpot.get(i).toString() + k;
+                        if (isValidPlacementSequence(secondAttempt)) {
+                            specialList.remove(j);
+                            secondStep = 1;
+                            currentUseSpecial = 1;
+                            break loop;
+                        }
+                    }
+                }
+            }
+        } else {
+            return firstAttempt.substring(firstAttempt.length() - 5);
+        }
+
+        //double check whether the second step is successful
+        if (secondStep == 1) {
+            //check whether there is empty valid position in secondAttempt
+            if (getEmptyValidSpot(secondAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return secondAttempt.substring(secondAttempt.length() - 10);
+            }
+        } else {
+            return firstAttempt.substring(firstAttempt.length() - 5);
+        }
+
+        //test the third die
+        String thirdAttempt = "";
+        int thirdStep = 0;
+        ArrayList<Spot> thirdValidSpot = getEmptyValidSpot(secondAttempt);
+
+        //calculate the numbers of special tile in secondAttempt
+        int thirdSpecial = secondAttempt.length() - secondAttempt.replaceAll("S", "").length();
+
+        //find the possible position using diceRoll
+        loop:
+        for (int i = 0; i < thirdValidSpot.size(); i++) {
+            for (int j = 0; j < diceList.size(); j++) {
+                for (int k = 0; k < 8; k++) {
+                    thirdAttempt = secondAttempt + diceList.get(j) + thirdValidSpot.get(i).toString() + k;
+                    if (isValidPlacementSequence(thirdAttempt)) {
+                        diceList.remove(j);
+                        thirdStep = 1;
+                        break loop;
+                    }
+                }
+            }
+        }
+
+        //check whether the third step is successful.
+        // If it fails, test special tile.
+        if (thirdStep == 1) {
+            //check whether there is empty valid position in thirdAttempt
+            if (getEmptyValidSpot(thirdAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return thirdAttempt.substring(thirdAttempt.length() - 15);
+            }
+        } else if (thirdSpecial < 3 && currentUseSpecial == 0) {
+            // if special tiles are used less than 3 times, and never used special tiles this round, try it
+            loop:
+            for (int i = 0; i < thirdValidSpot.size(); i++) {
+                for (int j = 0; j < specialList.size(); j++) {
+                    for (int k = 0; k < 8; k++) {
+                        thirdAttempt = secondAttempt + specialList.get(j) + thirdValidSpot.get(i).toString() + k;
+                        if (isValidPlacementSequence(thirdAttempt)) {
+                            specialList.remove(j);
+                            thirdStep = 1;
+                            currentUseSpecial = 1;
+                            break loop;
+                        }
+                    }
+                }
+            }
+        } else {
+            return secondAttempt.substring(secondAttempt.length() - 10);
+        }
+
+        //double check whether the third step is successful
+        if (thirdStep == 1) {
+            //check whether there is empty valid position in thirdAttempt
+            if (getEmptyValidSpot(thirdAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return thirdAttempt.substring(thirdAttempt.length() - 15);
+            }
+        } else {
+            return secondAttempt.substring(secondAttempt.length() - 10);
+        }
+
+        //test the last die
+        String lastAttempt = "";
+        int lastStep = 0;
+        ArrayList<Spot> lastValidSpot = getEmptyValidSpot(thirdAttempt);
+
+        //calculate the numbers of special tile in thirdAttempt
+        int lastSpecial = thirdAttempt.length() - thirdAttempt.replaceAll("S", "").length();
+
+        //find the possible position using diceRoll
+        loop:
+        for (int i = 0; i < lastValidSpot.size(); i++) {
+            for (int j = 0; j < diceList.size(); j++) {
+                for (int k = 0; k < 8; k++) {
+                    lastAttempt = thirdAttempt + diceList.get(j) + lastValidSpot.get(i).toString() + k;
+                    if (isValidPlacementSequence(lastAttempt)) {
+                        lastStep = 1;
+                        break loop;
+                    }
+                }
+            }
+        }
+
+        //check whether the last step is successful.
+        // If it fails, test special tile.
+        if (lastStep == 1) {
+            return lastAttempt.substring(lastAttempt.length() - 20);
+        } else if (lastSpecial < 3 && currentUseSpecial == 0) {
+            // if special tiles are used less than 3 times, and never used special tiles this round, try it
+            loop:
+            for (int i = 0; i < lastValidSpot.size(); i++) {
+                for (int j = 0; j < specialList.size(); j++) {
+                    for (int k = 0; k < 8; k++) {
+                        lastAttempt = thirdAttempt + specialList.get(j) + lastValidSpot.get(i).toString() + k;
+                        if (isValidPlacementSequence(lastAttempt)) {
+                            lastStep = 1;
+                            currentUseSpecial = 1;
+                            break loop;
+                        }
+                    }
+                }
+            }
+        } else {
+            return thirdAttempt.substring(thirdAttempt.length() - 15);
+        }
+
+        //double check whether the last step is successful
+        if (lastStep == 1) {
+            //check whether there is empty valid position in lastAttempt
+            if (getEmptyValidSpot(lastAttempt).size() > 0) {
+                //do nothing
+            } else {
+                return lastAttempt.substring(lastAttempt.length() - 20);
+            }
+        } else {
+            return thirdAttempt.substring(thirdAttempt.length() - 15);
+        }
+
+        //If a special tile is used this round, there is still one die left
+        //test the left die
+        String leftAttempt = "";
+        int leftStep = 0;
+        ArrayList<Spot> leftValidSpot = getEmptyValidSpot(lastAttempt);
+
+        //find the possible position using diceRoll
+        if (currentSpecial == 1) {
+            loop:
+            for (int i = 0; i < leftValidSpot.size(); i++) {
+                for (int j = 0; j < diceList.size(); j++) {
+                    for (int k = 0; k < 8; k++) {
+                        leftAttempt = lastAttempt + diceList.get(j) + leftValidSpot.get(i).toString() + k;
+                        if (isValidPlacementSequence(leftAttempt)) {
+                            leftStep = 1;
+                            break loop;
+                        }
+                    }
+                }
+            }
+        }
+
+        //check whether the left step is successful
+        if (leftStep == 1) {
+            return leftAttempt.substring(leftAttempt.length() - 25);
+        } else {
+            return lastAttempt.substring(lastAttempt.length() - 20);
+        }
     }
+
+    //get neighbouring empty valid spot list
+    public static ArrayList<Spot> getEmptyValidSpot(String boardString) {
+
+        //Split boardString into position
+        StringBuilder hasCovered = new StringBuilder();
+        ArrayList<Tile> currentTile = new ArrayList<>();
+
+        for (int i = 0; i < boardString.length(); i = i + 5) {
+            hasCovered.append(boardString.substring(i + 2, i + 4));
+            currentTile.add(new Tile(boardString.substring(i, i + 5)));
+        }
+
+        //initialize exit tile
+        ArrayList<Spot> exitSpot = new ArrayList<>();
+        exitSpot.add(new Spot("A1", 'h', 'b', 'b', 'b'));
+        exitSpot.add(new Spot("A3", 'r', 'b', 'b', 'b'));
+        exitSpot.add(new Spot("A5", 'h', 'b', 'b', 'b'));
+
+        exitSpot.add(new Spot("B6", 'b', 'r', 'b', 'b'));
+        exitSpot.add(new Spot("D6", 'b', 'h', 'b', 'b'));
+        exitSpot.add(new Spot("F6", 'b', 'r', 'b', 'b'));
+
+        exitSpot.add(new Spot("G1", 'b', 'b', 'h', 'b'));
+        exitSpot.add(new Spot("G3", 'b', 'b', 'r', 'b'));
+        exitSpot.add(new Spot("G5", 'b', 'b', 'h', 'b'));
+
+        exitSpot.add(new Spot("B0", 'b', 'b', 'b', 'r'));
+        exitSpot.add(new Spot("D0", 'b', 'b', 'b', 'h'));
+        exitSpot.add(new Spot("F0", 'b', 'b', 'b', 'r'));
+
+        //Find every neighbouring valid spot
+        ArrayList<Spot> neighbouringValidSpot = new ArrayList<>();
+        ArrayList<Spot> allNeighbouringValidSpot = new ArrayList<>();
+        for (int j = 0; j < currentTile.size(); j++) {
+            neighbouringValidSpot = currentTile.get(j).neighbouringValidSpot();
+            for (int k = 0; k < neighbouringValidSpot.size(); k++) {
+                allNeighbouringValidSpot.add(neighbouringValidSpot.get(k));
+            }
+        }
+
+        //find exit tile which is not covered
+        ArrayList<Spot> unCoverExit = new ArrayList<>();
+        for (int i = 0; i < exitSpot.size(); i++) {
+            int isCovered = 0;
+            for (int j = 0; j < currentTile.size(); j++) {
+                if (exitSpot.get(i).toString().equals(currentTile.get(j).spot.toString())) {
+                    isCovered = 1;
+                }
+            }
+            if (isCovered == 0) {
+                unCoverExit.add(exitSpot.get(i));
+            }
+        }
+
+        //Find every neighbouring string except hasCovered
+        HashSet<String> neighbouringValidString = new HashSet<>();
+        for (int p = 0; p < allNeighbouringValidSpot.size(); p++) {
+            if (!hasCovered.toString().contains(allNeighbouringValidSpot.get(p).toString())) {
+                neighbouringValidString.add(allNeighbouringValidSpot.get(p).toString());
+            }
+        }
+
+        //Find all empty valid neighbouring spot, merge and update the emptyValidSpot
+        Iterator<String> iterator = neighbouringValidString.iterator();
+        ArrayList<Spot> emptyValidSpot = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            int counter = 0;
+            String tempSpot = iterator.next();
+            for (int q = 0; q < allNeighbouringValidSpot.size(); q++) {
+                if (tempSpot.equals(allNeighbouringValidSpot.get(q).toString())) {
+                    emptyValidSpot.add(allNeighbouringValidSpot.get(q));
+                    counter++;
+                }
+            }
+            if (counter == 1) {
+                //do nothing
+            }
+            if (counter == 2) {
+                //update spot status and remove repetitive elements
+
+                //update upEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge != 'b') {
+                    //do nothing
+                } else {
+                    emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).upEdge;
+                }
+
+                //update rightEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge != 'b') {
+                    //do nothing
+                } else {
+                    emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).rightEdge;
+                }
+
+                //update downEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge != 'b') {
+                    //do nothing
+                } else {
+                    emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).downEdge;
+                }
+
+                //update leftEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge != 'b') {
+                    //do nothing
+                } else {
+                    emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).leftEdge;
+                }
+
+                //remove last one repetitive element
+                emptyValidSpot.remove(emptyValidSpot.size() - 1);
+            }
+            if (counter == 3) {
+                //update spot status and remove repetitive elements
+
+                //update upEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 3).upEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).upEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).upEdge;
+                }
+
+                //update rightEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 3).rightEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).rightEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).rightEdge;
+                }
+
+                //update downEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 3).downEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).downEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).downEdge;
+                }
+
+                //update leftEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 3).leftEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).leftEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 3).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).leftEdge;
+                }
+
+                //remove last two repetitive elements
+                emptyValidSpot.remove(emptyValidSpot.size() - 1);
+                emptyValidSpot.remove(emptyValidSpot.size() - 2);
+            }
+            if (counter == 4) {
+                //update spot status and remove repetitive elements
+
+                //update upEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 4).upEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 3).upEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 3).upEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).upEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).upEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).upEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).upEdge;
+                }
+
+                //update rightEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 4).rightEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 3).rightEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 3).rightEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).rightEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).rightEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).rightEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).rightEdge;
+                }
+
+                //update downEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 4).downEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 3).downEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 3).downEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).downEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).downEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).downEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).downEdge;
+                }
+
+                //update leftEdge
+                if (emptyValidSpot.get(emptyValidSpot.size() - 4).leftEdge != 'b') {
+                    //do nothing
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 3).leftEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 3).leftEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 2).leftEdge;
+                } else if (emptyValidSpot.get(emptyValidSpot.size() - 1).leftEdge != 'b') {
+                    emptyValidSpot.get(emptyValidSpot.size() - 4).leftEdge = emptyValidSpot.get(emptyValidSpot.size() - 1).leftEdge;
+                }
+
+                //remove last three repetitive elements
+                emptyValidSpot.remove(emptyValidSpot.size() - 1);
+                emptyValidSpot.remove(emptyValidSpot.size() - 2);
+                emptyValidSpot.remove(emptyValidSpot.size() - 3);
+            }
+        }
+
+        //update exit tile state
+        //contain
+        for (int i = 0; i < emptyValidSpot.size(); i++) {
+            int isContain = 0;
+            for (int j = 0; j < unCoverExit.size(); j++) {
+                if (emptyValidSpot.get(i).toString().equals(unCoverExit.get(j).toString())) {
+                    isContain = 1;
+                }
+            }
+            if (isContain == 1) {
+                switch (emptyValidSpot.get(i).toString()) {
+                    case "A1":
+                    case "A5":
+                        emptyValidSpot.get(i).upEdge = 'h';
+                        break;
+                    case "A3":
+                        emptyValidSpot.get(i).upEdge = 'r';
+                        break;
+
+                    case "B6":
+                    case "F6":
+                        emptyValidSpot.get(i).rightEdge = 'r';
+                        break;
+                    case "D6":
+                        emptyValidSpot.get(i).rightEdge = 'h';
+                        break;
+
+                    case "G1":
+                    case "G5":
+                        emptyValidSpot.get(i).downEdge = 'h';
+                        break;
+                    case "G3":
+                        emptyValidSpot.get(i).downEdge = 'r';
+                        break;
+
+                    case "B0":
+                    case "F0":
+                        emptyValidSpot.get(i).leftEdge = 'r';
+                        break;
+                    case "D0":
+                        emptyValidSpot.get(i).leftEdge = 'h';
+                        break;
+                }
+            }
+        }
+
+        //not contain
+        for (int i = 0; i < unCoverExit.size(); i++) {
+            int isContain = 0;
+            for (int j = 0; j < emptyValidSpot.size(); j++) {
+                if (unCoverExit.get(i).toString().equals(emptyValidSpot.get(j).toString())) {
+                    isContain = 1;
+                }
+            }
+            if (isContain == 0) {
+                emptyValidSpot.add(unCoverExit.get(i));
+            }
+        }
+        return emptyValidSpot;
+    }
+
 
     /**
      * Given the current state of a game board, output an integer representing the sum of all the factors contributing
