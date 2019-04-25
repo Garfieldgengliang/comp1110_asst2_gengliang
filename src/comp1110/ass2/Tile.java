@@ -128,14 +128,14 @@ public class Tile {
         ArrayList<Spot> neighbouringValidSpot = new ArrayList<>();
 
         //check upside
-        if (this.piece.upside == 'h') {
+        if (this.up == 'h') {
             if (this.spot.row != 'A') {
                 String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
                 Spot upSpot = new Spot(upSpotString, 'b', 'b', 'h', 'b');
                 neighbouringValidSpot.add(upSpot);
             }
         }
-        if (this.piece.upside == 'r') {
+        if (this.up == 'r') {
             if (this.spot.row != 'A') {
                 String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
                 Spot upSpot = new Spot(upSpotString, 'b', 'b', 'r', 'b');
@@ -144,14 +144,14 @@ public class Tile {
         }
 
         //check right
-        if (this.piece.right == 'h') {
+        if (this.right == 'h') {
             if (this.spot.col != '6') {
                 String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
                 Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'h');
                 neighbouringValidSpot.add(rightSpot);
             }
         }
-        if (this.piece.right == 'r') {
+        if (this.right == 'r') {
             if (this.spot.col != '6') {
                 String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
                 Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'r');
@@ -160,14 +160,14 @@ public class Tile {
         }
 
         //check downside
-        if (this.piece.downside == 'h') {
+        if (this.down == 'h') {
             if (this.spot.row != 'G') {
                 String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
                 Spot downSpot = new Spot(downSpotString, 'h', 'b', 'b', 'b');
                 neighbouringValidSpot.add(downSpot);
             }
         }
-        if (this.piece.downside == 'r') {
+        if (this.down == 'r') {
             if (this.spot.row != 'G') {
                 String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
                 Spot downSpot = new Spot(downSpotString, 'r', 'b', 'b', 'b');
@@ -176,14 +176,14 @@ public class Tile {
         }
 
         //check left
-        if (this.piece.left == 'h') {
+        if (this.left == 'h') {
             if (this.spot.col != '0') {
                 String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
                 Spot leftSpot = new Spot(leftSpotString, 'b', 'h', 'b', 'b');
                 neighbouringValidSpot.add(leftSpot);
             }
         }
-        if (this.piece.left == 'r') {
+        if (this.left == 'r') {
             if (this.spot.col != '0') {
                 String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
                 Spot leftSpot = new Spot(leftSpotString, 'b', 'r', 'b', 'b');
