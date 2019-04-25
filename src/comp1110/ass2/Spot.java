@@ -164,29 +164,28 @@ public class Spot {
     }
 
     public boolean isSpotFittedTile(Tile tile){
-        //declare fitted mark
         int upFitted = 0;
         int rightFitted = 0;
         int downFitted = 0;
         int leftFitted = 0;
 
         //check upEdge
-        if (this.upEdge == tile.up || this.upEdge == 'b'){
+        if (this.upEdge == tile.piece.upside || this.upEdge == 'b'){
             upFitted = 1;
         }
 
         //check rightEdge
-        if (this.rightEdge == tile.right || this.rightEdge == 'b'){
+        if (this.rightEdge == tile.piece.right || this.rightEdge == 'b'){
             upFitted = 1;
         }
 
         //check downEdge
-        if (this.downEdge == tile.down || this.downEdge == 'b'){
+        if (this.downEdge == tile.piece.downside || this.downEdge == 'b'){
             upFitted = 1;
         }
 
         //check leftEdge
-        if (this.leftEdge == tile.left || this.leftEdge == 'b'){
+        if (this.leftEdge == tile.piece.left || this.leftEdge == 'b'){
             upFitted = 1;
         }
 

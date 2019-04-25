@@ -3,6 +3,7 @@ package comp1110.ass2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class RailroadInk {
     /**
@@ -159,99 +160,6 @@ public class RailroadInk {
         }
 
     }
-    public  static  boolean isLegalExit(String tilePlacementString){
-        Tile teststring = new Tile(tilePlacementString);
-
-        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-            if(teststring.left == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-            if(teststring.left == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-            if(teststring.up == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-            if(teststring.up == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-            if(teststring.up == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-            if(teststring.right == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-            if(teststring.right == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-            if(teststring.right == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-            if(teststring.down == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-            if(teststring.down == 'h'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-            if(teststring.down == 'r'){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        else{
-            return false;
-        }
-    }
-
-    //testCommit
      public static  boolean isvalidExit(String tilePlacementString){
         // this method is to check whether a tileplacement string is legally connected to an exit
          // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
@@ -378,7 +286,7 @@ public class RailroadInk {
             Tile currentTile = new Tile(currentCheck);
             if(currentTile.spot.isExit()){
                 exitTileNumber ++;
-                if(!isLegalExit(currentCheck)){
+                if(!isvalidExit(currentCheck)){
                     return false;
                 }
                 else{
@@ -501,8 +409,38 @@ public class RailroadInk {
      */
     public static String generateDiceRoll() {
         // FIXME Task 7: generate a dice roll
-        return "";
+        Random rand = new Random();
+
+        //generate A -> A -> A -> B in order
+        String firstDieA = "A" + rand.nextInt(6);
+        String secondDieA = "A" + rand.nextInt(6);
+        String thirdDieA = "A" + rand.nextInt(6);
+        String dieB = "B" + rand.nextInt(3);
+
+        ArrayList<String> diceRoll = new ArrayList<>();
+        diceRoll.add(firstDieA);
+        diceRoll.add(secondDieA);
+        diceRoll.add(thirdDieA);
+        diceRoll.add(dieB);
+
+        //get random index from list
+        int firstIndex = rand.nextInt(4);
+        String firstRoll = diceRoll.get(firstIndex);
+        diceRoll.remove(firstIndex);
+
+        int secondIndex = rand.nextInt(3);
+        String secondRoll = diceRoll.get(secondIndex);
+        diceRoll.remove(secondIndex);
+
+        int thirdIndex = rand.nextInt(2);
+        String thirdRoll = diceRoll.get(thirdIndex);
+        diceRoll.remove(thirdIndex);
+
+        String lastRoll = diceRoll.get(0);
+
+        return firstRoll + secondRoll + thirdRoll + lastRoll;
     }
+
 
 
     /**
@@ -915,9 +853,7 @@ public class RailroadInk {
             if(currentTile.spot.isCenter()){
                 centerScore++;
             }
-        }
-
-        // find the number of centeral tiles
+        }  // find the number of centeral tiles
 
         int routeScore = 0;
         //List<String>  nextPlacementList = new ArrayList<String>();
@@ -927,14 +863,14 @@ public class RailroadInk {
 
         while(totalExitSpot.size() > 0) {
             List<String> currentRoute = findConnectedRoute(placementList, totalExitSpot.get(0));
-            //System.out.println("current route is " + currentRoute);
+           // System.out.println("current route is " + currentRoute);
 
             int exitNum = findNumberExit(currentRoute);
             int currentScore = findRoutePoints(exitNum);
             routeScore += currentScore;
 
             List<String> currentExitSpot = findExitSpot(currentRoute);
-            //System.out.println("current Exit Spot is " + currentExitSpot);
+           // System.out.println("current Exit Spot is " + currentExitSpot);
 
 
             for (int spotIndex = 0; spotIndex < currentExitSpot.size(); spotIndex++) {
@@ -1108,11 +1044,6 @@ public class RailroadInk {
             }
         }
 
-
-
-
-        System.out.println(rCountMax);
-        System.out.println(hCountMax);
 
         return getBasicScore(boardString) + rCountMax + hCountMax ;
     }
