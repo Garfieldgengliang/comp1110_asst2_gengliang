@@ -157,7 +157,7 @@ public class RailroadInk {
         }
 
     }
-    
+
     public static  boolean isLegalExit(String tilePlacementString){
         // this method is to check whether a tileplacement string is legally connected to an exit
         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
@@ -252,90 +252,90 @@ public class RailroadInk {
         }
     }
 
-     public static  boolean isvalidExit(String tilePlacementString){
-        // this method is to check whether a tileplacement string is legally connected to an exit
+     public static  boolean isTileExitBlank(String tilePlacementString){
+        // this method is to check whether a exittile connects to an exit with its blank face
          // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
         Tile teststring = new Tile(tilePlacementString);
 
         if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'r'){
+            if(teststring.left == 'b'){
                 return true;
             }else{
                 return false;
             }
         }
          if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-             if(teststring.left == 'h'){
+             if(teststring.left == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-             if(teststring.left == 'r'){
+             if(teststring.left == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-             if(teststring.up == 'h'){
+             if(teststring.up == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-             if(teststring.up == 'r'){
+             if(teststring.up == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-             if(teststring.up == 'h'){
+             if(teststring.up == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-             if(teststring.right == 'r'){
+             if(teststring.right == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-             if(teststring.right == 'h'){
+             if(teststring.right == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-             if(teststring.right == 'r'){
+             if(teststring.right == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-             if(teststring.down == 'h'){
+             if(teststring.down == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-             if(teststring.down == 'r'){
+             if(teststring.down == 'b'){
                  return true;
              }else{
                  return false;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-             if(teststring.down == 'h'){
+             if(teststring.down == 'b'){
                  return true;
              }else{
                  return false;
@@ -345,6 +345,102 @@ public class RailroadInk {
              return false;
          }
      }
+
+    public static  boolean isvalidExit(String tilePlacementString){
+        // this method is to check whether a tileplacement string is validly connected to an exit
+        // this means first we check if a tile is neighboring an exit, then we check if the connection is valid
+        Tile teststring = new Tile(tilePlacementString);
+
+        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
+            if(teststring.left == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '0' && teststring.spot.row=='D'){
+            if(teststring.left == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '0' && teststring.spot.row=='F'){
+            if(teststring.left == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '1' && teststring.spot.row=='A'){
+            if(teststring.up == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '3' && teststring.spot.row=='A'){
+            if(teststring.up == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '5' && teststring.spot.row=='A'){
+            if(teststring.up == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='B'){
+            if(teststring.right == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='D'){
+            if(teststring.right == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='F'){
+            if(teststring.right == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '1' && teststring.spot.row=='G'){
+            if(teststring.down == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '3' && teststring.spot.row=='G'){
+            if(teststring.down == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(teststring.spot.col == '5' && teststring.spot.row=='G'){
+            if(teststring.down == 'h'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+
     /**
      * Given a well-formed board string representing an ordered list of placements,
      * determine whether the board string is valid.
@@ -391,6 +487,21 @@ public class RailroadInk {
                             neighborString.add(placementList.get(listcheck));
                         }
                     }
+
+                    //System.out.println(currentCheck + "neighbor is " + neighborString);
+
+                    if(isTileExitBlank(currentCheck)){
+                        int validconnection = 0;
+                        for(int checkneighbor = 0; checkneighbor<neighborString.size();checkneighbor++){
+                            if(areConnectedNeighbours(currentCheck, neighborString.get(checkneighbor))){
+                                validconnection++;
+                            }
+                        }
+                        if(validconnection == 0){
+                            return false;
+                        }
+                    }
+
 
 
                     for(int checkindex = 0; checkindex < neighborString.size(); checkindex++ ){
