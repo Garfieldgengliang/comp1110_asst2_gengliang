@@ -1045,6 +1045,11 @@ public class RailroadInk {
         }
 
 
+
+
+        System.out.println(rCountMax);
+        System.out.println(hCountMax);
+
         return getBasicScore(boardString) + rCountMax + hCountMax ;
     }
 
