@@ -159,11 +159,7 @@ public class RailroadInk {
         }
 
     }
-
-    //testCommit
-     public static  boolean isvalidExit(String tilePlacementString){
-        // this method is to check whether a tileplacement string is legally connected to an exit
-         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
+    public  static  boolean isLegalExit(String tilePlacementString){
         Tile teststring = new Tile(tilePlacementString);
 
         if(teststring.spot.col == '0' && teststring.spot.row=='B'){
@@ -173,81 +169,176 @@ public class RailroadInk {
                 return true;
             }
         }
+        if(teststring.spot.col == '0' && teststring.spot.row=='D'){
+            if(teststring.left == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '0' && teststring.spot.row=='F'){
+            if(teststring.left == 'h'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '1' && teststring.spot.row=='A'){
+            if(teststring.up == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '3' && teststring.spot.row=='A'){
+            if(teststring.up == 'h'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '5' && teststring.spot.row=='A'){
+            if(teststring.up == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='B'){
+            if(teststring.right == 'h'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='D'){
+            if(teststring.right == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '6' && teststring.spot.row=='F'){
+            if(teststring.right == 'h'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '1' && teststring.spot.row=='G'){
+            if(teststring.down == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '3' && teststring.spot.row=='G'){
+            if(teststring.down == 'h'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(teststring.spot.col == '5' && teststring.spot.row=='G'){
+            if(teststring.down == 'r'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    //testCommit
+     public static  boolean isvalidExit(String tilePlacementString){
+        // this method is to check whether a tileplacement string is legally connected to an exit
+         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
+        Tile teststring = new Tile(tilePlacementString);
+
+        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
+            if(teststring.left == 'r'){
+                return true;
+            }else{
+                return false;
+            }
+        }
          if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-             if(teststring.left == 'r'){
-                 return false;
-             }else{
+             if(teststring.left == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-             if(teststring.left == 'h'){
-                 return false;
-             }else{
+             if(teststring.left == 'r'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-             if(teststring.up == 'r'){
-                 return false;
-             }else{
+             if(teststring.up == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-             if(teststring.up == 'h'){
-                 return false;
-             }else{
+             if(teststring.up == 'r'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-             if(teststring.up == 'r'){
-                 return false;
-             }else{
+             if(teststring.up == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-             if(teststring.right == 'h'){
-                 return false;
-             }else{
+             if(teststring.right == 'r'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-             if(teststring.right == 'r'){
-                 return false;
-             }else{
+             if(teststring.right == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-             if(teststring.right == 'h'){
-                 return false;
-             }else{
+             if(teststring.right == 'r'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-             if(teststring.down == 'r'){
-                 return false;
-             }else{
+             if(teststring.down == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-             if(teststring.down == 'h'){
-                 return false;
-             }else{
+             if(teststring.down == 'r'){
                  return true;
+             }else{
+                 return false;
              }
          }
          if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-             if(teststring.down == 'r'){
-                 return false;
-             }else{
+             if(teststring.down == 'h'){
                  return true;
+             }else{
+                 return false;
              }
          }
          else{
@@ -287,7 +378,7 @@ public class RailroadInk {
             Tile currentTile = new Tile(currentCheck);
             if(currentTile.spot.isExit()){
                 exitTileNumber ++;
-                if(!isvalidExit(currentCheck)){
+                if(!isLegalExit(currentCheck)){
                     return false;
                 }
                 else{
@@ -824,7 +915,9 @@ public class RailroadInk {
             if(currentTile.spot.isCenter()){
                 centerScore++;
             }
-        }  // find the number of centeral tiles
+        }
+
+        // find the number of centeral tiles
 
         int routeScore = 0;
         //List<String>  nextPlacementList = new ArrayList<String>();
@@ -834,14 +927,14 @@ public class RailroadInk {
 
         while(totalExitSpot.size() > 0) {
             List<String> currentRoute = findConnectedRoute(placementList, totalExitSpot.get(0));
-           // System.out.println("current route is " + currentRoute);
+            //System.out.println("current route is " + currentRoute);
 
             int exitNum = findNumberExit(currentRoute);
             int currentScore = findRoutePoints(exitNum);
             routeScore += currentScore;
 
             List<String> currentExitSpot = findExitSpot(currentRoute);
-           // System.out.println("current Exit Spot is " + currentExitSpot);
+            //System.out.println("current Exit Spot is " + currentExitSpot);
 
 
             for (int spotIndex = 0; spotIndex < currentExitSpot.size(); spotIndex++) {
