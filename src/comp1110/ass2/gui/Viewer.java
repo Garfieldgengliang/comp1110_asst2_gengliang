@@ -255,8 +255,16 @@ public class Viewer extends Application {
     }
 
 
+    private  String  boardString = "";
+
     class TempTiles extends ImageView{
+
+        Piece currentPiece; // give the tempTile the piece property
+
         TempTiles(String piece, int pos){
+
+            this.currentPiece = Piece.valueOf(piece);
+
             setImage(new Image(Viewer.class.getResource(URI_BASE + piece +".png").toString()));
             if (pos == 1) {
                 setLayoutX(ROLL_POS_OFFSET);
@@ -283,6 +291,7 @@ public class Viewer extends Application {
 
         DraggableTiles(String piece, int pos) {
             super(piece, pos);
+
             homeX = getLayoutX();
             homeY = getLayoutY();
 
@@ -314,8 +323,25 @@ public class Viewer extends Application {
             if(onBoard()){
                 int xPosition = (int) Math.round((getLayoutX() - BOARD_X_OFFSET)/TILE_LENGTH );
                 int yPosition = (int) Math.round((getLayoutY() - BOARD_Y_OFFSET)/TILE_LENGTH );
-                setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
-                setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
+
+                char currentCol = (char)(xPosition - 1 + '0');
+                char currentRow = (char)(yPosition -1 + 'A');
+                char currentOrien = '0'; // first set orientation as 0 to simplify the task
+
+                String currentTilePlacement = this.currentPiece.name() + currentRow + currentCol + currentOrien;
+                String boardStringBeforeAdding = boardString;
+                boardString = boardString + currentTilePlacement;
+
+                if(RailroadInk.isValidPlacementSequence(boardString)){
+                    setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
+                    setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
+                }
+                else{
+                    boardString = boardStringBeforeAdding;
+                    snapToHome();
+                }
+
+
 
             }
             else{
