@@ -288,12 +288,36 @@ public class Viewer extends Application {
     class DraggableTiles extends TempTiles{
         double homeX, homeY;
         double mouseX, mouseY;
+        int orientation = 0;
 
         DraggableTiles(String piece, int pos) {
             super(piece, pos);
 
             homeX = getLayoutX();
             homeY = getLayoutY();
+
+            setOnMouseClicked(event -> {
+                if(orientation%8 == 0||orientation%8 == 1||orientation%8 == 2){
+                     tileRotate();
+                    orientation++;
+                }
+                if(orientation%8 == 3){
+                    tileRotate();
+                    tileFliptoLeft();
+                    orientation++;
+                }
+                if(orientation%8 == 4||orientation%8 == 5||orientation%8==6){
+                    tileRotate();
+                    orientation++;
+                }
+                if(orientation%8==7){
+                    tileRotate();
+                    tileFliptoRight();
+                    orientation++;
+                }
+
+
+            });
 
             setOnMousePressed(event -> {
                 mouseX = event.getSceneX();
@@ -326,7 +350,7 @@ public class Viewer extends Application {
 
                 char currentCol = (char)(xPosition - 1 + '0');
                 char currentRow = (char)(yPosition -1 + 'A');
-                char currentOrien = '0'; // first set orientation as 0 to simplify the task
+                char currentOrien = (char)(orientation + '0'); // first set orientation as 0 to simplify the task
 
                 String currentTilePlacement = this.currentPiece.name() + currentRow + currentCol + currentOrien;
                 String boardStringBeforeAdding = boardString;
@@ -359,6 +383,17 @@ public class Viewer extends Application {
             setLayoutX(homeX);
             setLayoutY(homeY);
 
+        }
+
+        private void tileRotate(){
+            this.setRotate(90);
+        }
+
+        private void tileFliptoLeft(){
+            this.nodeOrientationProperty().setValue(NodeOrientation.RIGHT_TO_LEFT);
+        }
+        private void tileFliptoRight(){
+            this.nodeOrientationProperty().setValue(NodeOrientation.LEFT_TO_RIGHT);
         }
 
     }
