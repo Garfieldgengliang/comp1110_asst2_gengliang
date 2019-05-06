@@ -829,7 +829,7 @@ public class RailroadInk {
      * @param surpassExit
      * @return the new tile placement string that substitute the original surpass tile placement String
      */
-    public static String dealSuppassExit(String surpassExit){
+    public static String dealSurpassExit(String surpassExit){
 
         String target = "";
 
@@ -927,7 +927,7 @@ public class RailroadInk {
             if(checkTotal.substring(2,4).equals(exitSpot)){
                 Tile checkTile = new Tile(checkTotal);
                 if(checkTile.piece.center == 'p'){
-                    String modifySurpass = dealSuppassExit(checkTotal);
+                    String modifySurpass = dealSurpassExit(checkTotal);
                     // if the exit is connected directly to a surpass, then apply the deaSurpassExit method
                     targetTileplacement = targetTileplacement + modifySurpass;
                 }
