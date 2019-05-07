@@ -95,6 +95,9 @@ public class Tile {
 
 
     public char tileConnect(Tile other) {
+        if(!this.spot.isNeighboring(other.spot)){
+            throw new NullPointerException("Tiles are not beside one another");
+        }
         if (this.up == 'h' && other.down == 'h' && (int) other.spot.row - (int) this.spot.row == -1 ||
                 this.down == 'h' && other.up == 'h' && (int) other.spot.row - (int) this.spot.row == 1 ||
                 this.left == 'h' && other.right == 'h' && (int) other.spot.col - (int) this.spot.col == -1 ||
@@ -105,7 +108,7 @@ public class Tile {
                 this.left == 'r' && other.right == 'r' && (int) other.spot.col - (int) this.spot.col == -1 ||
                 this.right == 'r' && other.left == 'r' && (int) other.spot.col - (int) this.spot.col == 1) {
             return 'r';
-        } else return 'b';
+        } else throw new NullPointerException("Tiles are not Connected");
     }
 
 
