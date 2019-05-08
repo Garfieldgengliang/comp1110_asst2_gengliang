@@ -473,7 +473,7 @@ public class RailroadInk {
             locationList.add(currentLoc);
         }
 
-        Set<String> locaSet = new HashSet<>(locationList);
+        Set<String> locaSet = new HashSet<>(locationList); // check if there are duplicate locations
         if(locaSet.size()!= locationList.size()){
             return false;
         }
