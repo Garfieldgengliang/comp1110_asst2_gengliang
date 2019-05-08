@@ -23,25 +23,25 @@ public class SurpassTestingu6799959 {
     String[] illegalPlace2 = {"S1F20","B2E53"};
 
     @Test
-    public void testRailRoadSubstitute(){
+    public void testRailRoadSubstitute(){ // test when the connection is railway
         String testRailup = RailroadInk.dealWithSurpass(RailroadUp[0],RailroadUp[1]);
         String testRaildown = RailroadInk.dealWithSurpass(RailroadDown[0],RailroadDown[1]);
         String testRailLeft = RailroadInk.dealWithSurpass(RailroadLeft[0],RailroadLeft[1]);
         String testRailRight = RailroadInk.dealWithSurpass(RailroadRight[0],RailroadRight[1]);
 
-        assertEquals(testRailup,"A1D22");
-        assertEquals(testRaildown,"A1D12");
-        assertEquals(testRailLeft,"A1B31");
-        assertEquals(testRailRight,"A1F41");
+        assertEquals(testRailup,"A1D22"); // test if right substitute being made when the connected tile on the upside of surpass tile
+        assertEquals(testRaildown,"A1D12"); // test if right substitute being made when the connected tile on the downside of surpass tile
+        assertEquals(testRailLeft,"A1B31"); // test if right substitute being made when the connected tile on the left side of surpass tile
+        assertEquals(testRailRight,"A1F41"); // test if right substitute being made when the connected tile on the right side of surpass tile
 
     }
 
     @Test
-    public void testHighwaySubstitute(){
-        String testHighwayup = RailroadInk.dealWithSurpass(HighwayUp[0],HighwayUp[1]);
-        String testHighwaydown = RailroadInk.dealWithSurpass(HighwayDown[0],HighwayDown[1]);
-        String testHighwayleft = RailroadInk.dealWithSurpass(HighwayLeft[0],HighwayLeft[1]);
-        String testHighwayright = RailroadInk.dealWithSurpass(HighwayRight[0],HighwayRight[1]);
+    public void testHighwaySubstitute(){ // test the connection is highway
+        String testHighwayup = RailroadInk.dealWithSurpass(HighwayUp[0],HighwayUp[1]); // test if right substitute being made when the connected tile on the upside of surpass tile
+        String testHighwaydown = RailroadInk.dealWithSurpass(HighwayDown[0],HighwayDown[1]); // test if right substitute being made when the connected tile on the downside of surpass tile
+        String testHighwayleft = RailroadInk.dealWithSurpass(HighwayLeft[0],HighwayLeft[1]); // test if right substitute being made when the connected tile on the left side of surpass tile
+        String testHighwayright = RailroadInk.dealWithSurpass(HighwayRight[0],HighwayRight[1]); // test if right substitute being made when the connected tile on the right side of surpass tile
 
         assertEquals(testHighwayup,"A4F22");
         assertEquals(testHighwaydown,"A4A42");
@@ -52,7 +52,7 @@ public class SurpassTestingu6799959 {
     }
 
     @Test
-    public void testIllegalPlacement(){
+    public void testIllegalPlacement(){ // test if the connection is wrong
 
         String testIllegalone = RailroadInk.dealWithSurpass(illegalPlace1[0],illegalPlace1[1]);
         String testIllegaltwo = RailroadInk.dealWithSurpass(illegalPlace2[0],illegalPlace2[1]);

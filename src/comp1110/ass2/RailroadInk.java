@@ -466,6 +466,18 @@ public class RailroadInk {
             placementList.add(currentPlacement);
         }
 
+        List<String> locationList = new ArrayList<>();
+        for(int locaIndex = 0; locaIndex< placementList.size();locaIndex++){
+            String currentPlace = placementList.get(locaIndex);
+            String currentLoc = currentPlace.substring(2,4);
+            locationList.add(currentLoc);
+        }
+
+        Set<String> locaSet = new HashSet<>(locationList);
+        if(locaSet.size()!= locationList.size()){
+            return false;
+        }
+
         int legalPlaceCount = 0;
         int exitTileNumber = 0;
 
