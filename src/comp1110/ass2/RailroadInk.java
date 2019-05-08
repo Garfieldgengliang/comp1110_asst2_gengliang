@@ -625,6 +625,7 @@ public class RailroadInk {
     public static String generateDiceRoll() {
         // FIXME Task 7: generate a dice roll
         Random rand = new Random();
+        //generate random number
 
         //generate A -> A -> A -> B in order
         String firstDieA = "A" + rand.nextInt(6);
@@ -636,24 +637,19 @@ public class RailroadInk {
         diceRoll.add(firstDieA);
         diceRoll.add(secondDieA);
         diceRoll.add(thirdDieA);
-        diceRoll.add(dieB);
 
         //get random index from list
-        int firstIndex = rand.nextInt(4);
+        int firstIndex = rand.nextInt(3);
         String firstRoll = diceRoll.get(firstIndex);
         diceRoll.remove(firstIndex);
 
-        int secondIndex = rand.nextInt(3);
+        int secondIndex = rand.nextInt(2);
         String secondRoll = diceRoll.get(secondIndex);
         diceRoll.remove(secondIndex);
 
-        int thirdIndex = rand.nextInt(2);
-        String thirdRoll = diceRoll.get(thirdIndex);
-        diceRoll.remove(thirdIndex);
+        String thirdRoll = diceRoll.get(0);
 
-        String lastRoll = diceRoll.get(0);
-
-        return firstRoll + secondRoll + thirdRoll + lastRoll;
+        return firstRoll + secondRoll + thirdRoll + dieB;
     }
 
 
