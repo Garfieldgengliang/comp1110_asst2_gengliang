@@ -101,16 +101,16 @@ public class Spot {
         // for this method, we need to figure out if to spot is connected, what is their connection side
         char testcol = testspot.col;
         char testrow = testspot.row;
-        if (col - testcol == 1) {
+        if (col - testcol == 1 && row - testrow == 0) {
             return "left"; // the test spot is on the left of tested spot
         }
-        if (testcol - col == 1) {
+        if (testcol - col == 1 && row - testrow == 0) {
             return "right"; // the test spot is on the right of tested spot
         }
-        if (row - testrow == 1) {
+        if (row - testrow == 1 && col - testcol == 0) {
             return "upside"; // the test spot is on the upside of tested spot
         }
-        if (testrow - row == 1) {
+        if (testrow - row == 1 && col - testcol == 0) {
             return "downside"; // the test spot is on the downside of tested spot
         } else {
             return "something wrong";

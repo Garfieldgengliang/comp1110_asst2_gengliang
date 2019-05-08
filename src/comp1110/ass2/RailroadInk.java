@@ -816,8 +816,8 @@ public class RailroadInk {
                 target = target + '2';
             }
         }
-        else if(!orienStirng.contains(connectionSide)){
-            System.out.println("something wrong with connection side");
+        else if (!orienStirng.contains(connectionSide)){
+            target = "something wrong with connection side";
         }
 
         return target;
