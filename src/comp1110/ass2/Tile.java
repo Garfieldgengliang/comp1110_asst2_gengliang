@@ -108,7 +108,7 @@ public class Tile {
                 this.left == 'r' && other.right == 'r' && (int) other.spot.col - (int) this.spot.col == -1 ||
                 this.right == 'r' && other.left == 'r' && (int) other.spot.col - (int) this.spot.col == 1) {
             return 'r';
-        } else throw new NullPointerException("Tiles are not Connected");
+        } else return 'b';
     }
 
 

@@ -43,28 +43,29 @@ public class TileConnectTestU6708832 {
         assertEquals(t7.tileConnect(t8), 'h'); // Test Down Up
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
+    //Tests if tiles are not connected by any property
+    public void testBesideBlankConnection(){
+        Tile t3 = new Tile("A3C30");
+        Tile t4 = new Tile("A3C22"); //Spot beside but does not connect
+        assertEquals(t3.tileConnect(t4),'b'); //return 'b'
+    }
+
+
+    @Test
     //Checks if both properties are up and down, it returns null instead of up/down values
     public void test2DownUpConnection(){
         Tile t1 = new Tile("B0C20");
         Tile t2 = new Tile("B0D20");  //Double Up/Down
-        t1.tileConnect(t2); //Throws Null Pointer Exception
+        assertEquals(t1.tileConnect(t2),'b'); //Returns b
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     //Checks if both properties are Left And Right, it returns null instead of Left/Right values
     public void test2LeftRightConnection(){
         Tile t1 = new Tile("B0C21");
         Tile t2 = new Tile("B0C31");  //Double Left/Right
-        t1.tileConnect(t2); //Throws Null Pointer Exception
-    }
-
-    @Test(expected = NullPointerException.class)
-    //Tests if tiles are not connected by any property
-    public void testBesideBlankConnection(){
-        Tile t3 = new Tile("A3C30");
-        Tile t4 = new Tile("A3C22"); //Spots not beside
-        t3.tileConnect(t4); //Throws Null Pointer Exception
+        assertEquals(t1.tileConnect(t2),'b'); //Returns b
     }
 
 
