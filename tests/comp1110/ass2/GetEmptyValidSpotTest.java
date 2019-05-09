@@ -13,6 +13,38 @@ public class GetEmptyValidSpotTest {
      * combine moveString and original boardString to a newBoardString
      * check newBoardString using Task 6 method
      */
+
+    @Test
+    public void testEmptyBoard() {
+        String boardString = "";
+        ArrayList<Spot> emptyValidSpot = RailroadInk.getEmptyValidSpot(boardString);
+        ArrayList<String> emptyValidPlace = new ArrayList<>();
+        emptyValidPlace.add("A1");
+        emptyValidPlace.add("A3");
+        emptyValidPlace.add("A5");
+
+        emptyValidPlace.add("B6");
+        emptyValidPlace.add("D6");
+        emptyValidPlace.add("F6");
+
+        emptyValidPlace.add("G1");
+        emptyValidPlace.add("G3");
+        emptyValidPlace.add("G5");
+
+        emptyValidPlace.add("B0");
+        emptyValidPlace.add("D0");
+        emptyValidPlace.add("F0");
+
+        for(int i = 0; i < emptyValidSpot.size(); i++){
+            for (int j = 0; j < emptyValidPlace.size(); j++){
+                if (emptyValidSpot.get(i).toString().equals(emptyValidPlace.get(j))){
+                    emptyValidPlace.remove(j);
+                }
+            }
+        }
+        assertEquals(0, emptyValidPlace.size());
+    }
+
     @Test
     public void testOnePosition() {
         String boardString = "A0F00A0B00A0A31B1A14A0B61A0F61A0G32B1D61A0G43A0A62A0E61B1G56S1G60A0E03A0A03B1G12A0G02S0A50A0B50A5D03B1B40";
