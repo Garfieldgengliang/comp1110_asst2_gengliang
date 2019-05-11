@@ -423,11 +423,12 @@ public class Viewer extends Application {
     }
 
     private void specialPlacementHolder(){
-        specialTiles.getChildren().add(new DraggableTiles("S1", 7));
-        specialTiles.getChildren().add(new DraggableTiles("S2", 8));
-        specialTiles.getChildren().add(new DraggableTiles("S3", 9));
-        specialTiles.getChildren().add(new DraggableTiles("S4", 10));
-        specialTiles.getChildren().add(new DraggableTiles("S5", 11));
+        specialTiles.getChildren().add(new DraggableTiles("S0", 7));
+        specialTiles.getChildren().add(new DraggableTiles("S1", 8));
+        specialTiles.getChildren().add(new DraggableTiles("S2", 9));
+        specialTiles.getChildren().add(new DraggableTiles("S3", 10));
+        specialTiles.getChildren().add(new DraggableTiles("S4", 11));
+        specialTiles.getChildren().add(new DraggableTiles("S5", 12));
     }
 
     private void rollPlacementHolder(){
