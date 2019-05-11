@@ -8,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,6 +44,7 @@ public class Viewer extends Application {
     private final Group tempTiles = new Group();
     private final Group specialTiles = new Group();
     private final Group textFields = new Group();
+    private final Group textScore = new Group();
 
     /*Definitions of Board/Tiles etc... */
     private static final int TILE_LENGTH = 70; //Defining each Tile length
@@ -257,6 +257,7 @@ public class Viewer extends Application {
             makePlacement(textField.getText());
             textField.clear();
         });
+
         HBox hb = new HBox();
         hb.getChildren().addAll(label1, textField, button);
         hb.setSpacing(10);
@@ -333,9 +334,7 @@ public class Viewer extends Application {
 
 
 
-            setOnMouseReleased(event -> {
-                snapToGrid();
-            });
+            setOnMouseReleased(event ->snapToGrid());
         }
 
         public void setTileRotate(){
@@ -381,10 +380,11 @@ public class Viewer extends Application {
                     }
                     else {
                         ROLL_HOLDER --;                 // Reduces the Roll Holder Count for normal Tiles
-
                     }
                     setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
                     setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
+                    setDisable(true);
+                    getTextScore();
                 }
                 else{
                     boardString = boardStringBeforeAdding;
@@ -419,6 +419,22 @@ public class Viewer extends Application {
         private void tileFliptoRight(){
             this.nodeOrientationProperty().setValue(NodeOrientation.LEFT_TO_RIGHT);
         }
+
+    }
+
+    private void getTextScore(){
+        textScore.getChildren().clear();
+        String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));
+        Text score;
+        if (rounds == 7 && ROLL_HOLDER ==0){
+            score = new Text("Final Score: " + advanced_score + "GAME OVER!");
+
+        }
+        else score = new Text("Current Score: " + advanced_score);
+        score.setLayoutX(130);
+        score.setLayoutY(VIEWER_HEIGHT - 50);
+        score.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        textScore.getChildren().add(score);
 
     }
 
@@ -462,7 +478,6 @@ public class Viewer extends Application {
             disabled = "Available!";
             fill = Color.GREEN;
         }
-
 
         Text disable_text = new Text(disabled);
         disable_text.setLayoutX(ROLL_X_OFFSET);
@@ -511,12 +526,14 @@ public class Viewer extends Application {
         root.getChildren().add(tempTiles);
         root.getChildren().add(specialTiles);
         root.getChildren().add(textFields);
+        root.getChildren().add(textScore);
 
-        makeControls();
+        //makeControls();
         makeBoard();
         generateRoll();
         specialPlacementHolder();
         setText();
+        getTextScore();
 
 
         primaryStage.setScene(scene);
