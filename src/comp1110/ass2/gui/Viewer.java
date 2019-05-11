@@ -18,8 +18,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-//Overwrite current master 2
-
 /**
  * A very simple viewer for tile placements in the Railroad Ink game.
  * <p>
