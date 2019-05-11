@@ -2,7 +2,6 @@ package comp1110.ass2.gui;
 
 import comp1110.ass2.Piece;
 import comp1110.ass2.RailroadInk;
-import comp1110.ass2.Tile;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
@@ -12,13 +11,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -54,6 +52,8 @@ public class Viewer extends Application {
     public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
     private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
+    private int ROLL_HOLDER = 0;
+
 
     /* Logic of the Game */
     RailroadInk logic;
@@ -281,6 +281,7 @@ public class Viewer extends Application {
             }
             setFitWidth(TILE_LENGTH);
             setFitHeight(TILE_LENGTH);
+            setPickOnBounds(true);
         }
     }
 
@@ -297,26 +298,9 @@ public class Viewer extends Application {
             homeY = getLayoutY();
 
             setOnMouseClicked(event -> {
-                if(orientation%8 == 0||orientation%8 == 1||orientation%8 == 2){
-                     tileRotate();
-                    orientation++;
+                if(event.getButton() == MouseButton.SECONDARY){
+                    setTileRotate();
                 }
-                if(orientation%8 == 3){
-                    tileRotate();
-                    tileFliptoLeft();
-                    orientation++;
-                }
-                if(orientation%8 == 4||orientation%8 == 5||orientation%8==6){
-                    tileRotate();
-                    orientation++;
-                }
-                if(orientation%8==7){
-                    tileRotate();
-                    tileFliptoRight();
-                    orientation++;
-                }
-
-
             });
 
             setOnMousePressed(event -> {
@@ -341,7 +325,26 @@ public class Viewer extends Application {
             });
         }
 
-
+        public void setTileRotate(){
+            int currentOri = orientation%8;
+            if(currentOri == 0||currentOri == 1||currentOri == 2){
+                setRotate(90*(currentOri+1));
+            }
+            else if(currentOri == 3){
+                setRotate(0);
+                setScaleX(-1);
+            }
+            else if(currentOri == 4||currentOri == 5||currentOri==6){
+                setRotate(0);
+                setScaleX(-1);
+                setRotate(90*(currentOri-3));
+            }
+            else if(currentOri==7){
+                setRotate(0);
+                setScaleX(1);
+            }
+            orientation++;
+        }
 
         private void snapToGrid(){
             if(onBoard()){
@@ -350,7 +353,8 @@ public class Viewer extends Application {
 
                 char currentCol = (char)(xPosition - 1 + '0');
                 char currentRow = (char)(yPosition -1 + 'A');
-                char currentOrien = (char)(orientation + '0'); // first set orientation as 0 to simplify the task
+                int currentOri = orientation%8;
+                char currentOrien = (char)(currentOri + '0');
 
                 String currentTilePlacement = this.currentPiece.name() + currentRow + currentCol + currentOrien;
                 String boardStringBeforeAdding = boardString;
@@ -359,20 +363,19 @@ public class Viewer extends Application {
                 if(RailroadInk.isValidPlacementSequence(boardString)){
                     setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
                     setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
+                    ROLL_HOLDER --;                             // Reduces the Roll Holder Count
                 }
                 else{
                     boardString = boardStringBeforeAdding;
                     snapToHome();
                 }
-
-
-
             }
             else{
                 snapToHome();
             }
-
         }
+
+
 
         private boolean onBoard() {
             return getLayoutX() > (BOARD_X_OFFSET+TILE_LENGTH) && (getLayoutX() < (BOARD_X_OFFSET+BOARD_WIDTH-TILE_LENGTH))
@@ -399,17 +402,21 @@ public class Viewer extends Application {
     }
 
     private void rollPlacementHolder(){
-        String pieces = logic.generateDiceRoll();
-        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(0,2), 1));
-        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(2,4), 2));
-        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
-        tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
+        if (ROLL_HOLDER == 0){                      // Checks if Previous 4 pieces are placed
+            String pieces = logic.generateDiceRoll();
+            tempTiles.getChildren().add(new DraggableTiles(pieces.substring(0,2), 1));
+            tempTiles.getChildren().add(new DraggableTiles(pieces.substring(2,4), 2));
+            tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
+            tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
+            ROLL_HOLDER += 4;                       // Resets Roll Holder Count
+        }
     }
 
 
 
     private void generateRoll() {
         Button rollButton = new Button("Roll Dices!");
+
         rollButton.setOnAction(e -> rollPlacementHolder());
 
         HBox roll = new HBox();
