@@ -2,7 +2,6 @@ package comp1110.ass2.gui;
 
 import comp1110.ass2.Piece;
 import comp1110.ass2.RailroadInk;
-import comp1110.ass2.Tile;
 import javafx.application.Application;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
@@ -12,13 +11,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -51,8 +49,8 @@ public class Viewer extends Application {
     private int BOARD_Y_OFFSET = 20;
     private static final Paint SUBBOARD_FILL = Color.DARKGREY;
     private static final Paint SUBBOARD_TILE = Color.GREY;
-    public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
-    public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
+    public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.jpg").toString();
+    public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.jpg").toString();
     private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
 
     /* Logic of the Game */
@@ -190,7 +188,7 @@ public class Viewer extends Application {
         }
 
         for (int i= 0; i < sPlacement.length; i++){
-          Image pType = new Image(Viewer.class.getResource(URI_BASE + sPlacement[i].substring(0,2) +".png").toString()); // loading the image of the piece called
+          Image pType = new Image(Viewer.class.getResource(URI_BASE + sPlacement[i].substring(0,2) +".jpg").toString()); // loading the image of the piece called
           ImageView tile = new ImageView(pType);
           int col = Integer.parseInt(sPlacement[i].substring(3,4)); //Determining column of string by slicing
           char row = sPlacement[i].charAt(2);   //Determining row of string by slicing
@@ -265,7 +263,7 @@ public class Viewer extends Application {
 
             this.currentPiece = Piece.valueOf(piece);
 
-            setImage(new Image(Viewer.class.getResource(URI_BASE + piece +".png").toString()));
+            setImage(new Image(Viewer.class.getResource(URI_BASE + piece +".jpg").toString()));
             if (pos == 1) {
                 setLayoutX(ROLL_POS_OFFSET);
                 setLayoutY(BOARD_Y_OFFSET + 50);
@@ -297,26 +295,9 @@ public class Viewer extends Application {
             homeY = getLayoutY();
 
             setOnMouseClicked(event -> {
-                if(orientation%8 == 0||orientation%8 == 1||orientation%8 == 2){
-                     tileRotate();
-                    orientation++;
+                if(event.getButton() == MouseButton.SECONDARY){
+                    setTileRotate();
                 }
-                if(orientation%8 == 3){
-                    tileRotate();
-                    tileFliptoLeft();
-                    orientation++;
-                }
-                if(orientation%8 == 4||orientation%8 == 5||orientation%8==6){
-                    tileRotate();
-                    orientation++;
-                }
-                if(orientation%8==7){
-                    tileRotate();
-                    tileFliptoRight();
-                    orientation++;
-                }
-
-
             });
 
             setOnMousePressed(event -> {
@@ -341,7 +322,28 @@ public class Viewer extends Application {
             });
         }
 
-
+        public void setTileRotate(){
+            int currentOri = orientation%8;
+            if(currentOri == 0||currentOri == 1||currentOri == 2){
+                setRotate(90*(currentOri+1));
+            }
+            else if(currentOri == 3){
+                setRotate(0);
+                setScaleX(-1);
+            }
+            else if(currentOri == 4||currentOri == 5||currentOri==6){
+                setRotate(0);
+                setScaleX(-1);
+                setRotate(90*(currentOri-3));
+            }
+            else if(currentOri==7){
+                setRotate(0);
+                setScaleX(1);
+            }
+            orientation++;
+            System.out.println("orientation is " + orientation);
+            System.out.println("current ori is " + currentOri);
+        }
 
         private void snapToGrid(){
             if(onBoard()){
@@ -350,7 +352,8 @@ public class Viewer extends Application {
 
                 char currentCol = (char)(xPosition - 1 + '0');
                 char currentRow = (char)(yPosition -1 + 'A');
-                char currentOrien = (char)(orientation + '0'); // first set orientation as 0 to simplify the task
+                int currentOri = orientation%8;
+                char currentOrien = (char)(currentOri + '0');
 
                 String currentTilePlacement = this.currentPiece.name() + currentRow + currentCol + currentOrien;
                 String boardStringBeforeAdding = boardString;
@@ -384,18 +387,6 @@ public class Viewer extends Application {
             setLayoutY(homeY);
 
         }
-
-        private void tileRotate(){
-            this.setRotate(90);
-        }
-
-        private void tileFliptoLeft(){
-            this.nodeOrientationProperty().setValue(NodeOrientation.RIGHT_TO_LEFT);
-        }
-        private void tileFliptoRight(){
-            this.nodeOrientationProperty().setValue(NodeOrientation.LEFT_TO_RIGHT);
-        }
-
     }
 
     private void rollPlacementHolder(){
@@ -405,8 +396,6 @@ public class Viewer extends Application {
         tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
         tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
     }
-
-
 
     private void generateRoll() {
         Button rollButton = new Button("Roll Dices!");
@@ -420,9 +409,6 @@ public class Viewer extends Application {
         controls.getChildren().add(roll);
 
     }
-
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
