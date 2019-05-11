@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -40,23 +44,26 @@ public class Viewer extends Application {
     private final Group tiles = new Group();
     private final Group tempTiles = new Group();
     private final Group specialTiles = new Group();
+    private final Group textFields = new Group();
 
     /*Definitions of Board/Tiles etc... */
-    private int TILE_LENGTH = 70; //Defining each Tile length
-    private int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
-    private int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
-    private int BOARD_X_OFFSET = 20; //Setting offset for the board
-    private int BOARD_Y_OFFSET = 20;
+    private static final int TILE_LENGTH = 70; //Defining each Tile length
+    private static final int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
+    private static final int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
+    private static final int BOARD_X_OFFSET = 20; //Setting offset for the board
+    private static final int BOARD_Y_OFFSET = 20;
     private static final Paint SUBBOARD_FILL = Color.DARKGREY;
     private static final Paint SUBBOARD_TILE = Color.GREY;
-    public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
-    public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
-    private int ROLL_X_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
-    private int ROLL_Y_OFFSET = BOARD_Y_OFFSET + 50;
-    private int TT_OFFSET = TILE_LENGTH +40;
-    private int ROLL_BUTTON_OFFSET =ROLL_X_OFFSET + (TILE_LENGTH/2);
+    private static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
+    private static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
+    private static final int ROLL_X_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +TILE_LENGTH);
+    private static final int ROLL_Y_OFFSET = BOARD_Y_OFFSET + 50;
+    private static final int TT_OFFSET = TILE_LENGTH +40;
+    private static final int ROLL_BUTTON_OFFSET =ROLL_X_OFFSET;
+    private int rounds = 0;
     private int ROLL_HOLDER = 0;
     private int SPECIAL_TILES_LEFT = 3;
+    private  String  boardString = "";
 
 
     /* Logic of the Game */
@@ -259,7 +266,7 @@ public class Viewer extends Application {
     }
 
 
-    private  String  boardString = "";
+
 
     class TempTiles extends ImageView{
 
@@ -370,6 +377,7 @@ public class Viewer extends Application {
                     if (this.currentPiece.name().contains("S")){
                         specialTiles.setDisable(true);  //Disables Placement for special tiles in that turn
                         SPECIAL_TILES_LEFT --;        // Counts Special Tiles Placed
+                        setText();
                     }
                     else {
                         ROLL_HOLDER --;                 // Reduces the Roll Holder Count for normal Tiles
@@ -423,13 +431,15 @@ public class Viewer extends Application {
     }
 
     private void rollPlacementHolder(){
-        if (ROLL_HOLDER == 0){                      // Checks if Previous 4 pieces are placed
+        if (ROLL_HOLDER == 0 && rounds != 7){                      // Checks if Previous 4 pieces are placed
             String pieces = logic.generateDiceRoll();
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(0,2), 1));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(2,4), 2));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
+            rounds ++;
+            setText();
             if (SPECIAL_TILES_LEFT != 0){
                 specialTiles.setDisable(false);         // Enable Special Tile Placement
             }
@@ -437,6 +447,42 @@ public class Viewer extends Application {
     }
 
 
+    private void setText() {
+        textFields.getChildren().clear();
+        Text round_Number = new Text("Round: " + rounds);
+        String disabled = "";
+        Color fill;
+        Text ssCounter = new Text("Special Tiles Left: " + SPECIAL_TILES_LEFT);
+
+        if (specialTiles.isDisabled()){
+            disabled = "Unavailable!";
+            fill = Color.RED;
+        }
+        else {
+            disabled = "Available!";
+            fill = Color.GREEN;
+        }
+
+
+        Text disable_text = new Text(disabled);
+        disable_text.setLayoutX(ROLL_X_OFFSET);
+        disable_text.setLayoutY(ROLL_Y_OFFSET + TT_OFFSET *2 +TILE_LENGTH);
+        disable_text.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        disable_text.setFill(fill);
+
+        round_Number.setLayoutX(ROLL_BUTTON_OFFSET + 100);
+        round_Number.setLayoutY(40);
+        round_Number.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+
+        ssCounter.setLayoutX(ROLL_X_OFFSET);
+        ssCounter.setLayoutY(ROLL_Y_OFFSET + TT_OFFSET *2 +TILE_LENGTH - 24);
+        ssCounter.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+
+        textFields.getChildren().add(round_Number);
+        textFields.getChildren().add(ssCounter);
+        textFields.getChildren().add(disable_text);
+
+    }
 
     private void generateRoll() {
         Button rollButton = new Button("Roll Dices!");
@@ -464,11 +510,13 @@ public class Viewer extends Application {
         root.getChildren().add(tiles);
         root.getChildren().add(tempTiles);
         root.getChildren().add(specialTiles);
+        root.getChildren().add(textFields);
 
         makeControls();
         makeBoard();
         generateRoll();
         specialPlacementHolder();
+        setText();
 
 
         primaryStage.setScene(scene);
