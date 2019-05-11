@@ -337,7 +337,7 @@ public class Viewer extends Application {
             setOnMouseReleased(event ->snapToGrid());
         }
 
-        public  void setTileRotate(){
+        public void setTileRotate(){
             int currentOri = orientation%8;
             if(currentOri == 0||currentOri == 1||currentOri == 2){
                 setRotate(90*(currentOri+1));
