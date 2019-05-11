@@ -43,6 +43,7 @@ public enum Piece {
         return output;
     }
 
+
     public int NonBlankNumber() {
         // this method is to find the maximum connected capability of a given piece
         // which equals to the number of sides that is not 'b'
@@ -62,5 +63,4 @@ public enum Piece {
         return countBlank;
 
     }
-
 }

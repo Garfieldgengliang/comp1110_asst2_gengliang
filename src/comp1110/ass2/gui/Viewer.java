@@ -39,6 +39,7 @@ public class Viewer extends Application {
     private final Group board = new Group();
     private final Group tiles = new Group();
     private final Group tempTiles = new Group();
+    private final Group specialTiles = new Group();
 
     /*Definitions of Board/Tiles etc... */
     private int TILE_LENGTH = 70; //Defining each Tile length
@@ -50,8 +51,12 @@ public class Viewer extends Application {
     private static final Paint SUBBOARD_TILE = Color.GREY;
     public static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     public static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
-    private int ROLL_POS_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
+    private int ROLL_X_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +100);
+    private int ROLL_Y_OFFSET = BOARD_Y_OFFSET + 50;
+    private int TT_OFFSET = TILE_LENGTH +40;
+    private int ROLL_BUTTON_OFFSET =ROLL_X_OFFSET + (TILE_LENGTH/2);
     private int ROLL_HOLDER = 0;
+    private int SPECIAL_TILES_LEFT = 3;
 
 
     /* Logic of the Game */
@@ -263,21 +268,21 @@ public class Viewer extends Application {
         TempTiles(String piece, int pos){
 
             this.currentPiece = Piece.valueOf(piece);
+            int row = 0;
+            int tpos = pos;
+            while (tpos > 2){
+                tpos -= 2;
+                row ++;
+            }
 
             setImage(new Image(Viewer.class.getResource(URI_BASE + piece +".png").toString()));
-            if (pos == 1) {
-                setLayoutX(ROLL_POS_OFFSET);
-                setLayoutY(BOARD_Y_OFFSET + 50);
-            } else if (pos== 2) {
-                setLayoutX(ROLL_POS_OFFSET + TILE_LENGTH + 40);
-                setLayoutY(BOARD_Y_OFFSET + 50);
-            } else if (pos == 3) {
-                setLayoutX(ROLL_POS_OFFSET);
-                setLayoutY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
-            } else if (pos== 4) {
-                setLayoutX(ROLL_POS_OFFSET + TILE_LENGTH + 40);
-                setLayoutY(BOARD_Y_OFFSET + 50 + TILE_LENGTH + 40);
+            if (pos % 2 == 1){
+                setLayoutX(ROLL_X_OFFSET);
             }
+            else setLayoutX(ROLL_X_OFFSET + TT_OFFSET);
+
+
+            setLayoutY(ROLL_Y_OFFSET + TT_OFFSET*row);
             setFitWidth(TILE_LENGTH);
             setFitHeight(TILE_LENGTH);
             setPickOnBounds(true);
@@ -307,8 +312,8 @@ public class Viewer extends Application {
                 mouseY = event.getSceneY();
             });
 
-            setOnMouseDragged(event -> {
 
+            setOnMouseDragged(event -> {
                 double movementX = event.getSceneX() - mouseX;
                 double movementY = event.getSceneY() - mouseY;
                 setLayoutX(getLayoutX() + movementX);
@@ -318,6 +323,8 @@ public class Viewer extends Application {
                 event.consume();
 
             });
+
+
 
             setOnMouseReleased(event -> {
                 snapToGrid();
@@ -360,9 +367,16 @@ public class Viewer extends Application {
                 boardString = boardString + currentTilePlacement;
 
                 if(RailroadInk.isValidPlacementSequence(boardString)){
+                    if (this.currentPiece.name().contains("S")){
+                        specialTiles.setDisable(true);  //Disables Placement for special tiles in that turn
+                        SPECIAL_TILES_LEFT --;        // Counts Special Tiles Placed
+                    }
+                    else {
+                        ROLL_HOLDER --;                 // Reduces the Roll Holder Count for normal Tiles
+
+                    }
                     setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
                     setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
-                    ROLL_HOLDER --;                             // Reduces the Roll Holder Count
                 }
                 else{
                     boardString = boardStringBeforeAdding;
@@ -400,6 +414,14 @@ public class Viewer extends Application {
 
     }
 
+    private void specialPlacementHolder(){
+        specialTiles.getChildren().add(new DraggableTiles("S1", 7));
+        specialTiles.getChildren().add(new DraggableTiles("S2", 8));
+        specialTiles.getChildren().add(new DraggableTiles("S3", 9));
+        specialTiles.getChildren().add(new DraggableTiles("S4", 10));
+        specialTiles.getChildren().add(new DraggableTiles("S5", 11));
+    }
+
     private void rollPlacementHolder(){
         if (ROLL_HOLDER == 0){                      // Checks if Previous 4 pieces are placed
             String pieces = logic.generateDiceRoll();
@@ -408,6 +430,9 @@ public class Viewer extends Application {
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
+            if (SPECIAL_TILES_LEFT != 0){
+                specialTiles.setDisable(false);         // Enable Special Tile Placement
+            }
         }
     }
 
@@ -421,7 +446,7 @@ public class Viewer extends Application {
         HBox roll = new HBox();
         roll.getChildren().add(rollButton);
         //roll.setSpacing(10); // this is to set the space between two buttons/nodes
-        roll.setLayoutX(ROLL_POS_OFFSET);
+        roll.setLayoutX(ROLL_BUTTON_OFFSET);
         roll.setLayoutY(20);
         controls.getChildren().add(roll);
 
@@ -438,10 +463,12 @@ public class Viewer extends Application {
         root.getChildren().add(board);
         root.getChildren().add(tiles);
         root.getChildren().add(tempTiles);
+        root.getChildren().add(specialTiles);
 
         makeControls();
         makeBoard();
         generateRoll();
+        specialPlacementHolder();
 
 
         primaryStage.setScene(scene);
