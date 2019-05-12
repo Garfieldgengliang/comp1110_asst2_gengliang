@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -309,7 +310,9 @@ public class Viewer extends Application {
             homeY = getLayoutY();
 
             setOnMouseClicked(event -> {
-                
+                if(event.getButton() == MouseButton.SECONDARY){
+                    setTileRotate();
+                }
             });
 
             setOnMousePressed(event -> {
@@ -334,7 +337,26 @@ public class Viewer extends Application {
             setOnMouseReleased(event ->snapToGrid());
         }
 
-
+        public  void setTileRotate(){
+            int currentOri = orientation%8;
+            if(currentOri == 0||currentOri == 1||currentOri == 2){
+                setRotate(90*(currentOri+1));
+            }
+            else if(currentOri == 3){
+                setRotate(0);
+                setScaleX(-1);
+            }
+            else if(currentOri == 4||currentOri == 5||currentOri==6){
+                setRotate(0);
+                setScaleX(-1);
+                setRotate(90*(currentOri-3));
+            }
+            else if(currentOri==7){
+                setRotate(0);
+                setScaleX(1);
+            }
+            orientation++;
+        }
 
 
         private void snapToGrid(){
