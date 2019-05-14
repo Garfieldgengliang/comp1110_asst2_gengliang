@@ -94,7 +94,7 @@ public class Tile {
 
         }
         // this construction takes a tilePlacementString and split this string into three parts,
-        // piece number, spot number and orientation number to instanciate tile instance
+        // piece number, spot number and orientation number to instantiate tile instance
 
     }
 
