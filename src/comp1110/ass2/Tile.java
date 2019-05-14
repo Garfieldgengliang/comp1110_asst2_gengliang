@@ -99,7 +99,7 @@ public class Tile {
     }
 
 
-    public char tileConnect(Tile other) {
+    public char tileConnect(Tile other) {                   //Checks the property of connection of neighbouring Tiles.
         if(!this.spot.isNeighboring(other.spot)){
             throw new NullPointerException("Tiles are not beside one another");
         }
@@ -117,13 +117,6 @@ public class Tile {
     }
 
 
-    public boolean isValidExit() {
-        //first we need to check if the spot is neighboring the exit by using spot.isExit()
-        // if the answer is true, then we need to check if the connection between tile and exit is valid
-        //for different exits, we check different side of tile, for example
-        // if the exit is B0 then we check if testtile.left == 'r'
-        return false;
-    }
 
     public boolean isCenter() {
         boolean result = spot.isCenter();

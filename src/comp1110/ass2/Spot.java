@@ -156,11 +156,6 @@ public class Spot {
         }
     }
 
-    public boolean isOccupied() {
-        // for this method, we haven't think about its parameter and usage yet
-        return false;
-
-    }
 
     @Override
     public String toString() {
