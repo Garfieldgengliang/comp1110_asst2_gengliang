@@ -273,7 +273,6 @@ public class Viewer extends Application {
 
 
 
-
     class TempTiles extends ImageView{
 
         Piece currentPiece; // give the tempTile the piece property
@@ -302,11 +301,15 @@ public class Viewer extends Application {
         }
     }
 
+    /**
+     * this class extends Temptiles class and
+     * thus we can create draggable tiles by create new instance of this class
+     */
 
     class DraggableTiles extends TempTiles{
         double homeX, homeY;
         double mouseX, mouseY;
-        int orientation = 0;
+        int orientation = 0; // keep track of the orientation of the draggable tile
 
         DraggableTiles(String piece, int pos) {
             super(piece, pos);
@@ -314,12 +317,14 @@ public class Viewer extends Application {
             homeX = getLayoutX();
             homeY = getLayoutY();
 
+            // when the mouse is right clicked, rotate of mirror the tile
             setOnMouseClicked(event -> {
                 if(event.getButton() == MouseButton.SECONDARY){
                     setTileRotate();
                 }
             });
 
+            // when the mouse is pressed, prepare for the drag
             setOnMousePressed(event -> {
                 mouseX = event.getSceneX();
                 mouseY = event.getSceneY();
@@ -342,6 +347,7 @@ public class Viewer extends Application {
             setOnMouseReleased(event ->snapToGrid());
         }
 
+        // this method gives correct rotation when the mouse is right clicked
         public  void setTileRotate(){
             int currentOri = orientation%8;
             if(currentOri == 0||currentOri == 1||currentOri == 2){
@@ -352,6 +358,7 @@ public class Viewer extends Application {
                 setScaleX(-1);
             }
             else if(currentOri == 4||currentOri == 5||currentOri==6){
+                // when the currentOri is 4 or 5 or 6, first mirror the tile and rotate the tile to the right degree
                 setRotate(0);
                 setScaleX(-1);
                 setRotate(90*(currentOri-3));
@@ -363,8 +370,9 @@ public class Viewer extends Application {
             orientation++;
         }
 
-
+        // this method gives correct judgement whether to snap the tile to the board or not
         private void snapToGrid(){
+
             if(onBoard()){
                 int xPosition = (int) Math.round((getLayoutX() - BOARD_X_OFFSET)/TILE_LENGTH );
                 int yPosition = (int) Math.round((getLayoutY() - BOARD_Y_OFFSET)/TILE_LENGTH );
@@ -403,12 +411,13 @@ public class Viewer extends Application {
         }
 
 
-
+        // tell if the tile is currently dragged to the board area
         private boolean onBoard() {
             return getLayoutX() > (BOARD_X_OFFSET+TILE_LENGTH) && (getLayoutX() < (BOARD_X_OFFSET+BOARD_WIDTH-TILE_LENGTH))
                     && getLayoutY() > (BOARD_Y_OFFSET+TILE_LENGTH) && (getLayoutY() < (BOARD_Y_OFFSET+BOARD_HEIGHT-TILE_LENGTH));
         }
 
+        // snap the tile to its original place if it cannot snap to the board
         private void snapToHome() {
             setLayoutX(homeX);
             setLayoutY(homeY);
