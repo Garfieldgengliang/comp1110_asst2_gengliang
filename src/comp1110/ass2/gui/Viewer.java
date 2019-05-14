@@ -409,19 +409,8 @@ public class Viewer extends Application {
             setLayoutY(homeY);
 
         }
-
-        private void tileRotate(){
-            this.setRotate(90);
-        }
-
-        private void tileFliptoLeft(){
-            this.nodeOrientationProperty().setValue(NodeOrientation.RIGHT_TO_LEFT);
-        }
-        private void tileFliptoRight(){
-            this.nodeOrientationProperty().setValue(NodeOrientation.LEFT_TO_RIGHT);
-        }
-
     }
+
 
     private void getTextScore(){
         textScore.getChildren().clear();
