@@ -1,8 +1,11 @@
 Reviewer: Joel Chua (u6708832)
+
 Component: <public static boolean isValidPlacementSequence(String boardString)>
+
 Author: Gengliang Li (u6799959)
 
 Review Comments:
+
 What are the best features of this code?
 
     - The use of sets to check if the size of the set is equivalent to the list, helps with efficiency.
