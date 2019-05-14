@@ -2,6 +2,12 @@ package comp1110.ass2;
 
 import java.util.*;
 
+
+/* Authors:
+    1)Joel Chua, U6708832
+    2)Gengliang Li, U6799959
+    3)Peng Chen, U6460012
+ */
 public class RailroadInk {
     /**
      * Determine whether a tile placement string is well-formed:
@@ -1701,7 +1707,6 @@ public class RailroadInk {
      * @return integer (positive or negative) for final score (not counting expansion packs)
      */
 
-
     public static int getAdvancedScore(String boardString) {
         // FIXME Task 12: compute the total score including bonus points
         List<Tile> tiles = new ArrayList<>();
@@ -1783,7 +1788,6 @@ public class RailroadInk {
                 boolean isSearching = true;
 
                 while (isSearching) {
-                   // System.out.println(unfinishedPaths.size() + "," + currentPath.open.size());
 
                     if (currentPath.open.size() == 1){
                         Tile currentTile = currentPath.open.get(0);
@@ -1832,13 +1836,6 @@ public class RailroadInk {
 
         return getBasicScore(boardString) + rCountMax + hCountMax ;
     }
-
- /*   public static void main(String[] args) {
-        String x = "A2A30A0A43A3A50B2B50A4C50A3D50A2B43B0G12B0A14A2B33A0B11A4E50A3D61A2B21A3G52B1G45A3F52B2F41A3F33A1E40A1D40A3E32A3E27B0F10S0E12B1D17A4D01A1B61A0C43";
-        String y = "A3D61A3D53B0C52A0B52A2B63A4D41B0E60A0F61A3D31A3D23A2G30B0F34A3E32A1B01B2B10A1B21A0A63A4D01A1G41B0G12S2D10A4C10B2A10A2B33A1A30S4E11A4E21A3C21A3C31S5F11";
-        getAdvancedScore(y);
-    }*/
-
 
 }
 

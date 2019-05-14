@@ -26,6 +26,12 @@ import javafx.stage.Stage;
  * NOTE: This class is separate from your main game class.  This
  * class does not play a game, it just illustrates various tile placements.
  */
+
+/* Authors:
+    1)Joel Chua, U6708832
+    2)Gengliang Li, U6799959
+    3)Peng Chen, U6460012
+ */
 public class Viewer extends Application {
     /* board layout */
     private static final int VIEWER_WIDTH = 1024;
