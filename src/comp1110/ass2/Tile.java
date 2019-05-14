@@ -2,6 +2,12 @@ package comp1110.ass2;
 
 import java.util.ArrayList;
 
+/* Authors:
+    1)Joel Chua, U6708832
+    2)Gengliang Li, U6799959
+    3)Peng Chen, U6460012
+ */
+
 public class Tile {
 
     Piece piece;
