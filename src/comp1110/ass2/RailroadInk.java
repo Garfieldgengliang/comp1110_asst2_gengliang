@@ -1718,25 +1718,22 @@ public class RailroadInk {
 
         int hCountMax = 0; // Store maximum length checked for highway
         int rCountMax = 0; // store maximum length checked for railway
+        
 
-
-
-
-        for(Tile tempTile: tiles){
+        for(Tile tempTile: tiles){      //Calculates Longest Highway
             if(tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h'){
-                List<Path> unfinishedPaths = new ArrayList<>();
+                List<Path> unfinishedPaths = new ArrayList<>();         //Creates a list of tiles to scan
                 Path currentPath = new Path();
                 unfinishedPaths.add(currentPath);
-                currentPath.open.add(tempTile);
+                currentPath.open.add(tempTile);                         // Add the current tile to open path
 
-                boolean isSearching = true;
+                boolean isSearching = true;                             // Opens Search Loop
 
                 while (isSearching) {
-                    //System.out.println(unfinishedPaths.size() + "," + currentPath.open.size());
 
                     if (currentPath.open.size() == 1){
                         Tile currentTile = currentPath.open.get(0);
-                        for (int i = 0; i < tiles.size(); i++) {
+                        for (int i = 0; i < tiles.size(); i++) {                    //Adds Neighbouring Tiles to Open List and shifts current Tile to Closed List
                             if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentPath.closed.contains(tiles.get(i))) {
 
                                 currentPath.open.add(tiles.get(i));
@@ -1746,7 +1743,7 @@ public class RailroadInk {
                         currentPath.open.remove(currentTile);
                     }
 
-                    if (currentPath.open.size() > 1){
+                    if (currentPath.open.size() > 1){                               //Condition where A path splits
                         for (int i = 1; i < currentPath.open.size(); i++){
                             Path secondary = new Path();
                             secondary.open.add(currentPath.open.get(i));
@@ -1759,26 +1756,21 @@ public class RailroadInk {
                     }
 
 
-                    if (currentPath.open.size() == 0){
+                    if (currentPath.open.size() == 0){                              //Counts the Length when it reaches the end of a specific path
                         if (hCountMax < currentPath.closed.size()){
                             hCountMax = currentPath.closed.size();
-                           /* String x = "";
-                            for ( int i = 0; i < currentPath.closed.size(); i ++){
-                                x += currentPath.closed.get(i).spot.row +""+ currentPath.closed.get(i).spot.col+",";
-                            }
-                            System.out.println(x);*/
                         }
                         unfinishedPaths.remove(currentPath);
                         if (unfinishedPaths.size() > 0 ){
-                            currentPath = unfinishedPaths.get(0);
+                            currentPath = unfinishedPaths.get(0);                   //Switches to next unfinished Paths
                         }
-                        else {isSearching = false;}
+                        else {isSearching = false;}                                 //Closes the Search loop
                     }
                 }
             }
         }
 
-        for(Tile tempTile: tiles){
+        for(Tile tempTile: tiles){  //Calculates Longest Railway
             if(tempTile.up == 'r' || tempTile.down == 'r' || tempTile.left == 'r' || tempTile.right == 'r'){
                 List<Path> unfinishedPaths = new ArrayList<>();
                 Path currentPath = new Path();
@@ -1789,7 +1781,7 @@ public class RailroadInk {
 
                 while (isSearching) {
 
-                    if (currentPath.open.size() == 1){
+                    if (currentPath.open.size() == 1){                      //Adds Neighbouring Tiles to Open List and shifts current Tile to Closed List
                         Tile currentTile = currentPath.open.get(0);
                         for (int i = 0; i < tiles.size(); i++) {
                             if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentPath.closed.contains(tiles.get(i))) {
@@ -1801,7 +1793,7 @@ public class RailroadInk {
                         currentPath.open.remove(currentTile);
                     }
 
-                    if (currentPath.open.size() > 1){
+                    if (currentPath.open.size() > 1){                        //Condition where A path splits
                         for (int i = 1; i < currentPath.open.size(); i++){
                             Path secondary = new Path();
                             secondary.open.add(currentPath.open.get(i));
@@ -1814,25 +1806,19 @@ public class RailroadInk {
                     }
 
 
-                    if (currentPath.open.size() == 0){
+                    if (currentPath.open.size() == 0){                      //Counts the Length when it reaches the end of a specific path
                         if (rCountMax < currentPath.closed.size()){
                             rCountMax = currentPath.closed.size();
-                           /* String x = "";
-                            for ( int i = 0; i < currentPath.closed.size(); i ++){
-                                x += currentPath.closed.get(i).spot.row +""+ currentPath.closed.get(i).spot.col+",";
-                            }
-                            System.out.println(x);*/
                         }
                         unfinishedPaths.remove(currentPath);
                         if (unfinishedPaths.size() > 0 ){
-                            currentPath = unfinishedPaths.get(0);
+                            currentPath = unfinishedPaths.get(0);           //Switches to next unfinished Paths
                         }
-                        else {isSearching = false;}
+                        else {isSearching = false;}                         //Closes the Search loop
                     }
                 }
             }
         }
-
 
         return getBasicScore(boardString) + rCountMax + hCountMax ;
     }
