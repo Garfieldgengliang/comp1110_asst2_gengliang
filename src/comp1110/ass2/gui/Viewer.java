@@ -425,17 +425,27 @@ public class Viewer extends Application {
 
     private void getTextScore(){
         textScore.getChildren().clear();
-        String advanced_score = Integer.toString(logic.getBasicScore(boardString));
-        Text score;
+        String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));
+        String basic_score = Integer.toString(logic.getBasicScore(boardString));
+        Text score_adv;
+        Text score_basic;
         if (rounds == 7 && ROLL_HOLDER ==0){
-            score = new Text("Final Score: " + advanced_score + "GAME OVER!");
+            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");
+            score_basic = new Text ("");
 
         }
-        else score = new Text("Current Score: " + advanced_score);
-        score.setLayoutX(130);
-        score.setLayoutY(VIEWER_HEIGHT - 50);
-        score.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-        textScore.getChildren().add(score);
+        else {
+            score_basic = new Text("Basic Score: " + basic_score);
+            score_adv = new Text("Advanced Score: " + advanced_score);
+        }
+        score_adv.setLayoutX(380);
+        score_adv.setLayoutY(VIEWER_HEIGHT - 50);
+        score_adv.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        score_basic.setLayoutX(80);
+        score_basic.setLayoutY(VIEWER_HEIGHT - 50);
+        score_basic.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        textScore.getChildren().add(score_adv);
+        textScore.getChildren().add(score_basic);
 
     }
 
