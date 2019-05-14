@@ -425,7 +425,7 @@ public class Viewer extends Application {
 
     private void getTextScore(){
         textScore.getChildren().clear();
-        String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));
+        String advanced_score = Integer.toString(logic.getBasicScore(boardString));
         Text score;
         if (rounds == 7 && ROLL_HOLDER ==0){
             score = new Text("Final Score: " + advanced_score + "GAME OVER!");
