@@ -1,5 +1,4 @@
 package comp1110.ass2.gui;
-
 import comp1110.ass2.Piece;
 import comp1110.ass2.RailroadInk;
 import javafx.application.Application;
@@ -411,7 +410,6 @@ public class Viewer extends Application {
         }
     }
 
-
     private void getTextScore(){
         textScore.getChildren().clear();
         String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));
@@ -516,9 +514,8 @@ public class Viewer extends Application {
 
 
 
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("StepsGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
         root.getChildren().add(controls);
