@@ -297,7 +297,7 @@ public class Viewer extends Application {
             setLayoutY(ROLL_Y_OFFSET + TT_OFFSET*row);
             setFitWidth(TILE_LENGTH);
             setFitHeight(TILE_LENGTH);
-            setPickOnBounds(true);
+            setPickOnBounds(true);                                      //Enable Clicks on transparent Spaces of PNG Files
         }
     }
 
@@ -389,8 +389,8 @@ public class Viewer extends Application {
                 if(RailroadInk.isValidPlacementSequence(boardString)){
                     if (this.currentPiece.name().contains("S")){
                         specialTiles.setDisable(true);  //Disables Placement for special tiles in that turn
-                        SPECIAL_TILES_LEFT --;        // Counts Special Tiles Placed
-                        setText();
+                        SPECIAL_TILES_LEFT --;          // Counts Special Tiles Placed
+                        setText();                      // Refresh TextFields for Rounds and Special Tiles
                     }
                     else {
                         ROLL_HOLDER --;                 // Reduces the Roll Holder Count for normal Tiles
@@ -398,7 +398,7 @@ public class Viewer extends Application {
                     setLayoutX(BOARD_X_OFFSET+xPosition*TILE_LENGTH);
                     setLayoutY(BOARD_Y_OFFSET+yPosition*TILE_LENGTH);
                     setDisable(true);
-                    getTextScore();
+                    getTextScore();                     //Refresh Scores Text
                 }
                 else{
                     boardString = boardStringBeforeAdding;
@@ -425,32 +425,6 @@ public class Viewer extends Application {
         }
     }
 
-    private void getTextScore(){
-        textScore.getChildren().clear();
-        String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));
-        String basic_score = Integer.toString(logic.getBasicScore(boardString));
-        Text score_adv;
-        Text score_basic;
-        if (rounds == 7 && ROLL_HOLDER ==0){
-            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");
-            score_basic = new Text ("");
-
-        }
-        else {
-            score_basic = new Text("Basic Score: " + basic_score);
-            score_adv = new Text("Advanced Score: " + advanced_score);
-        }
-        score_adv.setLayoutX(380);
-        score_adv.setLayoutY(VIEWER_HEIGHT - 50);
-        score_adv.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-        score_basic.setLayoutX(80);
-        score_basic.setLayoutY(VIEWER_HEIGHT - 50);
-        score_basic.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-        textScore.getChildren().add(score_adv);
-        textScore.getChildren().add(score_basic);
-
-    }
-
     private void specialPlacementHolder(){
         specialTiles.getChildren().add(new DraggableTiles("S0", 7));
         specialTiles.getChildren().add(new DraggableTiles("S1", 8));
@@ -461,14 +435,14 @@ public class Viewer extends Application {
     }
 
     private void rollPlacementHolder(){
-        if (ROLL_HOLDER == 0 && rounds != 7){                      // Checks if Previous 4 pieces are placed
+        if (ROLL_HOLDER == 0 && rounds != 7){                      // Checks if Previous 4 pieces are placed and if its not the final round
             String pieces = logic.generateDiceRoll();
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(0,2), 1));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(2,4), 2));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(4,6), 3));
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
-            rounds ++;
+            rounds ++;                              // Increment round Counter
             setText();
             if (SPECIAL_TILES_LEFT != 0){
                 specialTiles.setDisable(false);         // Enable Special Tile Placement
@@ -478,13 +452,13 @@ public class Viewer extends Application {
 
 
     private void setText() {
-        textFields.getChildren().clear();
-        Text round_Number = new Text("Round: " + rounds);
+        textFields.getChildren().clear();                                           //Clears previous texts
+        Text round_Number = new Text("Round: " + rounds);                           //Round Counter Text
         String disabled = "";
         Color fill;
-        Text ssCounter = new Text("Special Tiles Left: " + SPECIAL_TILES_LEFT);
+        Text ssCounter = new Text("Special Tiles Left: " + SPECIAL_TILES_LEFT);     //Special Tiles Counter Text
 
-        if (specialTiles.isDisabled()){
+        if (specialTiles.isDisabled()){                                             //Checks if Special Tile is available for current Round.
             disabled = "Unavailable!";
             fill = Color.RED;
         }
@@ -507,23 +481,48 @@ public class Viewer extends Application {
         ssCounter.setLayoutY(ROLL_Y_OFFSET + TT_OFFSET *2 +TILE_LENGTH - 24);
         ssCounter.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
 
-        textFields.getChildren().add(round_Number);
+        textFields.getChildren().add(round_Number);                                     //Adds Various texts to textField Group
         textFields.getChildren().add(ssCounter);
         textFields.getChildren().add(disable_text);
 
     }
 
-    private void generateRoll() {
-        Button rollButton = new Button("Roll Dices!");
+    private void getTextScore(){
+        textScore.getChildren().clear();                                            //Clears previous texts
+        String advanced_score = Integer.toString(logic.getAdvancedScore(boardString));  //Counts Advanced Score
+        String basic_score = Integer.toString(logic.getBasicScore(boardString));        //Counts Basic Score
+        Text score_adv;
+        Text score_basic;
+        if (rounds == 7 && ROLL_HOLDER ==0){
+            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");
+            score_basic = new Text ("");
 
-        rollButton.setOnAction(e -> rollPlacementHolder());
+        }
+        else {
+            score_basic = new Text("Basic Score: " + basic_score);
+            score_adv = new Text("Advanced Score: " + advanced_score);
+        }
+        score_adv.setLayoutX(380);
+        score_adv.setLayoutY(VIEWER_HEIGHT - 50);
+        score_adv.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        score_basic.setLayoutX(80);
+        score_basic.setLayoutY(VIEWER_HEIGHT - 50);
+        score_basic.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        textScore.getChildren().add(score_adv);
+        textScore.getChildren().add(score_basic);
+
+    }
+
+    private void generateRoll() {
+        Button rollButton = new Button("Roll Dices!");              //Button to Click To Generate roll
+
+        rollButton.setOnAction(e -> rollPlacementHolder());              //Call Method on click
 
         HBox roll = new HBox();
         roll.getChildren().add(rollButton);
-        //roll.setSpacing(10); // this is to set the space between two buttons/nodes
         roll.setLayoutX(ROLL_BUTTON_OFFSET);
         roll.setLayoutY(20);
-        controls.getChildren().add(roll);
+        controls.getChildren().add(roll);                               // Add the button to controls group.
 
     }
 

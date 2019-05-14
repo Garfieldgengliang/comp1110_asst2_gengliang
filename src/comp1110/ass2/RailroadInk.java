@@ -1718,7 +1718,7 @@ public class RailroadInk {
 
         int hCountMax = 0; // Store maximum length checked for highway
         int rCountMax = 0; // store maximum length checked for railway
-        
+
 
         for(Tile tempTile: tiles){      //Calculates Longest Highway
             if(tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h'){
