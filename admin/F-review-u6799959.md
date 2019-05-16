@@ -5,7 +5,7 @@ Author: Peng Chen (uu6460012)
 Review Comments:
 
 1. The best features of the code?
-I think there are two good features of the code. The first one is that the code has correctly dealt with special tiles,
+I think there are two good features of the code. The first one is that the code has dealt with special tiles,
 which means it considered the special tiles that has been used,
 and whether there is still a chance to use the left special tiles.
 The second one is that he write a method to get all the available spot on the board given a boardString,
