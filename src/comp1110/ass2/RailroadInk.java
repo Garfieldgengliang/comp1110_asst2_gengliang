@@ -506,7 +506,6 @@ public class RailroadInk {
                         }
                     }
 
-                    //System.out.println(currentCheck + "neighbor is " + neighborString);
 
                     if(isTileExitBlank(currentCheck)){
                         int validconnection = 0;
@@ -781,8 +780,6 @@ public class RailroadInk {
             // minus the road ends legally connect to another tile
 
             DeadEndNumber = DeadEndNumber + currentNonBlankNumber - connectEdge - countNeighbor;
-           // System.out.println(currentNonBlankNumber - connectEdge - countNeighbor);
-          //  System.out.println(DeadEndNumber);
         }
         return DeadEndNumber;
     }
@@ -876,7 +873,7 @@ public class RailroadInk {
                }
         }
 
-        if(target == ""){
+        if(target==""){
             System.out.println("something wrong with dealSurpassExit");
         }
         return target;
@@ -979,14 +976,12 @@ public class RailroadInk {
 
         for(int listindex = 0; listindex < placementList.size(); listindex++) {
             String currentCheck = placementList.get(listindex);
-            //Tile currentTile = new Tile(currentCheck);
             if (isvalidExit(currentCheck)) {
                 String currentSpot = currentCheck.substring(2,4);
                 exitSpotList.add(currentSpot);
 
             }
         }
-        // System.out.println(exitSpotList);
         return exitSpotList;
     }
 
@@ -1001,13 +996,11 @@ public class RailroadInk {
 
         for(int listindex = 0; listindex < oneConnectedRoute.size(); listindex++) {
             String currentCheck = oneConnectedRoute.get(listindex);
-            //Tile currentTile = new Tile(currentCheck);
             if (isvalidExit(currentCheck)) {
                 exitNumberCount++;
 
             }
         }
-        //System.out.println("exit Number connected " + exitNumberCount);
         return exitNumberCount;
     }
 
@@ -1019,9 +1012,7 @@ public class RailroadInk {
 
     public static int findRoutePoints(int exitNumberCount){
         int routePoints = 0;
-        if(exitNumberCount == 1){ routePoints = 0;
-            // System.out.println("Notice! this route only connects one exit")
-            ;}
+        if(exitNumberCount == 1){ routePoints = 0; }
         if(exitNumberCount == 2){ routePoints = 4; }
         if(exitNumberCount == 3){ routePoints = 8; }
         if(exitNumberCount == 4){ routePoints = 12; }
@@ -1057,7 +1048,6 @@ public class RailroadInk {
             String currentPlacement = boardString.substring(stringindex,stringindex+5);
             placementList.add(currentPlacement);
         }
-       // System.out.println(placementList);
 
         int deadEnd = findDeadEnd(boardString); //find the number of dead ends
 
@@ -1073,21 +1063,18 @@ public class RailroadInk {
         }  // find the number of centeral tiles
 
         int routeScore = 0;
-        //List<String>  nextPlacementList = new ArrayList<String>();
 
         List<String> totalExitSpot = findExitSpot(placementList);
         // first we put all the exit that has tile connection in a list
 
         while(totalExitSpot.size() > 0) {
             List<String> currentRoute = findConnectedRoute(placementList, totalExitSpot.get(0));
-           // System.out.println("current route is " + currentRoute);
 
             int exitNum = findNumberExit(currentRoute);
             int currentScore = findRoutePoints(exitNum);
             routeScore += currentScore;
 
             List<String> currentExitSpot = findExitSpot(currentRoute);
-           // System.out.println("current Exit Spot is " + currentExitSpot);
 
 
             for (int spotIndex = 0; spotIndex < currentExitSpot.size(); spotIndex++) {
@@ -1097,12 +1084,7 @@ public class RailroadInk {
                 }
             } // then every time we find a route, we eliminate all the exits that have been connected by this route
             // from the total exits list
-            //System.out.println("after remove total is " + totalExitSpot);
         }
-
-       // System.out.println("dead end number is " + deadEnd);
-       // System.out.println("center score is " + centerScore);
-       // System.out.println("route score is " + routeScore);
 
 
         int totalScore = routeScore + centerScore - deadEnd;
