@@ -115,8 +115,77 @@ public class Tile {
             return 'r';
         } else return 'b';
     }
+    
 
+    //Generate neighbouring valid spot list which contains 4 elements (upSpot, rightSpot, downSpot, and leftSpot) at most.
+    public ArrayList<Spot> neighbouringValidSpot() {
+        ArrayList<Spot> neighbouringValidSpot = new ArrayList<>();
 
+        //check upside
+        if (this.up == 'h') {
+            if (this.spot.row != 'A') {
+                String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
+                Spot upSpot = new Spot(upSpotString, 'b', 'b', 'h', 'b');
+                neighbouringValidSpot.add(upSpot);
+            }
+        }
+        if (this.up == 'r') {
+            if (this.spot.row != 'A') {
+                String upSpotString = String.valueOf((char) (this.spot.row - 1)) + this.spot.col;
+                Spot upSpot = new Spot(upSpotString, 'b', 'b', 'r', 'b');
+                neighbouringValidSpot.add(upSpot);
+            }
+        }
+
+        //check right
+        if (this.right == 'h') {
+            if (this.spot.col != '6') {
+                String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
+                Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'h');
+                neighbouringValidSpot.add(rightSpot);
+            }
+        }
+        if (this.right == 'r') {
+            if (this.spot.col != '6') {
+                String rightSpotString = this.spot.row + String.valueOf(this.spot.col - '0' + 1);
+                Spot rightSpot = new Spot(rightSpotString, 'b', 'b', 'b', 'r');
+                neighbouringValidSpot.add(rightSpot);
+            }
+        }
+
+        //check downside
+        if (this.down == 'h') {
+            if (this.spot.row != 'G') {
+                String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
+                Spot downSpot = new Spot(downSpotString, 'h', 'b', 'b', 'b');
+                neighbouringValidSpot.add(downSpot);
+            }
+        }
+        if (this.down == 'r') {
+            if (this.spot.row != 'G') {
+                String downSpotString = String.valueOf((char) (this.spot.row + 1)) + this.spot.col;
+                Spot downSpot = new Spot(downSpotString, 'r', 'b', 'b', 'b');
+                neighbouringValidSpot.add(downSpot);
+            }
+        }
+
+        //check left
+        if (this.left == 'h') {
+            if (this.spot.col != '0') {
+                String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
+                Spot leftSpot = new Spot(leftSpotString, 'b', 'h', 'b', 'b');
+                neighbouringValidSpot.add(leftSpot);
+            }
+        }
+        if (this.left == 'r') {
+            if (this.spot.col != '0') {
+                String leftSpotString = this.spot.row + String.valueOf(this.spot.col - '0' - 1);
+                Spot leftSpot = new Spot(leftSpotString, 'b', 'r', 'b', 'b');
+                neighbouringValidSpot.add(leftSpot);
+            }
+        }
+        return neighbouringValidSpot;
+    }
     @Override
     public String toString(){
         return this.piece.toString() + this.spot.toString() + this.orientation;
