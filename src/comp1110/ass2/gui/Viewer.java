@@ -744,7 +744,7 @@ public class Viewer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("StepsGame Viewer");
+        primaryStage.setTitle("RailroadInk Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
         root.getChildren().add(controls);
         root.getChildren().add(board);
