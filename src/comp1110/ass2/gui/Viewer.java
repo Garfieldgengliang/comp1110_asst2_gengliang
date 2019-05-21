@@ -616,13 +616,13 @@ public class Viewer extends Application {
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
             rounds ++;                              // Increment round Counter
-            setText();
             String cpu_out = logic.generateMove(cpu_boardString,pieces);    //Generate CPU moves on roll button click
             cpu_boardString+=cpu_out;                                       //State of CPU board
             cpuMakePlacement(cpu_boardString);                              //Generate the tiles for the cpu boardString.
             if (SPECIAL_TILES_LEFT != 0){
                 specialTiles.setDisable(false);         // Enable Special Tile Placement Every New round if there are tiles left.
             }
+            setText();
         }
     }
 
