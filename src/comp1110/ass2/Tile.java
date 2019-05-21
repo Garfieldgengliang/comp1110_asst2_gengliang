@@ -117,13 +117,6 @@ public class Tile {
     }
 
 
-
-    public boolean isCenter() {
-        boolean result = spot.isCenter();
-        return result;
-        // when we use this method, just write testTile.isCenter()
-    }
-
     //Generate neighbouring valid spot list which contains 4 elements (upSpot, rightSpot, downSpot, and leftSpot) at most.
     public ArrayList<Spot> neighbouringValidSpot() {
         ArrayList<Spot> neighbouringValidSpot = new ArrayList<>();
@@ -193,7 +186,6 @@ public class Tile {
         }
         return neighbouringValidSpot;
     }
-
     @Override
     public String toString(){
         return this.piece.toString() + this.spot.toString() + this.orientation;

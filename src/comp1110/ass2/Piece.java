@@ -37,15 +37,6 @@ public enum Piece {
     }
 
 
-    public char[] toStringArray() {
-        char[] output = new char[5];
-        output[0] = this.upside;
-        output[1] = this.downside;
-        output[2] = this.left;
-        output[3] = this.right;
-        output[4] = this.center;
-        return output;
-    }
 
 
     public int NonBlankNumber() {
