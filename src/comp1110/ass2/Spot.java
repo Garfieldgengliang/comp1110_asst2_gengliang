@@ -9,8 +9,6 @@ public class Spot {
     char col; // or char col;
     char row;
 
-    boolean exitproperty;
-
     public char upEdge;
     public char downEdge;
     public char leftEdge;
