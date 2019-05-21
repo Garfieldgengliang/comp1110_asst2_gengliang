@@ -20,8 +20,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.text.rtf.RTFEditorKit;
-
 /**
  * A very simple viewer for tile placements in the Railroad Ink game.
  * <p>
