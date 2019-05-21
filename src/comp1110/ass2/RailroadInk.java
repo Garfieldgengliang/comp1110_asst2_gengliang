@@ -1150,6 +1150,22 @@ public class RailroadInk {
         specialList.add("S4");
         specialList.add("S5");
 
+        //delete the used special tiles from specialList
+        ArrayList<String> currentSpecialList = new ArrayList<>();
+        for (int i = 0; i < boardString.length(); i = i + 5){
+            if (boardString.substring(i, i + 1).equals("S")){
+                currentSpecialList.add(boardString.substring(i, i + 2));
+            }
+        }
+        for (int i = 0; i < currentSpecialList.size(); i++){
+            for (int j = 0; j < specialList.size(); j++){
+                if (currentSpecialList.get(i).equals(specialList.get(j))){
+                    specialList.remove(j);
+                    j = 0;
+                }
+            }
+        }
+
         //test firstDie
         String firstAttempt = "";
         int firstStep = 0;
@@ -1402,7 +1418,7 @@ public class RailroadInk {
         ArrayList<Spot> leftValidSpot = getEmptyValidSpot(lastAttempt);
 
         //find the possible position using diceRoll
-        if (currentSpecial == 1) {
+        if (currentUseSpecial == 1) {
             loop:
             for (int i = 0; i < leftValidSpot.size(); i++) {
                 for (int j = 0; j < diceList.size(); j++) {
