@@ -115,7 +115,7 @@ public class Tile {
             return 'r';
         } else return 'b';
     }
-    
+
 
     //Generate neighbouring valid spot list which contains 4 elements (upSpot, rightSpot, downSpot, and leftSpot) at most.
     public ArrayList<Spot> neighbouringValidSpot() {
