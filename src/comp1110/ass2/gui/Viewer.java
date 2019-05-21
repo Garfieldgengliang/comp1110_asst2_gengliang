@@ -56,21 +56,21 @@ public class Viewer extends Application {
     /*Definitions of Board/Tiles etc... */
     private static final int TILE_LENGTH = 55; //Defining each Tile length
     private static final int BOARD_WIDTH = TILE_LENGTH*9; //Defining board width
-    private static final int BOARD_HEIGHT = TILE_LENGTH*9; //defining board height
+    private static final int BOARD_HEIGHT = TILE_LENGTH*9; //Defining board height
     private static final int BOARD_X_OFFSET = 0; //Setting offset for the board
     private static final int BOARD_Y_OFFSET = 0;
     private static final Paint SUBBOARD_FILL = Color.DARKGREY;
     private static final Paint SUBBOARD_TILE = Color.GREY;
     private static final String HighExit = Viewer.class.getResource(URI_BASE + "HighExit.png").toString();
     private static final String RailExit = Viewer.class.getResource(URI_BASE + "RailExit.png").toString();
-    private static final int ROLL_X_BUTTON_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +TILE_LENGTH/4);
+    private static final int ROLL_X_BUTTON_OFFSET = (BOARD_X_OFFSET + BOARD_WIDTH +TILE_LENGTH/4);  // Roll Button Offsets
     private static final int ROLL_Y_BUTTON_OFFSET =10;
-    private static final int ROLL_X_OFFSET = ROLL_X_BUTTON_OFFSET;
-    private static final int ROLL_Y_OFFSET = BOARD_Y_OFFSET + ROLL_Y_BUTTON_OFFSET +45;
-    private static final int TT_OFFSET = TILE_LENGTH + 20;
+    private static final int ROLL_X_OFFSET = ROLL_X_BUTTON_OFFSET;      //X Offset for Tile Holder
+    private static final int ROLL_Y_OFFSET = BOARD_Y_OFFSET + ROLL_Y_BUTTON_OFFSET +45; //Y Offset for Tile Holder
+    private static final int TT_OFFSET = TILE_LENGTH + 20;  //Offset for TempTiles
     private static final int CPU_TILE_LENGTH = 34; //Defining each Tile length CPU
     private static final int CPU_BOARD_WIDTH = CPU_TILE_LENGTH*9; //Defining board width CPU
-    private static final int CPU_BOARD_HEIGHT = CPU_TILE_LENGTH*9; //defining board height CPU
+    private static final int CPU_BOARD_HEIGHT = CPU_TILE_LENGTH*9; //Defining board height CPU
     private static final int CPU_BOARD_X_OFFSET = ROLL_X_OFFSET + TT_OFFSET * 2 + 60 ; //Setting offset for the board CPU
     private static final int CPU_BOARD_Y_OFFSET = 0;
     private int rounds = 0;
@@ -617,11 +617,11 @@ public class Viewer extends Application {
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
             rounds ++;                              // Increment round Counter
             setText();
-            String cpu_out = logic.generateMove(cpu_boardString,pieces);
-            cpu_boardString+=cpu_out;
-            cpuMakePlacement(cpu_boardString);
+            String cpu_out = logic.generateMove(cpu_boardString,pieces);    //Generate CPU moves on roll button click
+            cpu_boardString+=cpu_out;                                       //State of CPU board
+            cpuMakePlacement(cpu_boardString);                              //Generate the tiles for the cpu boardString.
             if (SPECIAL_TILES_LEFT != 0){
-                specialTiles.setDisable(false);         // Enable Special Tile Placement
+                specialTiles.setDisable(false);         // Enable Special Tile Placement Every New round if there are tiles left.
             }
         }
     }
@@ -667,17 +667,17 @@ public class Viewer extends Application {
         textScore.getChildren().clear();                                            //Clears previous texts
         int advanced_score = logic.getAdvancedScore(boardString);  //Counts Advanced Score
         int basic_score = logic.getBasicScore(boardString);        //Counts Basic Score
-        int cpu_advanced_score = logic.getAdvancedScore(cpu_boardString);  //Counts Advanced Score
-        int cpu_basic_score = logic.getBasicScore(cpu_boardString);        //Counts Basic Score
+        int cpu_advanced_score = logic.getAdvancedScore(cpu_boardString);  //Counts CPU Advanced Score
+        int cpu_basic_score = logic.getBasicScore(cpu_boardString);        //Counts CPU Basic Score
         Text score_adv;
         Text score_basic;
         if (rounds == 7 && ROLL_HOLDER ==0){
-            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");
+            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");    //Change to Game Over popup once game is finished
             score_basic = new Text ("");
 
         }
         else {
-            score_basic = new Text("Player Basic Score: " + basic_score);
+            score_basic = new Text("Player Basic Score: " + basic_score);               //Calculates scores every placement
             score_adv = new Text("Player Advanced Score: " + advanced_score);
         }
         score_adv.setLayoutX(BOARD_X_OFFSET + 20);
@@ -695,7 +695,7 @@ public class Viewer extends Application {
         if (rounds == 7 && ROLL_HOLDER ==0){
             cpu_score_adv = new Text("CPU Final Score: " + cpu_advanced_score + "  GAME OVER!");
             cpu_score_basic = new Text ("");
-            if (cpu_advanced_score == advanced_score){
+            if (cpu_advanced_score == advanced_score){              //Result of Player vs CPU
                 result = new Text("DRAW!");
                 result.setFill(Color.BLACK);
             }
@@ -713,7 +713,7 @@ public class Viewer extends Application {
             textScore.getChildren().add(result);
         }
         else {
-            cpu_score_basic = new Text("CPU Basic Score: " + cpu_basic_score);
+            cpu_score_basic = new Text("CPU Basic Score: " + cpu_basic_score);      //Calculates CPU Score per round
             cpu_score_adv = new Text("CPU Advanced Score: " + cpu_advanced_score);
         }
         cpu_score_adv.setLayoutX(CPU_BOARD_X_OFFSET);
