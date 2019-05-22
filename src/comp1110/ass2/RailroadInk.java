@@ -1971,8 +1971,7 @@ public class RailroadInk {
         for (int i = 0; i < diceLeftList.size(); i++) {
             for (int j = 0; j < validSpot.size(); j++) {
                 for (int k = 0; k < 8; k++) {
-                    int currentTotalScore = getBasicScore(boardString + diceLeftList.get(i) + validSpot.get(j).toString() + k)
-                            + getAdvancedScore(boardString + diceLeftList.get(i) + validSpot.get(j).toString() + k);
+                    int currentTotalScore = getAdvancedScore(boardString + diceLeftList.get(i) + validSpot.get(j).toString() + k);
                     if (currentTotalScore > maxTotalScore) {
                         maxTotalScore = currentTotalScore;
                         optimalStep = diceLeftList.get(i) + validSpot.get(j).toString() + k;
