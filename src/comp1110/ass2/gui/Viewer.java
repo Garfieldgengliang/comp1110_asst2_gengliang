@@ -616,8 +616,7 @@ public class Viewer extends Application {
             tempTiles.getChildren().add(new DraggableTiles(pieces.substring(6,8), 4));
             ROLL_HOLDER += 4;                       // Resets Roll Holder Count
             rounds ++;                              // Increment round Counter
-            //String cpu_out = logic.generateMove(cpu_boardString,pieces);    //Generate CPU moves on roll button click
-            String cpu_out = logic.generateAdvancedMove(cpu_boardString,pieces);
+            String cpu_out = logic.generateAdvancedMove(cpu_boardString,pieces); //Generate advanced CPU moves when new tiles generated
             cpu_boardString+=cpu_out;                                       //State of CPU board
             cpuMakePlacement(cpu_boardString);                              //Generate the tiles for the cpu boardString.
             if (SPECIAL_TILES_LEFT != 0){
@@ -673,7 +672,7 @@ public class Viewer extends Application {
         Text score_adv;
         Text score_basic;
         if (rounds == 7 && ROLL_HOLDER ==0){
-            score_adv = new Text("Final Score: " + advanced_score + "  GAME OVER!");    //Change to Game Over popup once game is finished
+            score_adv = new Text("Final Score: " + advanced_score + " GAME OVER!");    //Change to Game Over popup once game is finished
             score_basic = new Text ("");
 
         }
@@ -694,7 +693,7 @@ public class Viewer extends Application {
         Text cpu_score_basic;
         Text result;
         if (rounds == 7 && ROLL_HOLDER ==0){
-            cpu_score_adv = new Text("CPU Final Score: " + cpu_advanced_score + "  GAME OVER!");
+            cpu_score_adv = new Text("CPU Final Score: " + cpu_advanced_score + " GAME OVER!");
             cpu_score_basic = new Text ("");
             if (cpu_advanced_score == advanced_score){              //Result of Player vs CPU
                 result = new Text("DRAW!");
