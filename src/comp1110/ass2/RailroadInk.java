@@ -73,7 +73,6 @@ public class RailroadInk {
     }
 
 
-
     /**
      * Determine whether a board string is well-formed:
      * - it consists of exactly N five-character tile placements (where N = 1 .. 31);
@@ -87,14 +86,11 @@ public class RailroadInk {
         // FIXME Task 3: determine whether a board string is well-formed
         if (boardString == null) {
             return false;
-        }
-        else if (boardString.equals("")) {
+        } else if (boardString.equals("")) {
             return false;
-        }
-        else if (boardString.length() - boardString.replaceAll("S", "").length() > 3) {
+        } else if (boardString.length() - boardString.replaceAll("S", "").length() > 3) {
             return false;
-        }
-        else if (boardString.length() / 5 > 0 && boardString.length() / 5 < 32) {
+        } else if (boardString.length() / 5 > 0 && boardString.length() / 5 < 32) {
             if (boardString.length() % 5 == 0) {
                 for (int i = 0; i < boardString.length(); i += 5) {
                     if (isTilePlacementWellFormed(boardString.substring(i, i + 5))) {
@@ -106,7 +102,6 @@ public class RailroadInk {
         }
         return false;
     }
-
 
 
     /**
@@ -128,320 +123,323 @@ public class RailroadInk {
         Spot firstspot = firstTile.spot;
         Spot secondspot = secondTile.spot;
 
-        if(firstspot.isNeighboring(secondspot)){ // first we check whether the spot is neighboring or not
+        if (firstspot.isNeighboring(secondspot)) { // first we check whether the spot is neighboring or not
             String connectionside = firstspot.connectionside(secondspot);
             // then we check of the connection is valid
-            if(connectionside == "right"){
-                if(firstTile.right == secondTile.left && firstTile.right!= 'b' && secondTile.left!='b'){
+            if (connectionside == "right") {
+                if (firstTile.right == secondTile.left && firstTile.right != 'b' && secondTile.left != 'b') {
                     return true;
-                }else{return false;}
+                } else {
+                    return false;
+                }
             }
-            if(connectionside == "left"){
-                if(firstTile.left == secondTile.right && firstTile.left!= 'b' && secondTile.right!='b'){
+            if (connectionside == "left") {
+                if (firstTile.left == secondTile.right && firstTile.left != 'b' && secondTile.right != 'b') {
                     return true;
-                }else{return false;}
+                } else {
+                    return false;
+                }
 
             }
-            if(connectionside == "upside"){
-                if(firstTile.up == secondTile.down && firstTile.up!= 'b' && secondTile.down!='b'){
+            if (connectionside == "upside") {
+                if (firstTile.up == secondTile.down && firstTile.up != 'b' && secondTile.down != 'b') {
                     return true;
-                }else{return false;}
+                } else {
+                    return false;
+                }
 
             }
-            if(connectionside == "downside"){
-                if(firstTile.down == secondTile.up && firstTile.down!= 'b' && secondTile.up!='b'){
+            if (connectionside == "downside") {
+                if (firstTile.down == secondTile.up && firstTile.down != 'b' && secondTile.up != 'b') {
                     return true;
-                }else{return  false;}
-            }
-            else{
+                } else {
+                    return false;
+                }
+            } else {
                 return false;
             }
 
-        }
-        else{
+        } else {
             return false;
         }
 
     }
 
-    public static  boolean isLegalExit(String tilePlacementString){
+    public static boolean isLegalExit(String tilePlacementString) {
         // this method is to check whether a tileplacement string is legally connected to an exit
         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
         Tile teststring = new Tile(tilePlacementString);
 
-        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'h'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'B') {
+            if (teststring.left == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-            if(teststring.left == 'r'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'D') {
+            if (teststring.left == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-            if(teststring.left == 'h'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'F') {
+            if (teststring.left == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-            if(teststring.up == 'r'){
+        if (teststring.spot.col == '1' && teststring.spot.row == 'A') {
+            if (teststring.up == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-            if(teststring.up == 'h'){
+        if (teststring.spot.col == '3' && teststring.spot.row == 'A') {
+            if (teststring.up == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-            if(teststring.up == 'r'){
+        if (teststring.spot.col == '5' && teststring.spot.row == 'A') {
+            if (teststring.up == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-            if(teststring.right == 'h'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'B') {
+            if (teststring.right == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-            if(teststring.right == 'r'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'D') {
+            if (teststring.right == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-            if(teststring.right == 'h'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'F') {
+            if (teststring.right == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-            if(teststring.down == 'r'){
+        if (teststring.spot.col == '1' && teststring.spot.row == 'G') {
+            if (teststring.down == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-            if(teststring.down == 'h'){
+        if (teststring.spot.col == '3' && teststring.spot.row == 'G') {
+            if (teststring.down == 'h') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-            if(teststring.down == 'r'){
+        if (teststring.spot.col == '5' && teststring.spot.row == 'G') {
+            if (teststring.down == 'r') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-     public static  boolean isTileExitBlank(String tilePlacementString){
+    public static boolean isTileExitBlank(String tilePlacementString) {
         // this method is to check whether a exittile connects to an exit with its blank face
-         // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
+        // this means first we check if a tile is neighboring an exit, then we check if the connection is legal
         Tile teststring = new Tile(tilePlacementString);
 
-        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'b'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'B') {
+            if (teststring.left == 'b') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-         if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-             if(teststring.left == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-             if(teststring.left == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-             if(teststring.up == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-             if(teststring.up == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-             if(teststring.up == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-             if(teststring.right == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-             if(teststring.right == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-             if(teststring.right == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-             if(teststring.down == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-             if(teststring.down == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-             if(teststring.down == 'b'){
-                 return true;
-             }else{
-                 return false;
-             }
-         }
-         else{
-             return false;
-         }
-     }
+        if (teststring.spot.col == '0' && teststring.spot.row == 'D') {
+            if (teststring.left == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '0' && teststring.spot.row == 'F') {
+            if (teststring.left == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '1' && teststring.spot.row == 'A') {
+            if (teststring.up == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '3' && teststring.spot.row == 'A') {
+            if (teststring.up == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '5' && teststring.spot.row == 'A') {
+            if (teststring.up == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '6' && teststring.spot.row == 'B') {
+            if (teststring.right == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '6' && teststring.spot.row == 'D') {
+            if (teststring.right == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '6' && teststring.spot.row == 'F') {
+            if (teststring.right == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '1' && teststring.spot.row == 'G') {
+            if (teststring.down == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '3' && teststring.spot.row == 'G') {
+            if (teststring.down == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (teststring.spot.col == '5' && teststring.spot.row == 'G') {
+            if (teststring.down == 'b') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
-    public static  boolean isvalidExit(String tilePlacementString){
+    public static boolean isvalidExit(String tilePlacementString) {
         // this method is to check whether a tileplacement string is validly connected to an exit
         // this means first we check if a tile is neighboring an exit, then we check if the connection is valid
         Tile teststring = new Tile(tilePlacementString);
 
-        if(teststring.spot.col == '0' && teststring.spot.row=='B'){
-            if(teststring.left == 'r'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'B') {
+            if (teststring.left == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '0' && teststring.spot.row=='D'){
-            if(teststring.left == 'h'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'D') {
+            if (teststring.left == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '0' && teststring.spot.row=='F'){
-            if(teststring.left == 'r'){
+        if (teststring.spot.col == '0' && teststring.spot.row == 'F') {
+            if (teststring.left == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '1' && teststring.spot.row=='A'){
-            if(teststring.up == 'h'){
+        if (teststring.spot.col == '1' && teststring.spot.row == 'A') {
+            if (teststring.up == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '3' && teststring.spot.row=='A'){
-            if(teststring.up == 'r'){
+        if (teststring.spot.col == '3' && teststring.spot.row == 'A') {
+            if (teststring.up == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '5' && teststring.spot.row=='A'){
-            if(teststring.up == 'h'){
+        if (teststring.spot.col == '5' && teststring.spot.row == 'A') {
+            if (teststring.up == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='B'){
-            if(teststring.right == 'r'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'B') {
+            if (teststring.right == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='D'){
-            if(teststring.right == 'h'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'D') {
+            if (teststring.right == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '6' && teststring.spot.row=='F'){
-            if(teststring.right == 'r'){
+        if (teststring.spot.col == '6' && teststring.spot.row == 'F') {
+            if (teststring.right == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '1' && teststring.spot.row=='G'){
-            if(teststring.down == 'h'){
+        if (teststring.spot.col == '1' && teststring.spot.row == 'G') {
+            if (teststring.down == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '3' && teststring.spot.row=='G'){
-            if(teststring.down == 'r'){
+        if (teststring.spot.col == '3' && teststring.spot.row == 'G') {
+            if (teststring.down == 'r') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        if(teststring.spot.col == '5' && teststring.spot.row=='G'){
-            if(teststring.down == 'h'){
+        if (teststring.spot.col == '5' && teststring.spot.row == 'G') {
+            if (teststring.down == 'h') {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -453,12 +451,12 @@ public class RailroadInk {
      * A board string is valid if each tile placement is legal with respect to all previous tile
      * placements in the string, according to the rules for legal placements:
      * - A tile must be placed such that at least one edge connects to either an exit or a pre-existing route.
-     *   Such a connection is called a valid connection.
+     * Such a connection is called a valid connection.
      * - Tiles may not be placed such that a highway edge connects to a railway edge;
-     *   this is referred to as an invalid connection.
-     *   Highways and railways may only join at station tiles.
+     * this is referred to as an invalid connection.
+     * Highways and railways may only join at station tiles.
      * - A tile may have one or more edges touching a blank edge of another tile;
-     *   this is referred to as disconnected, but the placement is still legal.
+     * this is referred to as disconnected, but the placement is still legal.
      *
      * @param boardString a board string representing some placement sequence
      * @return true if placement sequence is valid
@@ -467,110 +465,107 @@ public class RailroadInk {
         // FIXME Task 6: determine whether the given placement sequence is valid
         List<String> placementList = new ArrayList<String>();
         // slice the board string into tile placement string
-        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
-            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+        for (int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5) {
+            String currentPlacement = boardString.substring(stringindex, stringindex + 5);
             placementList.add(currentPlacement);
         }
 
         List<String> locationList = new ArrayList<>();
-        for(int locaIndex = 0; locaIndex< placementList.size();locaIndex++){
+        for (int locaIndex = 0; locaIndex < placementList.size(); locaIndex++) {
             String currentPlace = placementList.get(locaIndex);
-            String currentLoc = currentPlace.substring(2,4);
+            String currentLoc = currentPlace.substring(2, 4);
             locationList.add(currentLoc);
         }
 
         Set<String> locaSet = new HashSet<>(locationList); // check if there are duplicate locations
-        if(locaSet.size()!= locationList.size()){
+        if (locaSet.size() != locationList.size()) {
             return false;
         }
 
         int legalPlaceCount = 0;
         int exitTileNumber = 0;
 
-        for(int listindex = 0; listindex < placementList.size(); listindex++){
+        for (int listindex = 0; listindex < placementList.size(); listindex++) {
             String currentCheck = placementList.get(listindex);
             Tile currentTile = new Tile(currentCheck);
-            if(currentTile.spot.isExit()){
-                exitTileNumber ++;
-                if(!isLegalExit(currentCheck)){
+            if (currentTile.spot.isExit()) {
+                exitTileNumber++;
+                if (!isLegalExit(currentCheck)) {
                     return false;
-                }
-                else{
+                } else {
 
                     List<String> neighborString = new ArrayList<String>();
                     // find all the neighbouring tile placement in the whole board string and check if these is illegal connection
-                    for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
+                    for (int listcheck = 0; listcheck < placementList.size(); listcheck++) {
                         Tile checkTile = new Tile(placementList.get(listcheck));
-                        if(currentTile.spot.isNeighboring(checkTile.spot)){
+                        if (currentTile.spot.isNeighboring(checkTile.spot)) {
                             neighborString.add(placementList.get(listcheck));
                         }
                     }
 
 
-                    if(isTileExitBlank(currentCheck)){
+                    if (isTileExitBlank(currentCheck)) {
                         int validconnection = 0;
-                        for(int checkneighbor = 0; checkneighbor<neighborString.size();checkneighbor++){
-                            if(areConnectedNeighbours(currentCheck, neighborString.get(checkneighbor))){
+                        for (int checkneighbor = 0; checkneighbor < neighborString.size(); checkneighbor++) {
+                            if (areConnectedNeighbours(currentCheck, neighborString.get(checkneighbor))) {
                                 validconnection++;
                             }
                         }
-                        if(validconnection == 0){
+                        if (validconnection == 0) {
                             return false;
                         }
                     }
 
 
-
-                    for(int checkindex = 0; checkindex < neighborString.size(); checkindex++ ){
+                    for (int checkindex = 0; checkindex < neighborString.size(); checkindex++) {
                         Tile currentNeighbor = new Tile(neighborString.get(checkindex));
-                        if(currentTile.spot.row - currentNeighbor.spot.row == 1){
-                            if((currentTile.up == 'h'&&currentNeighbor.down == 'r')||(currentTile.up == 'r'&&currentNeighbor.down == 'h')){
+                        if (currentTile.spot.row - currentNeighbor.spot.row == 1) {
+                            if ((currentTile.up == 'h' && currentNeighbor.down == 'r') || (currentTile.up == 'r' && currentNeighbor.down == 'h')) {
                                 return false;
                             }
                         }
-                        if(currentTile.spot.row - currentNeighbor.spot.row == -1){
-                            if((currentTile.down == 'h'&&currentNeighbor.up == 'r')||(currentTile.down == 'r'&&currentNeighbor.up == 'h')){
+                        if (currentTile.spot.row - currentNeighbor.spot.row == -1) {
+                            if ((currentTile.down == 'h' && currentNeighbor.up == 'r') || (currentTile.down == 'r' && currentNeighbor.up == 'h')) {
                                 return false;
                             }
 
                         }
-                        if(currentTile.spot.col - currentNeighbor.spot.col == 1){
-                            if((currentTile.left == 'h'&&currentNeighbor.right == 'r')||(currentTile.left == 'r'&&currentNeighbor.right == 'h')){
+                        if (currentTile.spot.col - currentNeighbor.spot.col == 1) {
+                            if ((currentTile.left == 'h' && currentNeighbor.right == 'r') || (currentTile.left == 'r' && currentNeighbor.right == 'h')) {
                                 return false;
                             }
                         }
-                        if(currentTile.spot.col - currentNeighbor.spot.col == -1){
-                            if((currentTile.right == 'h'&&currentNeighbor.left == 'r')||(currentTile.right == 'r'&&currentNeighbor.left == 'h')){
+                        if (currentTile.spot.col - currentNeighbor.spot.col == -1) {
+                            if ((currentTile.right == 'h' && currentNeighbor.left == 'r') || (currentTile.right == 'r' && currentNeighbor.left == 'h')) {
                                 return false;
                             }
                         }
                     }
-                  legalPlaceCount = legalPlaceCount + 1;
+                    legalPlaceCount = legalPlaceCount + 1;
                 }
-            }
-            else{
+            } else {
 
                 List<String> neighborString = new ArrayList<String>();
                 // find all the neighbouring tile placement in the whole board string and check if
                 // these is any legal connection and also check the illegal connection
 
-                for(int listcheck = 0; listcheck < placementList.size(); listcheck++){
+                for (int listcheck = 0; listcheck < placementList.size(); listcheck++) {
                     Tile checkTile = new Tile(placementList.get(listcheck));
-                    if(currentTile.spot.isNeighboring(checkTile.spot)){
+                    if (currentTile.spot.isNeighboring(checkTile.spot)) {
                         neighborString.add(placementList.get(listcheck));
                     }
                 }
 
                 int legalConnectionCount = 0;
 
-                for(int checkindex = 0; checkindex < neighborString.size(); checkindex++ ) {
+                for (int checkindex = 0; checkindex < neighborString.size(); checkindex++) {
                     Tile currentNeighbor = new Tile(neighborString.get(checkindex));
                     if (currentTile.spot.row - currentNeighbor.spot.row == 1) {
                         if ((currentTile.up == 'h' && currentNeighbor.down == 'r') || (currentTile.up == 'r' && currentNeighbor.down == 'h')) {
                             return false;
                         }
                         if ((currentTile.up == 'h' && currentNeighbor.down == 'h') || (currentTile.up == 'r' && currentNeighbor.down == 'r')) {
-                            legalConnectionCount ++;
+                            legalConnectionCount++;
                         }
                     }
                     if (currentTile.spot.row - currentNeighbor.spot.row == -1) {
@@ -578,7 +573,7 @@ public class RailroadInk {
                             return false;
                         }
                         if ((currentTile.down == 'h' && currentNeighbor.up == 'h') || (currentTile.down == 'r' && currentNeighbor.up == 'r')) {
-                            legalConnectionCount ++;
+                            legalConnectionCount++;
                         }
 
                     }
@@ -587,7 +582,7 @@ public class RailroadInk {
                             return false;
                         }
                         if ((currentTile.left == 'h' && currentNeighbor.right == 'h') || (currentTile.left == 'r' && currentNeighbor.right == 'r')) {
-                            legalConnectionCount ++;
+                            legalConnectionCount++;
                         }
                     }
                     if (currentTile.spot.col - currentNeighbor.spot.col == -1) {
@@ -595,11 +590,11 @@ public class RailroadInk {
                             return false;
                         }
                         if ((currentTile.right == 'h' && currentNeighbor.left == 'h') || (currentTile.right == 'r' && currentNeighbor.left == 'r')) {
-                            legalConnectionCount ++;
+                            legalConnectionCount++;
                         }
                     }
                 }
-                if(legalConnectionCount == 0){
+                if (legalConnectionCount == 0) {
                     return false;
                 }
                 legalPlaceCount = legalPlaceCount + 1;
@@ -607,10 +602,9 @@ public class RailroadInk {
 
         }
 
-        if(legalPlaceCount == placementList.size()&&exitTileNumber!= 0){
+        if (legalPlaceCount == placementList.size() && exitTileNumber != 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -658,118 +652,114 @@ public class RailroadInk {
     }
 
 
-
     /**
      * this method is to find the number of deadEnds of a given boardString
      * first for a given tile, find the number of tiles that connect to this current tile
      * second find the number of road ends that connect to the edge of board, the edge also includes exits
      * Then the number of deadEnds equals to number of roads in a tile minus the road ends that connect to the edge
-     *   minus the road ends legally connect to another tile
+     * minus the road ends legally connect to another tile
      * Finally, check through all the tiles in the boardString
+     *
      * @param boardString
      * @return number of deadEnds in this boardString
      */
 
 
-    public static int findDeadEnd(String boardString){
+    public static int findDeadEnd(String boardString) {
 
         List<String> placementList = new ArrayList<String>();
         // slice the board string into tile placement string
-        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
-            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+        for (int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5) {
+            String currentPlacement = boardString.substring(stringindex, stringindex + 5);
             placementList.add(currentPlacement);
         }
 
         int DeadEndNumber = 0; // the number of dead ends
 
-        for(int listindex = 0; listindex < placementList.size(); listindex++) {
+        for (int listindex = 0; listindex < placementList.size(); listindex++) {
             String currentCheck = placementList.get(listindex);
             Tile currentTile = new Tile(currentCheck);
 
             int countNeighbor = 0;
             int currentNonBlankNumber = currentTile.piece.NonBlankNumber();
 
-            for(int checkIndex = 0; checkIndex < placementList.size(); checkIndex++){
+            for (int checkIndex = 0; checkIndex < placementList.size(); checkIndex++) {
                 String checkNeighbor = placementList.get(checkIndex);
-                if(areConnectedNeighbours(currentCheck,checkNeighbor)){
+                if (areConnectedNeighbours(currentCheck, checkNeighbor)) {
                     countNeighbor++;
                 }
             }  // find the number of tiles that connect to this current tile
 
             int connectEdge = 0;
             // find the number of road ends that connect to the edge of board, the edge also includes exits
-            if(currentTile.spot.row == 'A'&&currentTile.spot.col!='6'){
+            if (currentTile.spot.row == 'A' && currentTile.spot.col != '6') {
                 // if the tile lies on the upper edge of the board
-                if(currentTile.spot.col == '0'){
+                if (currentTile.spot.col == '0') {
 
-                    if(currentTile.left != 'b'){
+                    if (currentTile.left != 'b') {
                         connectEdge++;
                     }
-                    if(currentTile.up != 'b'){
+                    if (currentTile.up != 'b') {
                         connectEdge++;
                     }
                     // the number of deadEnds equals to number of roads in a tile minus the road ends that connect to the edge
                     // minus the road ends legally connect to another tile
-                }
-                else{
-                    if(currentTile.up != 'b'){
+                } else {
+                    if (currentTile.up != 'b') {
                         connectEdge++;
                     }
 
                 }
             }
-            if(currentTile.spot.col == '6'&&currentTile.spot.row!='G'){
+            if (currentTile.spot.col == '6' && currentTile.spot.row != 'G') {
                 // if the tile lies on right edge of the board
-                if(currentTile.spot.row == 'A'){
+                if (currentTile.spot.row == 'A') {
 
-                    if(currentTile.right != 'b'){
+                    if (currentTile.right != 'b') {
                         connectEdge++;
                     }
-                    if(currentTile.up != 'b'){
+                    if (currentTile.up != 'b') {
                         connectEdge++;
                     }
 
-                }
-                else{
-                    if(currentTile.right != 'b'){
+                } else {
+                    if (currentTile.right != 'b') {
                         connectEdge++;
                     }
 
                 }
             }
-            if(currentTile.spot.row == 'G'&&currentTile.spot.col!='0'){
+            if (currentTile.spot.row == 'G' && currentTile.spot.col != '0') {
                 // if the tile lies on downer edge of the board
-                if(currentTile.spot.col == '6'){
+                if (currentTile.spot.col == '6') {
 
-                    if(currentTile.down != 'b'){
+                    if (currentTile.down != 'b') {
                         connectEdge++;
                     }
-                    if(currentTile.right != 'b'){
+                    if (currentTile.right != 'b') {
                         connectEdge++;
                     }
 
-                 }
-                else{
-                    if(currentTile.down != 'b'){
+                } else {
+                    if (currentTile.down != 'b') {
                         connectEdge++;
                     }
 
                 }
             }
-            if(currentTile.spot.col == '0'&&currentTile.spot.row!='A'){
+            if (currentTile.spot.col == '0' && currentTile.spot.row != 'A') {
                 // if the tile lies on left edge of the board
-                if(currentTile.spot.row == 'G'){
+                if (currentTile.spot.row == 'G') {
 
-                    if(currentTile.left != 'b'){
+                    if (currentTile.left != 'b') {
                         connectEdge++;
                     }
-                    if(currentTile.down != 'b'){
+                    if (currentTile.down != 'b') {
                         connectEdge++;
                     }
 
-                }
-                else{
-                    if(currentTile.left != 'b'){
+                } else {
+                    if (currentTile.left != 'b') {
                         connectEdge++;
                     }
 
@@ -788,46 +778,46 @@ public class RailroadInk {
      * this method is to deal with surpass tiles, substitute surpass tile with corresponding
      * A1 or A4 tile  with certain orientation so that when checking tile connection,
      * surpass tile won't connect two routes that are not connected
+     *
      * @param connected
      * @param surpass
      * @return the new tile placement string that substitute the original surpass tile placement String
      */
 
-    public static String dealWithSurpass(String connected, String surpass){
+    public static String dealWithSurpass(String connected, String surpass) {
 
         String target = "";
         Tile connectedTile = new Tile(connected);
         Tile surpassTile = new Tile(surpass);
-        List<String> orienStirng = new ArrayList<String>(List.of("upside","downside","left","right"));
+        List<String> orienStirng = new ArrayList<String>(List.of("upside", "downside", "left", "right"));
 
         String connectionSide = surpassTile.spot.connectionside(connectedTile.spot);
-        if(connectionSide == "left" || connectionSide == "right"){
+        if (connectionSide == "left" || connectionSide == "right") {
             // if the connected tile and surpass tile are connected in a horizontal way
-            if(surpassTile.left == 'r'){
+            if (surpassTile.left == 'r') {
                 target = target + "A1";
-                target = target + surpass.substring(2,4); // add the spot place
+                target = target + surpass.substring(2, 4); // add the spot place
                 target = target + '1';
             }
-            if(surpassTile.left == 'h'){
+            if (surpassTile.left == 'h') {
                 target = target + "A4";
-                target = target + surpass.substring(2,4); // add the spot place
+                target = target + surpass.substring(2, 4); // add the spot place
                 target = target + '1';
             }
         }
-        if(connectionSide == "upside" || connectionSide == "downside"){
+        if (connectionSide == "upside" || connectionSide == "downside") {
             // if the connected tile and surpass tile are connected in a vertical way
-            if(surpassTile.up == 'r'){
+            if (surpassTile.up == 'r') {
                 target = target + "A1";
-                target = target + surpass.substring(2,4); // add the spot place
+                target = target + surpass.substring(2, 4); // add the spot place
                 target = target + '2';
             }
-            if(surpassTile.up == 'h'){
+            if (surpassTile.up == 'h') {
                 target = target + "A4";
-                target = target + surpass.substring(2,4); // add the spot place
+                target = target + surpass.substring(2, 4); // add the spot place
                 target = target + '2';
             }
-        }
-        else if (!orienStirng.contains(connectionSide)){
+        } else if (!orienStirng.contains(connectionSide)) {
             target = "something wrong with connection side";
         }
 
@@ -837,43 +827,44 @@ public class RailroadInk {
     /**
      * this method is to deal with the situation where surpass is connected to an exit
      * the logic of this method is similar to the previous one
+     *
      * @param surpassExit
      * @return the new tile placement string that substitute the original surpass tile placement String
      */
-    public static String dealSurpassExit(String surpassExit){
+    public static String dealSurpassExit(String surpassExit) {
 
         String target = "";
 
         Tile surpassExitTile = new Tile(surpassExit);
-        if(surpassExitTile.spot.col == '0' || surpassExitTile.spot.col == '6'){
+        if (surpassExitTile.spot.col == '0' || surpassExitTile.spot.col == '6') {
             // if the connected tile and surpass tile are connected in a horizontal way
-                if(surpassExitTile.left == 'h'){
-                    target = target + "A4";
-                    target = target + surpassExit.substring(2,4); // add the spot place
-                    target = target + '1';
-                }
-                if(surpassExitTile.left == 'r'){
-                    target = target + "A1";
-                    target = target + surpassExit.substring(2,4); // add the spot place
-                    target = target + '1';
-                }
+            if (surpassExitTile.left == 'h') {
+                target = target + "A4";
+                target = target + surpassExit.substring(2, 4); // add the spot place
+                target = target + '1';
+            }
+            if (surpassExitTile.left == 'r') {
+                target = target + "A1";
+                target = target + surpassExit.substring(2, 4); // add the spot place
+                target = target + '1';
+            }
         }
-        if(surpassExitTile.spot.row == 'A' || surpassExitTile.spot.row == 'G'){
+        if (surpassExitTile.spot.row == 'A' || surpassExitTile.spot.row == 'G') {
             // if the connected tile and surpass tile are connected in a vertical way
-               if(surpassExitTile.up == 'h'){
-                   target = target + "A4";
-                   target = target + surpassExit.substring(2,4); // add the spot place
-                   target = target + '2';
+            if (surpassExitTile.up == 'h') {
+                target = target + "A4";
+                target = target + surpassExit.substring(2, 4); // add the spot place
+                target = target + '2';
 
-               }
-               if(surpassExitTile.up == 'r' ){
-                   target = target + "A1";
-                   target = target + surpassExit.substring(2,4); // add the spot place
-                   target = target + '2';
-               }
+            }
+            if (surpassExitTile.up == 'r') {
+                target = target + "A1";
+                target = target + surpassExit.substring(2, 4); // add the spot place
+                target = target + '2';
+            }
         }
 
-        if(target==""){
+        if (target == "") {
             System.out.println("something wrong with dealSurpassExit");
         }
         return target;
@@ -884,31 +875,31 @@ public class RailroadInk {
      * which means, given the old partially checked route, checking all the tiles in the placement list
      * and extend the route by one tile layer, and at the same time, if the connection tile is a surpass, we
      * should also do the substitute by apply the dealWithSurpass of dealSurpassExit method
+     *
      * @param oldConnectionList
      * @param placementList
      * @return new list of tile placement string
      */
 
-    public static List<String> findNewConnection(List<String> oldConnectionList, List<String> placementList){
+    public static List<String> findNewConnection(List<String> oldConnectionList, List<String> placementList) {
 
         List<String> newConnectionList = oldConnectionList;// first, we add all the elements in oldlist to the new list
-        for(int CheckIndex = 0; CheckIndex<oldConnectionList.size(); CheckIndex++){
+        for (int CheckIndex = 0; CheckIndex < oldConnectionList.size(); CheckIndex++) {
             //Then for each element in the oldConnectionList, we check through the total placement list
             // if there is any new tile placement string that is neighboring the current placement string
             String currentCheck = oldConnectionList.get(CheckIndex);
             //  Tile currentTile = new Tile(currentCheck);
-            for(int placementIndex = 0; placementIndex<placementList.size();placementIndex++){
+            for (int placementIndex = 0; placementIndex < placementList.size(); placementIndex++) {
                 String checkTotal = placementList.get(placementIndex);
                 Tile checkTile = new Tile(checkTotal);
-                if(areConnectedNeighbours(currentCheck,checkTotal)){
-                    if(checkTile.piece.center == 'p'){// if the checkTile is a surpass
-                        String replace = dealWithSurpass(currentCheck,checkTotal);// do the substitute
-                        if(!newConnectionList.contains(replace)) {
+                if (areConnectedNeighbours(currentCheck, checkTotal)) {
+                    if (checkTile.piece.center == 'p') {// if the checkTile is a surpass
+                        String replace = dealWithSurpass(currentCheck, checkTotal);// do the substitute
+                        if (!newConnectionList.contains(replace)) {
                             newConnectionList.add(replace);
                         }
-                    }
-                    else{
-                        if(!newConnectionList.contains(checkTotal)){
+                    } else {
+                        if (!newConnectionList.contains(checkTotal)) {
                             newConnectionList.add(checkTotal);
                         }
                     }
@@ -924,31 +915,31 @@ public class RailroadInk {
      * given a placementList and an exitSpot
      * The logic behind this method is that each route starts with a connection to the exit, so the check begins with an exit tile
      * and extends the every tile that directly or indirectly connected to this tile
+     *
      * @param placementList
      * @param exitSpot
      * @return a list of tile placement string
      */
 
-    public static  List<String> findConnectedRoute(List<String> placementList, String exitSpot){
+    public static List<String> findConnectedRoute(List<String> placementList, String exitSpot) {
 
         String targetTileplacement = "";
 
-        for(int placementIndex = 0; placementIndex < placementList.size();placementIndex++){
+        for (int placementIndex = 0; placementIndex < placementList.size(); placementIndex++) {
             String checkTotal = placementList.get(placementIndex);
-            if(checkTotal.substring(2,4).equals(exitSpot)){
+            if (checkTotal.substring(2, 4).equals(exitSpot)) {
                 Tile checkTile = new Tile(checkTotal);
-                if(checkTile.piece.center == 'p'){
+                if (checkTile.piece.center == 'p') {
                     String modifySurpass = dealSurpassExit(checkTotal);
                     // if the exit is connected directly to a surpass, then apply the deaSurpassExit method
                     targetTileplacement = targetTileplacement + modifySurpass;
-                }
-                else {
+                } else {
                     targetTileplacement = targetTileplacement + checkTotal;
                 }
             } // find the tileplacement string that lies on the given exit spot
         }
 
-        if(targetTileplacement == ""||targetTileplacement.length()>5){
+        if (targetTileplacement == "" || targetTileplacement.length() > 5) {
             System.out.println("something wrong with findConnectedRoute");
         }
 
@@ -956,7 +947,7 @@ public class RailroadInk {
         oldConnection.add(targetTileplacement);
 
         List<String> newConnection = findNewConnection(oldConnection, placementList);
-        while(oldConnection!=newConnection){
+        while (oldConnection != newConnection) {
             // while there is new element adding in the newConnection
             oldConnection = newConnection;
             newConnection = findNewConnection(oldConnection, placementList);
@@ -966,18 +957,19 @@ public class RailroadInk {
 
     /**
      * this method is to find all the exits location that have been validly connected by a list of tile placement string
+     *
      * @param placementList
      * @return a list of spot string
      */
 
-    public static List<String> findExitSpot(List<String> placementList){
+    public static List<String> findExitSpot(List<String> placementList) {
 
         List<String> exitSpotList = new ArrayList<String>();
 
-        for(int listindex = 0; listindex < placementList.size(); listindex++) {
+        for (int listindex = 0; listindex < placementList.size(); listindex++) {
             String currentCheck = placementList.get(listindex);
             if (isvalidExit(currentCheck)) {
-                String currentSpot = currentCheck.substring(2,4);
+                String currentSpot = currentCheck.substring(2, 4);
                 exitSpotList.add(currentSpot);
 
             }
@@ -987,14 +979,15 @@ public class RailroadInk {
 
     /**
      * this methods is to return the number of exits one route connects
+     *
      * @param oneConnectedRoute
      * @return the number of exits connected by th given route
      */
-    public static int findNumberExit(List<String> oneConnectedRoute){
+    public static int findNumberExit(List<String> oneConnectedRoute) {
 
         int exitNumberCount = 0;
 
-        for(int listindex = 0; listindex < oneConnectedRoute.size(); listindex++) {
+        for (int listindex = 0; listindex < oneConnectedRoute.size(); listindex++) {
             String currentCheck = oneConnectedRoute.get(listindex);
             if (isvalidExit(currentCheck)) {
                 exitNumberCount++;
@@ -1005,30 +998,53 @@ public class RailroadInk {
     }
 
     /**
-     *
      * @param exitNumberCount
      * @return the score that corresponding to the exit number
      */
 
-    public static int findRoutePoints(int exitNumberCount){
+    public static int findRoutePoints(int exitNumberCount) {
         int routePoints = 0;
-        if(exitNumberCount == 1){ routePoints = 0; }
-        if(exitNumberCount == 2){ routePoints = 4; }
-        if(exitNumberCount == 3){ routePoints = 8; }
-        if(exitNumberCount == 4){ routePoints = 12; }
-        if(exitNumberCount == 5){ routePoints = 16; }
-        if(exitNumberCount == 6){ routePoints = 20; }
-        if(exitNumberCount == 7){ routePoints = 24; }
-        if(exitNumberCount == 8){ routePoints = 28; }
-        if(exitNumberCount == 9){ routePoints = 32; }
-        if(exitNumberCount == 10){ routePoints = 36; }
-        if(exitNumberCount == 11){ routePoints = 40; }
-        if(exitNumberCount == 12){ routePoints = 45; }
-        else if(exitNumberCount > 12){
+        if (exitNumberCount == 1) {
+            routePoints = 0;
+        }
+        if (exitNumberCount == 2) {
+            routePoints = 4;
+        }
+        if (exitNumberCount == 3) {
+            routePoints = 8;
+        }
+        if (exitNumberCount == 4) {
+            routePoints = 12;
+        }
+        if (exitNumberCount == 5) {
+            routePoints = 16;
+        }
+        if (exitNumberCount == 6) {
+            routePoints = 20;
+        }
+        if (exitNumberCount == 7) {
+            routePoints = 24;
+        }
+        if (exitNumberCount == 8) {
+            routePoints = 28;
+        }
+        if (exitNumberCount == 9) {
+            routePoints = 32;
+        }
+        if (exitNumberCount == 10) {
+            routePoints = 36;
+        }
+        if (exitNumberCount == 11) {
+            routePoints = 40;
+        }
+        if (exitNumberCount == 12) {
+            routePoints = 45;
+        } else if (exitNumberCount > 12) {
             System.out.println("something wrong with extiNumber");
         }
         return routePoints;
     }
+
     /**
      * Given the current state of a game board, output an integer representing the sum of all the following factors
      * that contribute to the player's final score.
@@ -1044,8 +1060,8 @@ public class RailroadInk {
         // FIXME Task 8: compute the basic score
         List<String> placementList = new ArrayList<String>();
         // slice the board string into tile placement string
-        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
-            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+        for (int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5) {
+            String currentPlacement = boardString.substring(stringindex, stringindex + 5);
             placementList.add(currentPlacement);
         }
 
@@ -1053,11 +1069,11 @@ public class RailroadInk {
 
         int centerScore = 0;
 
-        for(int listindex = 0; listindex < placementList.size(); listindex++){
+        for (int listindex = 0; listindex < placementList.size(); listindex++) {
             String currentCheck = placementList.get(listindex);
             Tile currentTile = new Tile(currentCheck);
 
-            if(currentTile.spot.isCenter()){
+            if (currentTile.spot.isCenter()) {
                 centerScore++;
             }
         }  // find the number of centeral tiles
@@ -1067,7 +1083,7 @@ public class RailroadInk {
         List<String> totalExitSpot = findExitSpot(placementList);
         // first we put all the exit that has tile connection in a list
 
-        while(totalExitSpot.size() > 0) {
+        while (totalExitSpot.size() > 0) {
             List<String> currentRoute = findConnectedRoute(placementList, totalExitSpot.get(0));
 
             int exitNum = findNumberExit(currentRoute);
@@ -1134,14 +1150,14 @@ public class RailroadInk {
 
         //delete the used special tiles from specialList
         ArrayList<String> currentSpecialList = new ArrayList<>();
-        for (int i = 0; i < boardString.length(); i = i + 5){
-            if (boardString.substring(i, i + 1).equals("S")){
+        for (int i = 0; i < boardString.length(); i = i + 5) {
+            if (boardString.substring(i, i + 1).equals("S")) {
                 currentSpecialList.add(boardString.substring(i, i + 2));
             }
         }
-        for (int i = 0; i < currentSpecialList.size(); i++){
-            for (int j = 0; j < specialList.size(); j++){
-                if (currentSpecialList.get(i).equals(specialList.get(j))){
+        for (int i = 0; i < currentSpecialList.size(); i++) {
+            for (int j = 0; j < specialList.size(); j++) {
+                if (currentSpecialList.get(i).equals(specialList.get(j))) {
                     specialList.remove(j);
                     j = 0;
                 }
@@ -1709,8 +1725,8 @@ public class RailroadInk {
         // FIXME Task 12: compute the total score including bonus points
         List<Tile> tiles = new ArrayList<>();
         // slice the board string into Tile list
-        for(int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5){
-            String currentPlacement = boardString.substring(stringindex,stringindex+5);
+        for (int stringindex = 0; stringindex < boardString.length(); stringindex = stringindex + 5) {
+            String currentPlacement = boardString.substring(stringindex, stringindex + 5);
             tiles.add(new Tile(currentPlacement));
         }
 
@@ -1718,8 +1734,8 @@ public class RailroadInk {
         int rCountMax = 0; // store maximum length checked for railway
 
 
-        for(Tile tempTile: tiles){      //Calculates Longest Highway
-            if(tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h'){
+        for (Tile tempTile : tiles) {      //Calculates Longest Highway
+            if (tempTile.up == 'h' || tempTile.down == 'h' || tempTile.left == 'h' || tempTile.right == 'h') {
                 List<Path> unfinishedPaths = new ArrayList<>();         //Creates a list of tiles to scan
                 Path currentPath = new Path();
                 unfinishedPaths.add(currentPath);
@@ -1729,10 +1745,10 @@ public class RailroadInk {
 
                 while (isSearching) {
 
-                    if (currentPath.open.size() == 1){
+                    if (currentPath.open.size() == 1) {
                         Tile currentTile = currentPath.open.get(0);
                         for (int i = 0; i < tiles.size(); i++) {                    //Adds Neighbouring Tiles to Open List and shifts current Tile to Closed List
-                            if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentPath.closed.contains(tiles.get(i))) {
+                            if (tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'h' && !currentPath.closed.contains(tiles.get(i))) {
 
                                 currentPath.open.add(tiles.get(i));
                             }
@@ -1741,8 +1757,8 @@ public class RailroadInk {
                         currentPath.open.remove(currentTile);
                     }
 
-                    if (currentPath.open.size() > 1){                               //Condition where A path splits
-                        for (int i = 1; i < currentPath.open.size(); i++){
+                    if (currentPath.open.size() > 1) {                               //Condition where A path splits
+                        for (int i = 1; i < currentPath.open.size(); i++) {
                             Path secondary = new Path();
                             secondary.open.add(currentPath.open.get(i));
                             secondary.closed.addAll(currentPath.closed);
@@ -1754,22 +1770,23 @@ public class RailroadInk {
                     }
 
 
-                    if (currentPath.open.size() == 0){                              //Counts the Length when it reaches the end of a specific path
-                        if (hCountMax < currentPath.closed.size()){
+                    if (currentPath.open.size() == 0) {                              //Counts the Length when it reaches the end of a specific path
+                        if (hCountMax < currentPath.closed.size()) {
                             hCountMax = currentPath.closed.size();
                         }
                         unfinishedPaths.remove(currentPath);
-                        if (unfinishedPaths.size() > 0 ){
+                        if (unfinishedPaths.size() > 0) {
                             currentPath = unfinishedPaths.get(0);                   //Switches to next unfinished Paths
-                        }
-                        else {isSearching = false;}                                 //Closes the Search loop
+                        } else {
+                            isSearching = false;
+                        }                                 //Closes the Search loop
                     }
                 }
             }
         }
 
-        for(Tile tempTile: tiles){  //Calculates Longest Railway
-            if(tempTile.up == 'r' || tempTile.down == 'r' || tempTile.left == 'r' || tempTile.right == 'r'){
+        for (Tile tempTile : tiles) {  //Calculates Longest Railway
+            if (tempTile.up == 'r' || tempTile.down == 'r' || tempTile.left == 'r' || tempTile.right == 'r') {
                 List<Path> unfinishedPaths = new ArrayList<>();
                 Path currentPath = new Path();
                 unfinishedPaths.add(currentPath);
@@ -1779,10 +1796,10 @@ public class RailroadInk {
 
                 while (isSearching) {
 
-                    if (currentPath.open.size() == 1){                      //Adds Neighbouring Tiles to Open List and shifts current Tile to Closed List
+                    if (currentPath.open.size() == 1) {                      //Adds Neighbouring Tiles to Open List and shifts current Tile to Closed List
                         Tile currentTile = currentPath.open.get(0);
                         for (int i = 0; i < tiles.size(); i++) {
-                            if(tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentPath.closed.contains(tiles.get(i))) {
+                            if (tiles.get(i) != currentTile && currentTile.spot.isNeighboring((tiles.get(i)).spot) && currentTile.tileConnect(tiles.get(i)) == 'r' && !currentPath.closed.contains(tiles.get(i))) {
 
                                 currentPath.open.add(tiles.get(i));
                             }
@@ -1791,8 +1808,8 @@ public class RailroadInk {
                         currentPath.open.remove(currentTile);
                     }
 
-                    if (currentPath.open.size() > 1){                        //Condition where A path splits
-                        for (int i = 1; i < currentPath.open.size(); i++){
+                    if (currentPath.open.size() > 1) {                        //Condition where A path splits
+                        for (int i = 1; i < currentPath.open.size(); i++) {
                             Path secondary = new Path();
                             secondary.open.add(currentPath.open.get(i));
                             secondary.closed.addAll(currentPath.closed);
@@ -1804,22 +1821,166 @@ public class RailroadInk {
                     }
 
 
-                    if (currentPath.open.size() == 0){                      //Counts the Length when it reaches the end of a specific path
-                        if (rCountMax < currentPath.closed.size()){
+                    if (currentPath.open.size() == 0) {                      //Counts the Length when it reaches the end of a specific path
+                        if (rCountMax < currentPath.closed.size()) {
                             rCountMax = currentPath.closed.size();
                         }
                         unfinishedPaths.remove(currentPath);
-                        if (unfinishedPaths.size() > 0 ){
+                        if (unfinishedPaths.size() > 0) {
                             currentPath = unfinishedPaths.get(0);           //Switches to next unfinished Paths
-                        }
-                        else {isSearching = false;}                         //Closes the Search loop
+                        } else {
+                            isSearching = false;
+                        }                         //Closes the Search loop
                     }
                 }
             }
         }
 
-        return getBasicScore(boardString) + rCountMax + hCountMax ;
+        return getBasicScore(boardString) + rCountMax + hCountMax;
     }
 
+    /**
+     * Task 13
+     * Given a valid boardString and a dice roll for the round,
+     * return a String representing an ordered sequence of advanced valid piece placements for the round.
+     *
+     * @param boardString a board string representing the current state of the game as at the start of the round
+     * @param diceRoll    a String representing a dice roll for the round
+     * @return a String representing an ordered sequence of advanced valid piece placements for the current round
+     * @see RailroadInk#generateDiceRoll()
+     */
+    public static String generateAdvancedMove(String boardString, String diceRoll) {
+
+        //get empty neighbouring valid spot for first attempt
+        ArrayList<Spot> firstValidSpot = getEmptyValidSpot(boardString);
+
+        //check whether there is empty valid position in boardString
+        if (firstValidSpot.size() > 0) {
+            //do nothing
+        } else {
+            return "";
+        }
+
+        //add left dice to diceLeftList
+        ArrayList<String> diceLeftList = new ArrayList<>();
+        for (int i = 0; i < diceRoll.length(); i = i + 2) {
+            diceLeftList.add(diceRoll.substring(i, i + 2));
+        }
+
+        //calculate the numbers of special tile in boardString
+        int currentSpecial = boardString.length() - boardString.replaceAll("S", "").length();
+        int currentUseSpecial = 0;
+
+        //initialize special tile list
+        ArrayList<String> specialList = new ArrayList<>();
+        specialList.add("S0");
+        specialList.add("S1");
+        specialList.add("S2");
+        specialList.add("S3");
+        specialList.add("S4");
+        specialList.add("S5");
+
+        //delete the used special tiles from specialList
+        ArrayList<String> currentSpecialList = new ArrayList<>();
+        for (int i = 0; i < boardString.length(); i = i + 5) {
+            if (boardString.substring(i, i + 1).equals("S")) {
+                currentSpecialList.add(boardString.substring(i, i + 2));
+            }
+        }
+        for (int i = 0; i < currentSpecialList.size(); i++) {
+            for (int j = 0; j < specialList.size(); j++) {
+                if (currentSpecialList.get(i).equals(specialList.get(j))) {
+                    specialList.remove(j);
+                    j = 0;
+                }
+            }
+        }
+
+        //Every round includes 4 or 5 step (it depends on whether use special tile), each step represents one tile move
+        //Step 1 update firstBoardString, diceLeftList, currentUseSpecial, and specialList
+        String firstOptimalStep = getOptimalStep(boardString, diceLeftList, currentUseSpecial, specialList);
+        String firstBoardString = boardString + firstOptimalStep;
+        if (firstOptimalStep.substring(0, 1).equals("S")){
+            currentUseSpecial = 1;
+            specialList.remove(firstOptimalStep.substring(0, 2));
+        } else {
+            diceLeftList.remove(firstOptimalStep.substring(0, 2));
+        }
+
+        //Step 2 update secondBoardString, diceLeftList, currentUseSpecial, and specialList
+        String secondOptimalStep = getOptimalStep(firstBoardString, diceLeftList, currentUseSpecial, specialList);
+        String secondBoardString = firstBoardString + secondOptimalStep;
+        if (secondOptimalStep.substring(0, 1).equals("S")){
+            currentUseSpecial = 1;
+            specialList.remove(secondOptimalStep.substring(0, 2));
+        } else {
+            diceLeftList.remove(secondOptimalStep.substring(0, 2));
+        }
+
+        //Step 3 update thirdOptimalStep, diceLeftList, currentUseSpecial, and specialList
+        String thirdOptimalStep = getOptimalStep(secondBoardString, diceLeftList, currentUseSpecial, specialList);
+        String thirdBoardString = secondBoardString + thirdOptimalStep;
+        if (thirdOptimalStep.substring(0, 1).equals("S")){
+            currentUseSpecial = 1;
+            specialList.remove(thirdOptimalStep.substring(0, 2));
+        } else {
+            diceLeftList.remove(thirdOptimalStep.substring(0, 2));
+        }
+
+        //Step 4 update fourthOptimalStep, diceLeftList, currentUseSpecial, and specialList
+        String fourthOptimalStep = getOptimalStep(thirdBoardString, diceLeftList, currentUseSpecial, specialList);
+        String fourthBoardString = thirdBoardString + fourthOptimalStep;
+        if (fourthOptimalStep.substring(0, 1).equals("S")){
+            currentUseSpecial = 1;
+            specialList.remove(fourthOptimalStep.substring(0, 2));
+        } else {
+            diceLeftList.remove(fourthOptimalStep.substring(0, 2));
+        }
+
+        //Last step, if cpu has used special tile this round, there will be 5 step this round
+        String lastOptimalStep = "";
+        if (currentUseSpecial == 1){
+            lastOptimalStep = getOptimalStep(fourthBoardString, diceLeftList, currentUseSpecial, specialList);
+        }
+
+        return firstOptimalStep + secondOptimalStep + thirdOptimalStep + fourthOptimalStep + lastOptimalStep;
+    }
+
+    //get optimal step for current game state (current boardString and diceLeft), return optimal tile String for each step
+    public static String getOptimalStep(String boardString, ArrayList<String> diceLeftList, int currentUseSpecial, ArrayList<String> specialList) {
+
+        String optimalStep = "";
+
+        //if cpu has not used special tiles this round, add it to diceLeftList
+        if (currentUseSpecial == 0) {
+            diceLeftList.addAll(specialList);
+        }
+
+        //get empty neighbouring valid spot for boardString
+        ArrayList<Spot> validSpot = getEmptyValidSpot(boardString);
+
+        //check whether there is empty valid position in boardString
+        if (validSpot.size() > 0) {
+            //do nothing
+        } else {
+            return "";
+        }
+
+        //Traverse all combination of boardString and diceLeft to find optimal step
+        int maxTotalScore = -100;
+        for (int i = 0; i < diceLeftList.size(); i++) {
+            for (int j = 0; j < validSpot.size(); j++) {
+                for (int k = 0; k < 8; k++) {
+                    int currentTotalScore = getBasicScore(boardString + diceLeftList.get(i) + validSpot.get(j).toString() + k)
+                            + getAdvancedScore(boardString + diceLeftList.get(i) + validSpot.get(j).toString() + k);
+                    if (currentTotalScore > maxTotalScore) {
+                        maxTotalScore = currentTotalScore;
+                        optimalStep = diceLeftList.get(i) + validSpot.get(j).toString() + k;
+                    }
+                }
+            }
+        }
+        return optimalStep;
+    }
 }
 
