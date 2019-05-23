@@ -1,18 +1,25 @@
 package comp1110.ass2;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import java.util.ArrayList;
 
-import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.*;
+
 
 public class GetEmptyValidSpotTest {
     /**
+     * Author: Peng Chen, u6460012
      * test method getEmptyValidSpot() in Task 10
      * pass a boardString and a diceRoll to generateMove(), get a moveString
      * combine moveString and original boardString to a newBoardString
      * check newBoardString using Task 6 method
      */
+
+    @Rule
+    public Timeout globalTimeout = Timeout.millis(2000);
 
     @Test
     public void testEmptyBoard() {
@@ -35,14 +42,29 @@ public class GetEmptyValidSpotTest {
         emptyValidPlace.add("D0");
         emptyValidPlace.add("F0");
 
+        //emptyValidPlace.add("A2");
+        //emptyValidPlace.add("B4");
+        //emptyValidPlace.add("C6");
+
         for(int i = 0; i < emptyValidSpot.size(); i++){
+            boolean whetherLegal = false;
             for (int j = 0; j < emptyValidPlace.size(); j++){
                 if (emptyValidSpot.get(i).toString().equals(emptyValidPlace.get(j))){
+                    whetherLegal = true;
                     emptyValidPlace.remove(j);
+                    j = 0;
                 }
             }
+            assertTrue("\"" + emptyValidSpot.get(i).toString() + "\"" + " is not a valid empty position.", whetherLegal);
         }
-        assertEquals(0, emptyValidPlace.size());
+
+        if (emptyValidPlace.size() != 0){
+            StringBuffer missingPosition = new StringBuffer();
+            for (int i = 0; i < emptyValidPlace.size(); i++){
+                missingPosition.append(emptyValidPlace.get(i) + " ");
+            }
+            fail("Valid empty position missing: " + missingPosition);
+        }
     }
 
     @Test
@@ -66,14 +88,30 @@ public class GetEmptyValidSpotTest {
         ArrayList<String> emptyValidPlace = new ArrayList<>();
         emptyValidPlace.add("B2");
         emptyValidPlace.add("D0");
+
+        //emptyValidPlace.add("A1");
+        //emptyValidPlace.add("C3");
+        //emptyValidPlace.add("E4");
+
         for(int i = 0; i < emptyValidSpot.size(); i++){
+            boolean whetherLegal = false;
             for (int j = 0; j < emptyValidPlace.size(); j++){
                 if (emptyValidSpot.get(i).toString().equals(emptyValidPlace.get(j))){
+                    whetherLegal = true;
                     emptyValidPlace.remove(j);
+                    j = 0;
                 }
             }
+            assertTrue("\"" + emptyValidSpot.get(i).toString() + "\"" + " is not a valid empty position.", whetherLegal);
         }
-        assertEquals(0, emptyValidPlace.size());
+
+        if (emptyValidPlace.size() != 0){
+            StringBuffer missingPosition = new StringBuffer();
+            for (int i = 0; i < emptyValidPlace.size(); i++){
+                missingPosition.append(emptyValidPlace.get(i) + " ");
+            }
+            fail("Valid empty position missing: " + missingPosition);
+        }
     }
 
     @Test
@@ -86,13 +124,29 @@ public class GetEmptyValidSpotTest {
         emptyValidPlace.add("F1");
         emptyValidPlace.add("F3");
         emptyValidPlace.add("F5");
+
+        //emptyValidPlace.add("A1");
+        //emptyValidPlace.add("C3");
+        //emptyValidPlace.add("E4");
+
         for(int i = 0; i < emptyValidSpot.size(); i++){
+            boolean whetherLegal = false;
             for (int j = 0; j < emptyValidPlace.size(); j++){
                 if (emptyValidSpot.get(i).toString().equals(emptyValidPlace.get(j))){
+                    whetherLegal = true;
                     emptyValidPlace.remove(j);
+                    j = 0;
                 }
             }
+            assertTrue("\"" + emptyValidSpot.get(i).toString() + "\"" + " is not a valid empty position.", whetherLegal);
         }
-        assertEquals(0, emptyValidPlace.size());
+
+        if (emptyValidPlace.size() != 0){
+            StringBuffer missingPosition = new StringBuffer();
+            for (int i = 0; i < emptyValidPlace.size(); i++){
+                missingPosition.append(emptyValidPlace.get(i) + " ");
+            }
+            fail("Valid empty position missing: " + missingPosition);
+        }
     }
 }
