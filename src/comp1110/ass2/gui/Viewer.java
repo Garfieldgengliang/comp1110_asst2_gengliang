@@ -769,3 +769,5 @@ public class Viewer extends Application {
         primaryStage.show();
     }
 }
+
+//  /IdeaProjects/comp1110-ass2-thu15d$ /usr/local/jdk-11.0.2/bin/java --module-path ${PATH_TO_FX} --add-modules=javafx.controls,javafx.fxml,javafx.media -jar game.jar
